@@ -28,10 +28,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.HashMap;
 
+/**
+ * Stores NFC tags in a database. The contract is defined in {@link TagContract}.
+ */
 public class TagProvider extends SQLiteContentProvider {
 
     private static final int NDEF_MESSAGES = 1000;
