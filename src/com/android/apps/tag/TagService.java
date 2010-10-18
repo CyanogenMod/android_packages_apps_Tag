@@ -16,15 +16,25 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.TagDBHelper.NdefMessagesTable;
+import com.android.apps.tag.provider.TagContract;
+import com.android.apps.tag.provider.TagContract.NdefMessages;
 
 import android.app.IntentService;
+import android.content.ContentProviderOperation;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.OperationApplicationException;
 import android.nfc.NdefMessage;
 import android.os.Parcelable;
+import android.os.RemoteException;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class TagService extends IntentService {
+    private static final String TAG = "TagService";
+
     public static final String EXTRA_SAVE_MSGS = "msgs";
     public static final String EXTRA_DELETE_ID = "delete";
 
@@ -34,24 +44,27 @@ public class TagService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        TagDBHelper helper = TagDBHelper.getInstance(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
         if (intent.hasExtra(EXTRA_SAVE_MSGS)) {
             Parcelable[] parcels = intent.getParcelableArrayExtra(EXTRA_SAVE_MSGS);
-            db.beginTransaction();
+            ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+            for (Parcelable parcel : parcels) {
+                ContentValues values = NdefMessages.ndefMessageToValues(this, (NdefMessage) parcel
+                        , false);
+                ops.add(ContentProviderOperation.newInsert(NdefMessages.CONTENT_URI)
+                        .withValues(values).build());
+            }
             try {
-                for (Parcelable parcel : parcels) {
-                    helper.insertNdefMessage(db, (NdefMessage) parcel, false);
-                }
-                db.setTransactionSuccessful();
-            } finally {
-                db.endTransaction();
+                getContentResolver().applyBatch(TagContract.AUTHORITY, ops);
+            } catch (OperationApplicationException e) {
+                Log.e(TAG, "Failed to save messages", e);
+            } catch (RemoteException e) {
+                Log.e(TAG, "Failed to save messages", e);
             }
             return;
         } else if (intent.hasExtra(EXTRA_DELETE_ID)) {
             long id = intent.getLongExtra(EXTRA_DELETE_ID, 0);
-            db.delete(NdefMessagesTable.TABLE_NAME, NdefMessagesTable._ID + "=?",
-                    new String[] { Long.toString(id) });
+            getContentResolver().delete(ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id),
+                    null, null);
             return;
         }
     }

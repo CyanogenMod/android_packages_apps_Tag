@@ -50,5 +50,12 @@
 
         <service android:name="TagService" />
 
+        <provider android:name=".provider.TagProvider"
+            android:authorities="com.android.apps.tag"
+            android:syncable="false"
+            android:multiprocess="false"
+            android:exported="false"
+        />
+
     </application>
 </manifest>
