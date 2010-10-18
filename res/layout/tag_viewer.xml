@@ -22,40 +22,57 @@
 >
     <!-- Title -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dip"
 
-        android:orientation="horizontal"
         android:background="@drawable/title_bar_tall"
     >
 
         <ImageView android:id="@+id/icon"
             android:layout_width="32dip"
             android:layout_height="32dip"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="4dip"
+        />
+
+        <CheckBox android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+
+            style="?android:attr/starStyle"
+        />
+
+        <TextView android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon"
+            android:layout_toLeftOf="@id/star"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dip"
+
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
         />
 
         <TextView android:id="@+id/title"
-            android:layout_width="0dip"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/icon"
+            android:layout_toLeftOf="@id/star"
+            android:layout_above="@id/date"
+            android:layout_alignWithParentIfMissing="true"
 
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
         />
 
-        <CheckBox android:id="@+id/star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
 
-            style="?android:attr/starStyle"
-        />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <!-- Content -->
 

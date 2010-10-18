@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -79,11 +78,13 @@ public class TagList extends ListActivity {
                 NdefMessages._ID, // 0
                 NdefMessages.DATE, // 1
                 NdefMessages.TITLE, // 2
+                NdefMessages.STARRED, // 3
         };
 
         static final int COLUMN_ID = 0;
         static final int COLUMN_DATE = 1;
         static final int COLUMN_TITLE = 2;
+        static final int COLUMN_STARRED = 3;
     }
 
     /**
