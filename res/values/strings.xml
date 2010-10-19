@@ -100,4 +100,6 @@
     <!-- Menu label for help screen -->
     <string name="menu_help">Help</string>
 
+    <!-- Action description indicating the user can import a scanned vCard -->
+    <string name="import_vcard">Import vCard</string>
 </resources>
