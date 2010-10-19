@@ -24,9 +24,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dip"
+        android:layout_height="65dip"
 
-        android:background="@drawable/title_bar_tall"
+        android:background="@drawable/title_bar_medium"
     >
 
         <ImageView android:id="@+id/icon"
@@ -52,10 +52,13 @@
             android:layout_toRightOf="@id/icon"
             android:layout_toLeftOf="@id/star"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="-8dip"
 
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:shadowColor="#BB000000"
+            android:shadowRadius="2.75"
         />
 
         <TextView android:id="@+id/title"
@@ -64,11 +67,15 @@
             android:layout_toRightOf="@id/icon"
             android:layout_toLeftOf="@id/star"
             android:layout_above="@id/date"
+            android:layout_alignParentTop="true"
             android:layout_alignWithParentIfMissing="true"
 
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
+            android:shadowColor="#BB000000"
+            android:shadowRadius="2.75"
+            android:gravity="center_vertical"
         />
 
 
