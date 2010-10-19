@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.primitives.Bytes;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.nfc.NdefRecord;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +51,8 @@ import java.util.List;
  * A parsed record containing a Uri.
  */
 public class UriRecord implements ParsedNdefRecord, OnClickListener {
+    private static final String TAG = "UriRecord";
+
     private static final class ClickInfo {
         public Activity activity;
         public Intent intent;
@@ -149,12 +153,14 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
         Intent intent = getIntentForUri();
+
+        // Lookup which packages can handle this intent.
         PackageManager pm = activity.getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
         int numActivities = activities.size();
         if (numActivities == 0) {
             TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
-            text.setText(mUri.toString());
+            text.setText(getPrettyUriString(activity));
             return text;
         } else if (numActivities == 1) {
             return buildActivityView(activity, activities.get(0), pm, inflater, parent);
@@ -176,6 +182,9 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         }
     }
 
+    /**
+     * Build a view to display a single activity that can handle this URI.
+     */
     private View buildActivityView(Activity activity, ResolveInfo resolveInfo, PackageManager pm,
             LayoutInflater inflater, ViewGroup parent) {
         Intent intent = getIntentForUri();
@@ -201,8 +210,13 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     @Override
     public void onClick(View view) {
         ClickInfo info = (ClickInfo) view.getTag();
-        info.activity.startActivity(info.intent);
-        info.activity.finish();
+        try {
+            info.activity.startActivity(info.intent);
+            info.activity.finish();
+        } catch (ActivityNotFoundException e) {
+            // The activity wansn't found for some reason. Don't crash, but don't do anything.
+            Log.e(TAG, "Failed to launch activity for intent " + info.intent, e);
+        }
     }
 
     public Uri getUri() {
