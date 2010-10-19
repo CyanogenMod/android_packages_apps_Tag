@@ -17,6 +17,7 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -219,6 +220,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         }
     }
 
+    @VisibleForTesting
     public Uri getUri() {
         return mUri;
     }
