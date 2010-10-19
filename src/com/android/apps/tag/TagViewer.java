@@ -16,6 +16,7 @@
 
 package com.android.apps.tag;
 
+import com.android.apps.tag.TagList.TagQuery;
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
@@ -33,6 +34,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +50,7 @@ import android.widget.TextView;
  * An {@link Activity} which handles a broadcast of a new tag that the device just discovered.
  */
 public class TagViewer extends Activity implements OnClickListener, Handler.Callback {
-    static final String TAG = "SaveTag";    
+    static final String TAG = "SaveTag";
     static final String EXTRA_TAG_DB_ID = "db_id";
     static final String EXTRA_MESSAGE = "msg";
 
@@ -58,6 +60,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     Uri mTagUri;
     ImageView mIcon;
     TextView mTitle;
+    TextView mDate;
     CheckBox mStar;
     Button mDeleteButton;
     Button mDoneButton;
@@ -80,6 +83,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
 
         mTagContent = (LinearLayout) findViewById(R.id.list);
         mTitle = (TextView) findViewById(R.id.title);
+        mDate = (TextView) findViewById(R.id.date);
         mIcon = (ImageView) findViewById(R.id.icon);
         mStar = (CheckBox) findViewById(R.id.star);
         mDeleteButton = (Button) findViewById(R.id.button_delete);
@@ -109,6 +113,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
             // Setup the views
             setTitle(R.string.title_scanned_tag);
             mStar.setVisibility(View.GONE);
+            mDate.setVisibility(View.GONE);
 
             // Set a timer on this activity since it wasn't created by the user
 //            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
@@ -122,6 +127,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
             // Setup the views
             setTitle(R.string.title_existing_tag);
             mStar.setVisibility(View.VISIBLE);
+            mDate.setVisibility(View.VISIBLE);
 
             // Read the tag from the database asynchronously
             mTagUri = intent.getData();
@@ -214,29 +220,50 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
         return true;
     }
 
+    interface ViewTagQuery {
+        final static String[] PROJECTION = new String[] {
+                NdefMessages.BYTES, // 0
+                NdefMessages.STARRED, // 1
+                NdefMessages.DATE, // 2
+        };
+
+        static final int COLUMN_BYTES = 0;
+        static final int COLUMN_STARRED = 1;
+        static final int COLUMN_DATE = 2;
+    }
+
     /**
      * Loads a tag from the database, parses it, and builds the views
      */
-    final class LoadTagTask extends AsyncTask<Uri, Void, NdefMessage> {
+    final class LoadTagTask extends AsyncTask<Uri, Void, Cursor> {
         @Override
-        public NdefMessage doInBackground(Uri... args) {
-            Cursor cursor = getContentResolver().query(args[0], new String[] { NdefMessages.BYTES },
+        public Cursor doInBackground(Uri... args) {
+            Cursor cursor = getContentResolver().query(args[0], ViewTagQuery.PROJECTION,
                     null, null, null);
+
+            // Ensure the cursor loads its window
+            if (cursor != null) cursor.getCount();
+            return cursor;
+        }
+
+        @Override
+        public void onPostExecute(Cursor cursor) {
+            NdefMessage msg = null;
             try {
-                if (cursor.moveToFirst()) {
-                    return new NdefMessage(cursor.getBlob(0));
+                if (cursor != null && cursor.moveToFirst()) {
+                    msg = new NdefMessage(cursor.getBlob(ViewTagQuery.COLUMN_BYTES));
+                    if (msg != null) {
+                        mDate.setText(DateUtils.getRelativeTimeSpanString(TagViewer.this,
+                                cursor.getLong(ViewTagQuery.COLUMN_DATE)));
+                        mStar.setChecked(cursor.getInt(ViewTagQuery.COLUMN_STARRED) != 0);
+                        buildTagViews(new NdefMessage[] { msg });
+                    }
                 }
             } catch (FormatException e) {
                 Log.e(TAG, "invalid tag format", e);
             } finally {
                 if (cursor != null) cursor.close();
             }
-            return null;
-        }
-
-        @Override
-        public void onPostExecute(NdefMessage msg) {
-            buildTagViews(new NdefMessage[] { msg });
         }
     }
 }
