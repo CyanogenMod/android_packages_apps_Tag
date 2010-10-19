@@ -17,7 +17,9 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Bytes;
 
 import android.app.Activity;
 import android.nfc.NdefRecord;
@@ -27,7 +29,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.Charsets;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * An NFC Text Record
@@ -64,6 +69,7 @@ public class TextRecord implements ParsedNdefRecord {
      *
      * TODO: this should return a {@link java.util.Locale}
      */
+    @VisibleForTesting
     public String getLanguageCode() {
         return mLanguageCode;
     }
@@ -113,5 +119,31 @@ public class TextRecord implements ParsedNdefRecord {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    @VisibleForTesting
+    public static NdefRecord newTextRecord(String text, Locale locale) {
+        return newTextRecord(text, locale, true);
+    }
+
+    public static NdefRecord newTextRecord(String text, Locale locale, boolean encodeInUtf8) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkNotNull(locale);
+
+        byte[] langBytes = locale.getLanguage().getBytes(Charsets.US_ASCII);
+
+        Charset utfEncoding = encodeInUtf8 ? Charsets.UTF_8 : Charset.forName("UTF-16");
+        byte[] textBytes = text.getBytes(utfEncoding);
+
+        int utfBit = encodeInUtf8 ? 0 : (1 << 7);
+        char status = (char) (utfBit + langBytes.length);
+
+        byte[] data = Bytes.concat(
+           new byte[] { (byte) status },
+           langBytes,
+           textBytes
+        );
+
+        return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], data);
     }
 }

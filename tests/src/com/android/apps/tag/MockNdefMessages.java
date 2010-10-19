@@ -94,7 +94,7 @@ public class MockNdefMessages {
      * A Smart Poster containing a URL and no text.  This message was created
      * using the NXP reference phone.
      */
-    private static final byte[] SMART_POSTER_URL_NO_TEXT = new byte[] {
+    public static final byte[] SMART_POSTER_URL_NO_TEXT = new byte[] {
             (byte) 0xd1, (byte) 0x02, (byte) 0x0f, (byte) 0x53, (byte) 0x70, (byte) 0xd1,
             (byte) 0x01, (byte) 0x0b, (byte) 0x55, (byte) 0x01, (byte) 0x67, (byte) 0x6f,
             (byte) 0x6f, (byte) 0x67, (byte) 0x6c, (byte) 0x65, (byte) 0x2e, (byte) 0x63,
@@ -104,7 +104,7 @@ public class MockNdefMessages {
     /**
      * A plain text tag in english.  Generated using the NXP evaluation tool.
      */
-    private static final byte[] ENGLISH_PLAIN_TEXT = new byte[] {
+    public static final byte[] ENGLISH_PLAIN_TEXT = new byte[] {
             (byte) 0xd1, (byte) 0x01, (byte) 0x1c, (byte) 0x54, (byte) 0x02, (byte) 0x65,
             (byte) 0x6e, (byte) 0x53, (byte) 0x6f, (byte) 0x6d, (byte) 0x65, (byte) 0x20,
             (byte) 0x72, (byte) 0x61, (byte) 0x6e, (byte) 0x64, (byte) 0x6f, (byte) 0x6d,
@@ -117,7 +117,7 @@ public class MockNdefMessages {
      * Smart Poster containing a URL and Text.  Generated using the NXP
      * evaluation tool.
      */
-    private static final byte[] SMART_POSTER_URL_AND_TEXT = new byte[] {
+    public static final byte[] SMART_POSTER_URL_AND_TEXT = new byte[] {
             (byte) 0xd1, (byte) 0x02, (byte) 0x1c, (byte) 0x53, (byte) 0x70, (byte) 0x91,
             (byte) 0x01, (byte) 0x09, (byte) 0x54, (byte) 0x02, (byte) 0x65, (byte) 0x6e,
             (byte) 0x47, (byte) 0x6f, (byte) 0x6f, (byte) 0x67, (byte) 0x6c, (byte) 0x65,
@@ -129,7 +129,7 @@ public class MockNdefMessages {
     /**
      * A plain URI.  Generated using the NXP evaluation tool.
      */
-    private static final byte[] URI = new byte[] {
+    public static final byte[] URI = new byte[] {
             (byte) 0xd1, (byte) 0x01, (byte) 0x0b, (byte) 0x55, (byte) 0x01, (byte) 0x67,
             (byte) 0x6f, (byte) 0x6f, (byte) 0x67, (byte) 0x6c, (byte) 0x65, (byte) 0x2e,
             (byte) 0x63, (byte) 0x6f, (byte) 0x6d
@@ -192,7 +192,7 @@ public class MockNdefMessages {
      * Send the text message "hello world" to a phone number.  This was generated using
      * the NXP reference phone.
      */
-    private static final byte[] SEND_TEXT_MESSAGE = new byte[] {
+    public static final byte[] SEND_TEXT_MESSAGE = new byte[] {
             (byte) 0xd1, (byte) 0x02, (byte) 0x25, (byte) 0x53, (byte) 0x70, (byte) 0xd1,
             (byte) 0x01, (byte) 0x21, (byte) 0x55, (byte) 0x00, (byte) 0x73, (byte) 0x6d,
             (byte) 0x73, (byte) 0x3a, (byte) 0x31, (byte) 0x36, (byte) 0x35, (byte) 0x30,
@@ -205,7 +205,7 @@ public class MockNdefMessages {
     /**
      * Call Google.  Generated using the NXP reference phone.
      */
-    private static final byte[] CALL_GOOGLE = new byte[] {
+    public static final byte[] CALL_GOOGLE = new byte[] {
             (byte) 0xd1, (byte) 0x02, (byte) 0x10, (byte) 0x53, (byte) 0x70, (byte) 0xd1,
             (byte) 0x01, (byte) 0x0c, (byte) 0x55, (byte) 0x05, (byte) 0x31, (byte) 0x36,
             (byte) 0x35, (byte) 0x30, (byte) 0x32, (byte) 0x35, (byte) 0x33, (byte) 0x30,
