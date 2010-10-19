@@ -39,11 +39,6 @@ public class ImageRecord implements ParsedNdefRecord {
     }
 
     @Override
-    public String getRecordType() {
-        return "ImageRecord";
-    }
-
-    @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
         ImageView image = (ImageView) inflater.inflate(R.layout.tag_image, parent, false);
         image.setImageBitmap(mBitmap);

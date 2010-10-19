@@ -110,11 +110,6 @@ public class SmartPoster implements ParsedNdefRecord {
     }
 
     @Override
-    public String getRecordType() {
-        return "SmartPoster";
-    }
-
-    @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
         if (mTitleRecord != null) {
             // Build a container to hold the title and the URI
