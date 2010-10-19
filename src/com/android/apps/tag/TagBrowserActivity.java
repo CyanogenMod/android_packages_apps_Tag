@@ -48,6 +48,11 @@ public class TagBrowserActivity extends TabActivity {
                         res.getDrawable(R.drawable.ic_tab_starred))
                 .setContent(new Intent().setClass(this, TagList.class)
                         .putExtra(TagList.EXTRA_SHOW_STARRED_ONLY, true)));
+
+        tabHost.addTab(tabHost.newTabSpec("mytag")
+                .setIndicator(getText(R.string.tab_my_tag),
+                        res.getDrawable(R.drawable.ic_tab_my_tag))
+                .setContent(new Intent().setClass(this, MyTagActivity.class)));
     }
 
     @Override

@@ -31,6 +31,9 @@
     <!-- The title of the tab that displays all starred NFC tags -->
     <string name="tab_starred">Starred</string>
 
+    <!-- The title of the tab that displays the editor for the device's local tag -->
+    <string name="tab_my_tag">My tag</string>
+
     <!-- The title displayed for unknown tag types -->
     <string name="tag_unknown">Unknown tag type</string>
 
@@ -51,4 +54,19 @@
 
     <!-- String displayed for an action to call a phone number -->
     <string name="action_call">Call <xliff:g id="phone_number">%s</xliff:g></string>
+
+    <!-- Label for control which enables/disables the "my tag" feature. -->
+    <string name="turn_on_my_tag">Turn on my tag</string>
+
+    <!-- Description for the control which enables/disables the "my tag" feature. -->
+    <string name="turn_on_my_tag_subtitle">Display tag content to other devices</string>
+
+    <!-- Label for control which adds content to the "my tag" feature. -->
+    <string name="add_content">Add other content&#8230;</string>
+
+    <!-- Heading for the title of the content in the "my tag" feature. -->
+    <string name="tag_title">Title</string>
+
+    <!-- Heading for the text of the content in the "my tag" feature. -->
+    <string name="tag_text">Text</string>
 </resources>
