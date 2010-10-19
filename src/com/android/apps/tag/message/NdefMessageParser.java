@@ -19,6 +19,7 @@ package com.android.apps.tag.message;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
+import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.MimeRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.SmartPoster;
@@ -70,6 +71,8 @@ public class NdefMessageParser {
                 elements.add(TextRecord.parse(record));
             } else if (SmartPoster.isPoster(record)) {
                 elements.add(SmartPoster.parse(record));
+            } else if (ImageRecord.isImage(record)) {
+                elements.add(ImageRecord.parse(record));
             } else if (MimeRecord.isMime(record)) {
                 elements.add(MimeRecord.parse(record));
             }

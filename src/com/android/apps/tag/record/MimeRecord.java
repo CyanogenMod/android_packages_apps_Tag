@@ -63,16 +63,7 @@ public class MimeRecord implements ParsedNdefRecord {
 
     @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-        if (mType.startsWith("image/")) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(mContent, 0, mContent.length);
-            if (bitmap != null) {
-                ImageView image = (ImageView) inflater.inflate(R.layout.tag_image, parent, false);
-                image.setImageBitmap(bitmap);
-                return image;
-            }
-        }
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
-//        text.setText(new String(mContent, Charsets.UTF_8));
         text.setText(mType);
         return text;
     }
