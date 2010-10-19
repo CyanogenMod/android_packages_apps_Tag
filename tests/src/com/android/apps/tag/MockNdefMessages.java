@@ -138,7 +138,7 @@ public class MockNdefMessages {
     /**
      * A vcard.  Generated using the NXP evaluation tool.
      */
-    private static final byte[] VCARD = new byte[] {
+    public static final byte[] VCARD = new byte[] {
             (byte) 0xc2, (byte) 0x0c, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x05,
             (byte) 0x74, (byte) 0x65, (byte) 0x78, (byte) 0x74, (byte) 0x2f, (byte) 0x78,
             (byte) 0x2d, (byte) 0x76, (byte) 0x43, (byte) 0x61, (byte) 0x72, (byte) 0x64,
