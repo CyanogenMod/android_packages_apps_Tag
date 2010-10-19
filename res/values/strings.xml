@@ -16,6 +16,15 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- The title of the NFC tag application -->
+    <string name="app_name">Tags</string>
+
+    <!-- The title for the activity that shows a tag that was just scanned -->
+    <string name="title_scanned_tag">New tag collected</string>
+
+    <!-- The title for the activity that shows a tag that was stored from a past scan -->
+    <string name="title_existing_tag">Tag</string>
+
     <!-- The title of the tab that displays all recently scanned NFC tags -->
     <string name="tab_tags">Tags</string>
 
@@ -31,8 +40,11 @@
     <!-- Button label indicating that the user wants to delete a tag -->
     <string name="button_delete">Delete</string>
 
-    <!-- String describing that if the user doesn't want to save a tag they should touch the button labeled Cancel. The text for the cancel button comes from the system string android.R.string.cancel. -->
-    <string name="cancel_help_text">To skip adding this tag to your collection, press Cancel</string>
+    <!-- Button label indicating that the user wants to delete a tag -->
+    <string name="button_done">Done</string>
+
+    <!-- String describing that if the user doesn't want to save a tag they should touch the button labeled Cancel. The text for the cancel button comes from the system string button_done. -->
+    <string name="cancel_help_text">To skip adding this tag to your collection, press Done</string>
 
     <!-- String displayed for an action to send a text message to a phone number -->
     <string name="action_text">Text <xliff:g id="phone_number">%s</xliff:g></string>

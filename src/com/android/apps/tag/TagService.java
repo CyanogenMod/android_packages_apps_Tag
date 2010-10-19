@@ -21,10 +21,10 @@ import com.android.apps.tag.provider.TagContract.NdefMessages;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.os.Parcelable;
 import android.os.RemoteException;
@@ -36,7 +36,7 @@ public class TagService extends IntentService {
     private static final String TAG = "TagService";
 
     public static final String EXTRA_SAVE_MSGS = "msgs";
-    public static final String EXTRA_DELETE_ID = "delete";
+    public static final String EXTRA_DELETE_URI = "delete";
 
     public TagService() {
         super("SaveTagService");
@@ -61,10 +61,9 @@ public class TagService extends IntentService {
                 Log.e(TAG, "Failed to save messages", e);
             }
             return;
-        } else if (intent.hasExtra(EXTRA_DELETE_ID)) {
-            long id = intent.getLongExtra(EXTRA_DELETE_ID, 0);
-            getContentResolver().delete(ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id),
-                    null, null);
+        } else if (intent.hasExtra(EXTRA_DELETE_URI)) {
+            Uri uri = (Uri) intent.getParcelableExtra(EXTRA_DELETE_URI);
+            getContentResolver().delete(uri, null, null);
             return;
         }
     }

@@ -16,21 +16,19 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.provider.TagContract;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
-import android.nfc.FormatException;
-import android.nfc.NdefMessage;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,19 +69,9 @@ public class TagList extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        Cursor cursor = mAdapter.getCursor();
-        cursor.moveToPosition(position);
-        byte[] tagBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(TagContract.NdefMessages.BYTES));
-        try {
-            NdefMessage msg = new NdefMessage(tagBytes);
-            Intent intent = new Intent(this, TagViewer.class);
-            intent.putExtra(TagViewer.EXTRA_MESSAGE, msg);
-            intent.putExtra(TagViewer.EXTRA_TAG_DB_ID, id);
-            startActivity(intent);
-        } catch (FormatException e) {
-            Log.e(TAG, "bad format for tag " + id + ": " + tagBytes, e);
-            return;
-        }
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id));
+        startActivity(intent);
     }
 
     interface TagQuery {
@@ -110,8 +98,9 @@ public class TagList extends ListActivity {
                     TagQuery.PROJECTION,
                     selection,
                     null, NdefMessages.DATE + " DESC");
-            if (cursor != null)
-            cursor.getCount();
+
+            // Ensure the cursor executes and fills its window
+            if (cursor != null) cursor.getCount();
             return cursor;
         }
 

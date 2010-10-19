@@ -18,21 +18,22 @@ package com.android.apps.tag;
 
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
+import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,8 +44,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Locale;
-
 /**
  * An {@link Activity} which handles a broadcast of a new tag that the device just discovered.
  */
@@ -54,15 +53,16 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     static final String EXTRA_MESSAGE = "msg";
 
     /** This activity will finish itself in this amount of time if the user doesn't do anything. */
-    static final int ACTIVITY_TIMEOUT_MS = 10 * 1000;
+    static final int ACTIVITY_TIMEOUT_MS = 5 * 1000;
 
-    long mTagDatabaseId;
+    Uri mTagUri;
     ImageView mIcon;
     TextView mTitle;
     CheckBox mStar;
     Button mDeleteButton;
-    Button mCancelButton;
+    Button mDoneButton;
     NdefMessage[] mMessagesToSave = null;
+    LinearLayout mTagContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,75 +78,93 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
 
         setContentView(R.layout.tag_viewer);
 
+        mTagContent = (LinearLayout) findViewById(R.id.list);
         mTitle = (TextView) findViewById(R.id.title);
         mIcon = (ImageView) findViewById(R.id.icon);
         mStar = (CheckBox) findViewById(R.id.star);
-        mDeleteButton = (Button) findViewById(R.id.btn_delete);
-        mCancelButton = (Button) findViewById(R.id.btn_cancel);
+        mDeleteButton = (Button) findViewById(R.id.button_delete);
+        mDoneButton = (Button) findViewById(R.id.button_done);
 
         mDeleteButton.setOnClickListener(this);
-        mCancelButton.setOnClickListener(this);
+        mDoneButton.setOnClickListener(this);
         mIcon.setImageResource(R.drawable.ic_launcher_nfc);
 
-        Intent intent = getIntent();
-        NdefMessage[] msgs = null;
-        NdefTag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        if (tag == null) {
-            // Maybe it came from the database? 
-            mTagDatabaseId = intent.getLongExtra(EXTRA_TAG_DB_ID, -1);
-            NdefMessage msg = intent.getParcelableExtra(EXTRA_MESSAGE);
-            if (msg != null) {
-                msgs = new NdefMessage[] { msg };
+        resolveIntent(getIntent());
+    }
+
+    void resolveIntent(Intent intent) {
+        // Parse the intent
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_NDEF_TAG_DISCOVERED.equals(action)) {
+            // Get the messages from the tag
+            //TODO check if the tag is writable and offer to write it?
+            NdefTag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            NdefMessage[] msgs = tag.getNdefMessages();
+            if (msgs == null || msgs.length == 0) {
+                Log.e(TAG, "No NDEF messages");
+                finish();
+                return;
             }
 
-            // Hide the text about saving the tag, it's already in the database
-            findViewById(R.id.cancel_help_text).setVisibility(View.GONE);
-        } else {
-            msgs = tag.getNdefMessages();
-            mDeleteButton.setVisibility(View.GONE);
+            // Setup the views
+            setTitle(R.string.title_scanned_tag);
+            mStar.setVisibility(View.GONE);
 
             // Set a timer on this activity since it wasn't created by the user
-            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
-            
-            // Save the messages that were just scanned
-            mMessagesToSave = msgs;
-        }
+//            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
 
-        if (msgs == null || msgs.length == 0) {
-            Log.e(TAG, "No NDEF messages");
+            // Mark messages that were just scanned for saving
+            mMessagesToSave = msgs;
+
+            // Build the views for the tag
+            buildTagViews(msgs);
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            // Setup the views
+            setTitle(R.string.title_existing_tag);
+            mStar.setVisibility(View.VISIBLE);
+
+            // Read the tag from the database asynchronously
+            mTagUri = intent.getData();
+            new LoadTagTask().execute(mTagUri);
+        } else {
+            Log.e(TAG, "Unknown intent " + intent);
             finish();
             return;
         }
-
-        Context contentContext = new ContextThemeWrapper(this, android.R.style.Theme_Light); 
-        LayoutInflater inflater = LayoutInflater.from(contentContext);
-        LinearLayout list = (LinearLayout) findViewById(R.id.list);
-
-        buildTagViews(list, inflater, msgs);
-
-        if (TextUtils.isEmpty(getTitle())) {
-            // There isn't a snippet for this tag, use a default title
-            setTitle(R.string.tag_unknown);
-        }
     }
 
-    private void buildTagViews(LinearLayout list, LayoutInflater inflater, NdefMessage[] msgs) {
+    void buildTagViews(NdefMessage[] msgs) {
         if (msgs == null || msgs.length == 0) {
             return;
         }
 
-        // Build the views from the logical records in the messages
-        NdefMessage msg = msgs[0];
+        LayoutInflater inflater = LayoutInflater.from(this);
+        LinearLayout content = mTagContent;
 
-        // Set the title to be the snippet of the message
-        ParsedNdefMessage parsedMsg = NdefMessageParser.parse(msg);
-        setTitle(parsedMsg.getSnippet(this, Locale.getDefault()));
+        // Clear out any old views in the content area, for example if you scan two tags in a row.
+        content.removeAllViews();
+
+        // Parse the first message in the list
+        //TODO figure out what to do when/if we support multiple messages per tag
+        ParsedNdefMessage parsedMsg = NdefMessageParser.parse(msgs[0]);
 
         // Build views for all of the sub records
         for (ParsedNdefRecord record : parsedMsg.getRecords()) {
-            list.addView(record.getView(this, inflater, list));
-            inflater.inflate(R.layout.tag_divider, list, true);
+            content.addView(record.getView(this, inflater, content));
+            inflater.inflate(R.layout.tag_divider, content, true);
         }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        // If we get a new scan while looking at a tag just save off the old tag...
+        if (mMessagesToSave != null) {
+            saveMessages(mMessagesToSave);
+            mMessagesToSave = null;
+        }
+
+        // ... and show the new one.
+        resolveIntent(intent);
     }
 
     @Override
@@ -157,12 +175,18 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     @Override
     public void onClick(View view) {
         if (view == mDeleteButton) {
-            Intent save = new Intent(this, TagService.class);
-            save.putExtra(TagService.EXTRA_DELETE_ID, mTagDatabaseId);
-            startService(save);
-            finish();
-        } else if (view == mCancelButton) {
-            mMessagesToSave = null;
+            if (mTagUri == null) {
+                // The tag hasn't been saved yet, so indicate it shouldn't be saved
+                mMessagesToSave = null;
+                finish();
+            } else {
+                // The tag came from the database, start a service to delete it
+                Intent delete = new Intent(this, TagService.class);
+                delete.putExtra(TagService.EXTRA_DELETE_URI, mTagUri);
+                startService(delete);
+                finish();
+            }
+        } else if (view == mDoneButton) {
             finish();
         }
     }
@@ -175,6 +199,9 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
         }
     }
 
+    /**
+     * Starts a service to asynchronously save the messages to the content provider.
+     */
     void saveMessages(NdefMessage[] msgs) {
         Intent save = new Intent(this, TagService.class);
         save.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
@@ -185,5 +212,31 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     public boolean handleMessage(Message msg) {
         finish();
         return true;
+    }
+
+    /**
+     * Loads a tag from the database, parses it, and builds the views
+     */
+    final class LoadTagTask extends AsyncTask<Uri, Void, NdefMessage> {
+        @Override
+        public NdefMessage doInBackground(Uri... args) {
+            Cursor cursor = getContentResolver().query(args[0], new String[] { NdefMessages.BYTES },
+                    null, null, null);
+            try {
+                if (cursor.moveToFirst()) {
+                    return new NdefMessage(cursor.getBlob(0));
+                }
+            } catch (FormatException e) {
+                Log.e(TAG, "invalid tag format", e);
+            } finally {
+                if (cursor != null) cursor.close();
+            }
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(NdefMessage msg) {
+            buildTagViews(new NdefMessage[] { msg });
+        }
     }
 }
