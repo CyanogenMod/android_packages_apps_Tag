@@ -16,66 +16,49 @@
 
 package com.android.apps.tag;
 
+import com.android.apps.tag.provider.TagContract;
+import com.android.apps.tag.provider.TagContract.NdefMessages;
+
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.database.CharArrayBuffer;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
-
-import com.android.apps.tag.TagDBHelper.NdefMessagesTable;
+import android.widget.TextView;
 
 /**
  * An {@link Activity} that displays a flat list of tags that can be "opened".
  */
-public class TagList extends ListActivity implements DialogInterface.OnClickListener {
+public class TagList extends ListActivity {
     static final String TAG = "TagList";
 
     static final String EXTRA_SHOW_STARRED_ONLY = "show_starred_only";
 
-    SQLiteDatabase mDatabase;
     TagAdapter mAdapter;
+    boolean mShowStarredOnly;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean showStarredOnly = getIntent().getBooleanExtra(EXTRA_SHOW_STARRED_ONLY, false);
-        mDatabase = TagDBHelper.getInstance(this).getReadableDatabase();
-        String selection = showStarredOnly ? NdefMessagesTable.STARRED + "=1" : null;
+        mShowStarredOnly = getIntent().getBooleanExtra(EXTRA_SHOW_STARRED_ONLY, false);
 
-        new TagLoaderTask().execute(selection);
+        new TagLoaderTask().execute((Void[]) null);
         mAdapter = new TagAdapter(this);
         setListAdapter(mAdapter);
         registerForContextMenu(getListView());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.add("hello world");
-        return true;
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {
-        String[] stuff = new String[] { "a", "b" };
-        return new AlertDialog.Builder(this)
-                .setTitle("blah")
-                .setItems(stuff, this)
-                .setPositiveButton("Delete", null)
-                .setNegativeButton("Cancel", null)
-                .create();
     }
 
     @Override
@@ -90,7 +73,7 @@ public class TagList extends ListActivity implements DialogInterface.OnClickList
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Cursor cursor = mAdapter.getCursor();
         cursor.moveToPosition(position);
-        byte[] tagBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(NdefMessagesTable.BYTES));
+        byte[] tagBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(TagContract.NdefMessages.BYTES));
         try {
             NdefMessage msg = new NdefMessage(tagBytes);
             Intent intent = new Intent(this, TagViewer.class);
@@ -103,23 +86,31 @@ public class TagList extends ListActivity implements DialogInterface.OnClickList
         }
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
+    interface TagQuery {
+        static final String[] PROJECTION = new String[] {
+                NdefMessages._ID, // 0
+                NdefMessages.DATE, // 1
+                NdefMessages.TITLE, // 2
+        };
+
+        static final int COLUMN_ID = 0;
+        static final int COLUMN_DATE = 1;
+        static final int COLUMN_TITLE = 2;
     }
 
-    final class TagLoaderTask extends AsyncTask<String, Void, Cursor> {
+    /**
+     * Asynchronously loads the tag info from the database.
+     */
+    final class TagLoaderTask extends AsyncTask<Void, Void, Cursor> {
         @Override
-        public Cursor doInBackground(String... args) {
-            String selection = args[0];
-            Cursor cursor = mDatabase.query(
-                    NdefMessagesTable.TABLE_NAME,
-                    new String[] { 
-                            NdefMessagesTable._ID,
-                            NdefMessagesTable.BYTES,
-                            NdefMessagesTable.DATE,
-                            NdefMessagesTable.TITLE },
+        public Cursor doInBackground(Void... args) {
+            String selection = mShowStarredOnly ? NdefMessages.STARRED + "=1" : null;
+            Cursor cursor = getContentResolver().query(
+                    NdefMessages.CONTENT_URI,
+                    TagQuery.PROJECTION,
                     selection,
-                    null, null, null, NdefMessagesTable.DATE + " DESC");
+                    null, NdefMessages.DATE + " DESC");
+            if (cursor != null)
             cursor.getCount();
             return cursor;
         }
@@ -127,6 +118,59 @@ public class TagList extends ListActivity implements DialogInterface.OnClickList
         @Override
         protected void onPostExecute(Cursor cursor) {
             mAdapter.changeCursor(cursor);
+        }
+    }
+
+    /**
+     * Struct to hold pointers to views in the list items to save time at view binding time.
+     */
+    static final class ViewHolder {
+        public CharArrayBuffer titleBuffer;
+        public TextView mainLine;
+        public TextView dateLine;
+    }
+
+    /**
+     * Adapter to display the tag entries.
+     */
+    public class TagAdapter extends CursorAdapter {
+        private final LayoutInflater mInflater;
+
+        public TagAdapter(Context context) {
+            super(context, null, false);
+            mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            ViewHolder holder = (ViewHolder) view.getTag();
+
+            CharArrayBuffer buf = holder.titleBuffer;
+            cursor.copyStringToBuffer(TagQuery.COLUMN_TITLE, buf);
+            holder.mainLine.setText(buf.data, 0, buf.sizeCopied);
+
+            holder.dateLine.setText(DateUtils.getRelativeTimeSpanString(
+                    context, cursor.getLong(TagQuery.COLUMN_DATE)));
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            View view = mInflater.inflate(R.layout.tag_list_item, null);
+
+            // Cache items for the view
+            ViewHolder holder = new ViewHolder();
+            holder.titleBuffer = new CharArrayBuffer(64);
+            holder.mainLine = (TextView) view.findViewById(R.id.title);
+            holder.dateLine = (TextView) view.findViewById(R.id.date);
+            view.setTag(holder);
+
+            return view;
+        }
+
+        @Override
+        public void onContentChanged() {
+            // Kick off an async query to refresh the list
+            new TagLoaderTask().execute((Void[]) null);
         }
     }
 }
