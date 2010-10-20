@@ -79,6 +79,9 @@
     <!-- Title for URL type for writing content to a tag -->
     <string name="bookmark">Bookmark</string>
 
+    <!-- Title for contact type for writing content to a tag -->
+    <string name="contact">Contact</string>
+
     <!-- Title for address type for writing content to a tag -->
     <string name="location">Location</string>
 
