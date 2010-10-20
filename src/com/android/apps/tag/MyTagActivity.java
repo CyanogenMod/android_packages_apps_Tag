@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -40,7 +39,7 @@ import java.util.Locale;
 /**
  * Editor {@link Activity} for the tag that can be programmed into the device.
  */
-public class MyTagActivity extends Activity implements OnClickListener {
+public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
     private static final String LOG_TAG = "TagEditor";
 
@@ -104,6 +103,8 @@ public class MyTagActivity extends Activity implements OnClickListener {
                 TextRecord.newTextRecord(text, locale)
         };
 
+        // TODO: add additional records here.
+
         Log.d(LOG_TAG, "Writing local NdefMessage from tag app....");
         nfc.setLocalNdefMessage(new NdefMessage(records));
     }
@@ -129,10 +130,9 @@ public class MyTagActivity extends Activity implements OnClickListener {
                 break;
 
             case R.id.add_content_target:
-                Toast.makeText(this,
-                        "Adding content coming real soon...",
-                        Toast.LENGTH_SHORT).show();
+                showSelectContentDialog();
                 break;
         }
     }
+
 }
