@@ -19,6 +19,7 @@ package com.android.apps.tag;
 import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
+import com.android.apps.tag.record.UriRecord;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -45,16 +46,17 @@ import java.util.Set;
 public abstract class EditTagActivity extends Activity {
 
     private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
-    protected static final int DIALOG_ID_SELECT_CONTENT = 0;
+    protected static final int DIALOG_ID_ADD_CONTENT = 0;
 
     private static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
-        ImageRecord.RECORD_TYPE
+        ImageRecord.RECORD_TYPE,
+        UriRecord.RECORD_TYPE
     );
 
     /**
      * Records contained in the current message being edited.
      */
-    private final ArrayList<ParsedNdefRecord> mRecords = Lists.newArrayList();
+    private final ArrayList<RecordEditInfo> mRecords = Lists.newArrayList();
 
     /**
      * The container where the subviews for each record are housed.
@@ -66,6 +68,8 @@ public abstract class EditTagActivity extends Activity {
      */
     private RecordEditInfo mRecordWithOutstandingPick;
 
+    private LayoutInflater mInflater;
+
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
@@ -73,6 +77,7 @@ public abstract class EditTagActivity extends Activity {
         if (savedState != null) {
             mRecordWithOutstandingPick = savedState.getParcelable(BUNDLE_KEY_OUTSTANDING_PICK);
         }
+        mInflater = LayoutInflater.from(this);
     }
 
     protected ViewGroup getContentRoot() {
@@ -96,7 +101,9 @@ public abstract class EditTagActivity extends Activity {
      */
     public View getAddView(ViewGroup parent, String type) {
         if (ImageRecord.RECORD_TYPE.equals(type)) {
-            return ImageRecord.getAddView(this, LayoutInflater.from(this), parent);
+            return ImageRecord.getAddView(this, mInflater, parent);
+        } else if (UriRecord.RECORD_TYPE.equals(type)) {
+            return UriRecord.getAddView(this, mInflater, parent);
         }
         throw new IllegalArgumentException("Not a supported view type");
     }
@@ -104,14 +111,15 @@ public abstract class EditTagActivity extends Activity {
     /**
      * Builds a {@link View} used as an item in a list when editing content for a tag.
      */
-    public void addRecord(ParsedNdefRecord record) {
-        mRecords.add(Preconditions.checkNotNull(record));
-        getContentRoot().addView(record.getView(this, LayoutInflater.from(this), mContentRoot));
+    public void addRecord(RecordEditInfo editInfo) {
+        mRecords.add(Preconditions.checkNotNull(editInfo));
+        mInflater.inflate(R.layout.tag_divider, mContentRoot);
+        getContentRoot().addView(editInfo.getEditView(this, mInflater, mContentRoot));
     }
 
     @Override
     protected Dialog onCreateDialog(int id, Bundle args) {
-        if (id == DIALOG_ID_SELECT_CONTENT) {
+        if (id == DIALOG_ID_ADD_CONTENT) {
             return new TagContentSelector(this);
         }
         return super.onCreateDialog(id, args);
@@ -120,8 +128,8 @@ public abstract class EditTagActivity extends Activity {
     /**
      * Displays a {@link Dialog} to select a new content type to add to the Tag.
      */
-    protected void showSelectContentDialog() {
-        showDialog(DIALOG_ID_SELECT_CONTENT);
+    protected void showAddContentDialog() {
+        showDialog(DIALOG_ID_ADD_CONTENT);
     }
 
     /**
@@ -133,6 +141,9 @@ public abstract class EditTagActivity extends Activity {
         if (pickIntent != null) {
             mRecordWithOutstandingPick = info;
             startActivityForResult(pickIntent, 0);
+        } else {
+            // Does not require an external Activity. Add the edit view directly.
+            addRecord(info);
         }
 
         // TODO: handle content types that don't require external activities to pick content.
@@ -145,10 +156,8 @@ public abstract class EditTagActivity extends Activity {
         }
         // Handles results from another Activity that picked content to write to a tag.
         RecordEditInfo recordInfo = mRecordWithOutstandingPick;
-        ParsedNdefRecord record = recordInfo.handlePickResult(this, data);
-        if (record != null) {
-            addRecord(record);
-        }
+        recordInfo.handlePickResult(this, data);
+        addRecord(recordInfo);
         // TODO: handle errors in picking (e.g. the image is too big, etc).
 
         mRecordWithOutstandingPick = null;

@@ -130,7 +130,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
                 break;
 
             case R.id.add_content_target:
-                showSelectContentDialog();
+                showAddContentDialog();
                 break;
         }
     }

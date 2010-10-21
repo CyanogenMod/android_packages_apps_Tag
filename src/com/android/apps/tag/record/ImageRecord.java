@@ -109,15 +109,18 @@ public class ImageRecord implements ParsedNdefRecord {
 
     private static class ImageRecordEditInfo extends RecordEditInfo {
         private final Intent mIntent;
+        private String mCurrentPath;
 
         public ImageRecordEditInfo(Intent intent) {
             super(RECORD_TYPE);
             mIntent = intent;
+            mCurrentPath = "";
         }
 
         protected ImageRecordEditInfo(Parcel parcel) {
             super(parcel);
             mIntent = parcel.readParcelable(null);
+            mCurrentPath = parcel.readString();
         }
 
         @Override
@@ -126,20 +129,21 @@ public class ImageRecord implements ParsedNdefRecord {
         }
 
         @Override
-        public ParsedNdefRecord handlePickResult(Context context, Intent data) {
+        public ParsedNdefRecord getValue() {
+            return new ImageRecord(BitmapFactory.decodeFile(mCurrentPath));
+        }
+
+        @Override
+        public void handlePickResult(Context context, Intent data) {
             Cursor cursor = null;
             try {
                 String[] projection = {MediaStore.Images.Media.DATA};
                 cursor = context.getContentResolver().query(
                         data.getData(), projection, null, null, null);
                 cursor.moveToFirst();
-                String path = cursor.getString(0);
+                mCurrentPath = cursor.getString(0);
 
                 // TODO: verify size limits.
-                return new ImageRecord(BitmapFactory.decodeFile(path));
-
-            } catch (IllegalArgumentException ex) {
-                return null;
 
             } finally {
                 if (cursor != null) {
@@ -149,9 +153,17 @@ public class ImageRecord implements ParsedNdefRecord {
         }
 
         @Override
+        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+            // TODO: make a nicer edit view for images. Right now we just plop the entire image
+            // down. It should also be tappable to select a new image.
+            return getValue().getView(activity, inflater, parent);
+        }
+
+        @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeParcelable(mIntent, flags);
+            out.writeString(mCurrentPath);
         }
 
         @SuppressWarnings("unused")

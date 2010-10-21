@@ -21,6 +21,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * A simple holder for information required for editing a {@code ParsedNdefRecord}.
@@ -31,12 +34,6 @@ public abstract class RecordEditInfo implements Parcelable {
      * The record type being edited.
      */
     private final String mType;
-
-    /**
-     * The current value being edited.
-     * Can be null if not yet set.
-     */
-    protected ParsedNdefRecord mRecord;
 
     public RecordEditInfo(String type) {
         mType = type;
@@ -51,6 +48,12 @@ public abstract class RecordEditInfo implements Parcelable {
     }
 
     /**
+     * Returns the current value of the record in edit. Can be {@code null} if not fully inputted
+     * by user, or the value is invalid for any reason.
+     */
+    public abstract ParsedNdefRecord getValue();
+
+    /**
      * An {@link Intent} which can be fired to retrieve content for the {@code ParsedNdefRecord}.
      * Can be null, if no external {@link Activity} is required.
      */
@@ -60,7 +63,13 @@ public abstract class RecordEditInfo implements Parcelable {
      * Handles a pick {@link Intent}. Must be fully implemented if {@link #getPickIntent} returns
      * a non-null value.
      */
-    public abstract ParsedNdefRecord handlePickResult(Context context, Intent data);
+    public abstract void handlePickResult(Context context, Intent data);
+
+    /**
+     * Builds a {@link View} that can edit an underlying record, or launch a picker to change
+     * the value of the record.
+     */
+    public abstract View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent);
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
