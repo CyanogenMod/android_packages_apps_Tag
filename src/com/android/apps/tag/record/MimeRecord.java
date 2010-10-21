@@ -16,16 +16,19 @@
 
 package com.android.apps.tag.record;
 
+import com.android.apps.tag.R;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.NdefRecord;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.apps.tag.R;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 
 import java.nio.charset.Charsets;
 import java.util.Arrays;
@@ -60,8 +63,17 @@ public class MimeRecord implements ParsedNdefRecord {
 
     @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+        if (mType.startsWith("image/")) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(mContent, 0, mContent.length);
+            if (bitmap != null) {
+                ImageView image = (ImageView) inflater.inflate(R.layout.tag_image, parent, false);
+                image.setImageBitmap(bitmap);
+                return image;
+            }
+        }
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
-        text.setText(new String(mContent, Charsets.UTF_8));
+//        text.setText(new String(mContent, Charsets.UTF_8));
+        text.setText(mType);
         return text;
     }
 
@@ -79,5 +91,14 @@ public class MimeRecord implements ParsedNdefRecord {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public static NdefRecord newMimeRecord(String type, byte[] data) {
+        Preconditions.checkNotNull(type);
+        Preconditions.checkNotNull(data);
+
+        byte[] typeBytes = type.getBytes(Charsets.US_ASCII);
+
+        return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, typeBytes, new byte[0], data);
     }
 }
