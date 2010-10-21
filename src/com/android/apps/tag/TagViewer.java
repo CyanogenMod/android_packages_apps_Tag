@@ -25,7 +25,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
-import android.media.AudioSystem;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.nfc.FormatException;
@@ -129,7 +129,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
                         file.getStartOffset(),
                         file.getLength());
                 file.close();
-                player.setAudioStreamType(AudioSystem.STREAM_SYSTEM);
+                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 player.prepare();
                 player.start();
             } catch (IOException ex) {

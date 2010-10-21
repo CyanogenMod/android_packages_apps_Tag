@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 
@@ -86,6 +87,20 @@ public class TagProvider extends SQLiteContentProvider {
         return result;
     }
 
+    /**
+     * Concatenates two SQL WHERE clauses, handling empty or null values.
+     */
+    public static String concatenateWhere(String a, String b) {
+        if (TextUtils.isEmpty(a)) {
+            return b;
+        }
+        if (TextUtils.isEmpty(b)) {
+            return a;
+        }
+
+        return "(" + a + ") AND (" + b + ")";
+    }
+
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
@@ -94,7 +109,7 @@ public class TagProvider extends SQLiteContentProvider {
         int match = MATCHER.match(uri);
         switch (match) {
             case NDEF_MESSAGES_ID: {
-                selection = DatabaseUtils.concatenateWhere(selection,
+                selection = concatenateWhere(selection,
                         TagDBHelper.TABLE_NAME_NDEF_MESSAGES + "._id=?");
                 selectionArgs = appendSelectionArgs(selectionArgs,
                         new String[] { Long.toString(ContentUris.parseId(uri)) });
@@ -158,7 +173,7 @@ public class TagProvider extends SQLiteContentProvider {
         int count = 0;
         switch (match) {
             case NDEF_MESSAGES_ID: {
-                selection = DatabaseUtils.concatenateWhere(selection,
+                selection = concatenateWhere(selection,
                         TagDBHelper.TABLE_NAME_NDEF_MESSAGES + "._id=?");
                 selectionArgs = appendSelectionArgs(selectionArgs,
                         new String[] { Long.toString(ContentUris.parseId(uri)) });
@@ -185,7 +200,7 @@ public class TagProvider extends SQLiteContentProvider {
         int count = 0;
         switch (match) {
             case NDEF_MESSAGES_ID: {
-                selection = DatabaseUtils.concatenateWhere(selection,
+                selection = concatenateWhere(selection,
                         TagDBHelper.TABLE_NAME_NDEF_MESSAGES + "._id=?");
                 selectionArgs = appendSelectionArgs(selectionArgs,
                         new String[] { Long.toString(ContentUris.parseId(uri)) });

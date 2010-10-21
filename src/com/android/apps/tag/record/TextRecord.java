@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.Charsets;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -125,9 +124,9 @@ public class TextRecord implements ParsedNdefRecord {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(locale);
 
-        byte[] langBytes = locale.getLanguage().getBytes(Charsets.US_ASCII);
+        byte[] langBytes = locale.getLanguage().getBytes(Charset.forName("US-ASCII"));
 
-        Charset utfEncoding = encodeInUtf8 ? Charsets.UTF_8 : Charset.forName("UTF-16");
+        Charset utfEncoding = encodeInUtf8 ? Charset.forName("UTF-8") : Charset.forName("UTF-16");
         byte[] textBytes = text.getBytes(utfEncoding);
 
         int utfBit = encodeInUtf8 ? 0 : (1 << 7);
