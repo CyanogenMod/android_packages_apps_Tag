@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 /**
@@ -108,6 +109,13 @@ public class ImageRecord implements ParsedNdefRecord {
         }
     }
 
+    public static NdefRecord newImageRecord(Bitmap bitmap) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        byte[] content = out.toByteArray();
+        return MimeRecord.newMimeRecord("image/png", content);
+    }
+
     private static class ImageRecordEditInfo extends RecordEditInfo {
         private final Intent mIntent;
         private String mCurrentPath;
@@ -132,9 +140,7 @@ public class ImageRecord implements ParsedNdefRecord {
 
         @Override
         public NdefRecord getValue() {
-            // TODO: build an actual NdefRecord from getValueInternal();
-            // This requires ImageRecord.newNdefRecord(Bitmap) though.
-            return null;
+            return ImageRecord.newImageRecord(getValueInternal());
         }
 
         private Bitmap getValueInternal() {
