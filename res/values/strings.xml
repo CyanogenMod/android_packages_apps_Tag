@@ -69,4 +69,32 @@
 
     <!-- Heading for the text of the content in the "my tag" feature. -->
     <string name="tag_text">Text</string>
+
+    <!-- Heading for dialog presented for selecting content to write to tag -->
+    <string name="select_type">Select type to add</string>
+
+    <!-- Title for image type for writing content to a tag -->
+    <string name="photo">Photo</string>
+
+    <!-- Title for URL type for writing content to a tag -->
+    <string name="bookmark">Bookmark</string>
+
+    <!-- Title for address type for writing content to a tag -->
+    <string name="location">Location</string>
+
+    <!-- Message for prompting on an empty tag -->
+    <string name="empty_tag_prompt">This tag is empty and writeable.</string>
+
+    <!-- Instructions for a prompt on an empty tag -->
+    <string name="empty_tag_instructions">To add content, select "Write".</string>
+
+    <!-- Affirmative button label for writing to an empty tag -->
+    <string name="write">Write</string>
+
+    <!-- Negative button label for writing to an empty tag -->
+    <string name="cancel">Cancel</string>
+
+    <!-- Menu label for help screen -->
+    <string name="menu_help">Help</string>
+
 </resources>
