@@ -77,7 +77,7 @@
     <string name="photo">Photo</string>
 
     <!-- Title for URL type for writing content to a tag -->
-    <string name="bookmark">Bookmark</string>
+    <string name="url">URL</string>
 
     <!-- Title for contact type for writing content to a tag -->
     <string name="contact">Contact</string>
