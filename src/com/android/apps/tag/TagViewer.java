@@ -24,7 +24,10 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
+import android.media.AudioSystem;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -45,6 +48,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * An {@link Activity} which handles a broadcast of a new tag that the device just discovered.
@@ -114,6 +119,23 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
             setTitle(R.string.title_scanned_tag);
             mStar.setVisibility(View.GONE);
             mDate.setVisibility(View.GONE);
+
+            // Play notification.
+            try {
+                MediaPlayer player = new MediaPlayer();
+                AssetFileDescriptor file = getResources().openRawResourceFd(
+                        R.raw.discovered_tag_notification);
+                player.setDataSource(
+                        file.getFileDescriptor(),
+                        file.getStartOffset(),
+                        file.getLength());
+                file.close();
+                player.setAudioStreamType(AudioSystem.STREAM_SYSTEM);
+                player.prepare();
+                player.start();
+            } catch (IOException ex) {
+                Log.w(TAG, "Sound creation failed for tag discovery");
+            }
 
             // Set a timer on this activity since it wasn't created by the user
 //            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
