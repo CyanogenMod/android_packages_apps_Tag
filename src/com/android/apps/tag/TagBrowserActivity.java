@@ -40,7 +40,7 @@ public class TagBrowserActivity extends TabActivity {
 
         tabHost.addTab(tabHost.newTabSpec("tags")
                 .setIndicator(getText(R.string.tab_tags),
-                        res.getDrawable(R.drawable.ic_menu_tag))
+                        res.getDrawable(R.drawable.ic_tab_all_tags))
                 .setContent(new Intent().setClass(this, TagList.class)));
 
         tabHost.addTab(tabHost.newTabSpec("starred")
