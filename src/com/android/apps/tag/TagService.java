@@ -17,16 +17,14 @@
 package com.android.apps.tag;
 
 import com.android.apps.tag.provider.TagContract;
-import com.android.apps.tag.provider.TagContract.NdefMessages;
+import com.android.apps.tag.provider.TagContract.NdefTags;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.net.Uri;
-import android.nfc.NdefMessage;
-import android.os.Parcelable;
+import android.nfc.NdefTag;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -35,7 +33,7 @@ import java.util.ArrayList;
 public class TagService extends IntentService {
     private static final String TAG = "TagService";
 
-    public static final String EXTRA_SAVE_MSGS = "msgs";
+    public static final String EXTRA_SAVE_TAG = "tag";
     public static final String EXTRA_DELETE_URI = "delete";
 
     public TagService() {
@@ -44,21 +42,15 @@ public class TagService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        if (intent.hasExtra(EXTRA_SAVE_MSGS)) {
-            Parcelable[] parcels = intent.getParcelableArrayExtra(EXTRA_SAVE_MSGS);
-            ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-            for (Parcelable parcel : parcels) {
-                ContentValues values = NdefMessages.ndefMessageToValues(this, (NdefMessage) parcel
-                        , false);
-                ops.add(ContentProviderOperation.newInsert(NdefMessages.CONTENT_URI)
-                        .withValues(values).build());
-            }
+        if (intent.hasExtra(EXTRA_SAVE_TAG)) {
+            NdefTag tag = (NdefTag) intent.getParcelableExtra(EXTRA_SAVE_TAG);
+            ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(this, tag);
             try {
                 getContentResolver().applyBatch(TagContract.AUTHORITY, ops);
             } catch (OperationApplicationException e) {
-                Log.e(TAG, "Failed to save messages", e);
+                Log.e(TAG, "Failed to save tag", e);
             } catch (RemoteException e) {
-                Log.e(TAG, "Failed to save messages", e);
+                Log.e(TAG, "Failed to save tag", e);
             }
             return;
         } else if (intent.hasExtra(EXTRA_DELETE_URI)) {
