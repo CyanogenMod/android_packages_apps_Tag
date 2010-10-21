@@ -25,12 +25,8 @@ import com.google.common.primitives.Bytes;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.nfc.NdefRecord;
 import android.telephony.PhoneNumberUtils;
@@ -39,14 +35,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.nio.charset.Charsets;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A parsed record containing a Uri.
@@ -55,16 +46,6 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     private static final String TAG = "UriRecord";
 
     private boolean mAbsolute = false;
-
-    private static final class ClickInfo {
-        public Activity activity;
-        public Intent intent;
-
-        public ClickInfo(Activity activity, Intent intent) {
-            this.activity = activity;
-            this.intent = intent;
-        }
-    }
 
     /**
      * NFC Forum "URI Record Type Definition"
@@ -151,64 +132,13 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
 
     @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-        Intent intent = getIntentForUri();
-
-        // Lookup which packages can handle this intent.
-        PackageManager pm = activity.getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-        int numActivities = activities.size();
-        if (numActivities == 0) {
-            TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
-            text.setText(getPrettyUriString(activity));
-            return text;
-        } else if (numActivities == 1) {
-            return buildActivityView(activity, activities.get(0), pm, inflater, parent);
-        } else {
-            // Build a container to hold the multiple entries
-            LinearLayout container = new LinearLayout(activity);
-            container.setOrientation(LinearLayout.VERTICAL);
-            container.setLayoutParams(new LayoutParams(
-                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
-            // Create an entry for each activity that can handle the URI
-            for (ResolveInfo resolveInfo : activities) {
-                if (container.getChildCount() > 0) {
-                    inflater.inflate(R.layout.tag_divider, container);
-                }
-                container.addView(buildActivityView(activity, resolveInfo, pm, inflater, container));
-            }
-            return container;
-        }
-    }
-
-    /**
-     * Build a view to display a single activity that can handle this URI.
-     */
-    private View buildActivityView(Activity activity, ResolveInfo resolveInfo, PackageManager pm,
-            LayoutInflater inflater, ViewGroup parent) {
-        Intent intent = getIntentForUri();
-        ActivityInfo activityInfo = resolveInfo.activityInfo;
-        intent.setComponent(new ComponentName(activityInfo.packageName, activityInfo.name));
-
-        View item = inflater.inflate(R.layout.tag_uri, parent, false);
-        item.setOnClickListener(this);
-        item.setTag(new ClickInfo(activity, intent));
-
-        ImageView icon = (ImageView) item.findViewById(R.id.icon);
-        icon.setImageDrawable(resolveInfo.loadIcon(pm));
-
-        TextView text = (TextView) item.findViewById(R.id.secondary);
-        text.setText(resolveInfo.loadLabel(pm));
-
-        text = (TextView) item.findViewById(R.id.primary);
-        text.setText(getPrettyUriString(activity));
-
-        return item;
+        return RecordUtils.getViewsForIntent(activity, inflater, parent, this, getIntentForUri(),
+                getPrettyUriString(activity));
     }
 
     @Override
     public void onClick(View view) {
-        ClickInfo info = (ClickInfo) view.getTag();
+        RecordUtils.ClickInfo info = (RecordUtils.ClickInfo) view.getTag();
         try {
             info.activity.startActivity(info.intent);
             info.activity.finish();

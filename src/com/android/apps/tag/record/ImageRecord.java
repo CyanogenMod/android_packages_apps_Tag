@@ -16,22 +16,36 @@
 
 package com.android.apps.tag.record;
 
+import com.android.apps.tag.R;
+import com.google.common.base.Preconditions;
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.NdefRecord;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.android.apps.tag.R;
-import com.google.common.base.Preconditions;
+import java.util.List;
 
 /**
  * A NdefRecord corresponding to an image type.
  */
 public class ImageRecord implements ParsedNdefRecord {
+
+    public static final String RECORD_TYPE = "ImageRecord";
+
     private final Bitmap mBitmap;
 
     private ImageRecord(Bitmap bitmap) {
@@ -45,10 +59,36 @@ public class ImageRecord implements ParsedNdefRecord {
         return image;
     }
 
+    /**
+     * Returns a view in a list of record types for adding new records to a message.
+     */
+    public static View getAddView(Context context, LayoutInflater inflater, ViewGroup parent) {
+        ViewGroup root = (ViewGroup) inflater.inflate(
+                R.layout.tag_add_record_list_item, parent, false);
+
+        // Determine which Activity can retrieve images.
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities.isEmpty()) {
+            return null;
+        }
+
+        ResolveInfo info = activities.get(0);
+        ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
+        ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.photo));
+
+        root.setTag(new ImageRecordEditInfo(intent));
+        return root;
+    }
+
     public static ImageRecord parse(NdefRecord record) {
         MimeRecord underlyingRecord = MimeRecord.parse(record);
         Preconditions.checkArgument(underlyingRecord.getMimeType().startsWith("image/"));
-        
+
         // Try to ensure it's a legal, valid image
         byte[] content = underlyingRecord.getContent();
         Bitmap bitmap = BitmapFactory.decodeByteArray(content, 0, content.length);
@@ -64,6 +104,71 @@ public class ImageRecord implements ParsedNdefRecord {
             return true;
         } catch (IllegalArgumentException e) {
             return false;
+        }
+    }
+
+    private static class ImageRecordEditInfo extends RecordEditInfo {
+        private final Intent mIntent;
+
+        public ImageRecordEditInfo(Intent intent) {
+            super(RECORD_TYPE);
+            mIntent = intent;
+        }
+
+        protected ImageRecordEditInfo(Parcel parcel) {
+            super(parcel);
+            mIntent = parcel.readParcelable(null);
+        }
+
+        @Override
+        public Intent getPickIntent() {
+            return mIntent;
+        }
+
+        @Override
+        public ParsedNdefRecord handlePickResult(Context context, Intent data) {
+            Cursor cursor = null;
+            try {
+                String[] projection = {MediaStore.Images.Media.DATA};
+                cursor = context.getContentResolver().query(
+                        data.getData(), projection, null, null, null);
+                cursor.moveToFirst();
+                String path = cursor.getString(0);
+
+                // TODO: verify size limits.
+                return new ImageRecord(BitmapFactory.decodeFile(path));
+
+            } catch (IllegalArgumentException ex) {
+                return null;
+
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeParcelable(mIntent, flags);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<ImageRecordEditInfo> CREATOR =
+                new Parcelable.Creator<ImageRecordEditInfo>() {
+            public ImageRecordEditInfo createFromParcel(Parcel in) {
+                return new ImageRecordEditInfo(in);
+            }
+
+            public ImageRecordEditInfo[] newArray(int size) {
+                return new ImageRecordEditInfo[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
         }
     }
 }

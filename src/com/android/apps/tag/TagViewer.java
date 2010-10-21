@@ -16,7 +16,6 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.TagList.TagQuery;
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
