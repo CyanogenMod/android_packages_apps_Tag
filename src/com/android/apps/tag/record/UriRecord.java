@@ -118,15 +118,6 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         this.mAbsolute = absolute;
     }
 
-    @Override
-    public String getRecordType() {
-        if (!mAbsolute) {
-            return "Uri";
-        } else {
-            return "Absolute Uri";
-        }
-    }
-
     public Intent getIntentForUri() {
         String scheme = mUri.getScheme();
         if ("tel".equals(scheme)) {

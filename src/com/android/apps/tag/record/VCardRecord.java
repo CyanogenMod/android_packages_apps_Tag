@@ -55,11 +55,6 @@ public class VCardRecord implements ParsedNdefRecord {
     }
 
     @Override
-    public String getRecordType() {
-        return "VCardRecord";
-    }
-
-    @Override
     public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
         text.setText(mEntry.getDisplayName());

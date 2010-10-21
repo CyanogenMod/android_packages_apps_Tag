@@ -37,8 +37,8 @@ import java.util.Arrays;
  * A {@link ParsedNdefRecord} corresponding to a MIME object.
  */
 public class MimeRecord implements ParsedNdefRecord {
-    private String mType;
-    private byte[] mContent;
+    private final String mType;
+    private final byte[] mContent;
 
     private MimeRecord(String mimeType, byte[] content) {
         mType = Preconditions.checkNotNull(mimeType);
@@ -54,11 +54,6 @@ public class MimeRecord implements ParsedNdefRecord {
     @VisibleForTesting
     public byte[] getContent() {
         return Arrays.copyOf(mContent, mContent.length);
-    }
-
-    @Override
-    public String getRecordType() {
-        return "MimeRecord";
     }
 
     @Override

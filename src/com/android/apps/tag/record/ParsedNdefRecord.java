@@ -26,9 +26,6 @@ import android.view.ViewGroup;
  */
 public interface ParsedNdefRecord {
 
-    // Just a placeholder for now.  Probably not needed nor desired.
-    public String getRecordType();
-
     /**
      * Returns a view to display this record.
      */
