@@ -28,6 +28,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.NdefRecord;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +63,8 @@ public class ImageRecord implements ParsedNdefRecord {
      * Returns a view in a list of record types for adding new records to a message.
      */
     public static View getAddView(Context context, LayoutInflater inflater, ViewGroup parent) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.tag_image_picker, parent, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(
+                R.layout.tag_add_record_list_item, parent, false);
 
         // Determine which Activity can retrieve images.
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -78,7 +81,7 @@ public class ImageRecord implements ParsedNdefRecord {
         ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
         ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.photo));
 
-        root.setTag(new ImageRecordEditInfo(context, intent));
+        root.setTag(new ImageRecordEditInfo(intent));
         return root;
     }
 
@@ -105,13 +108,16 @@ public class ImageRecord implements ParsedNdefRecord {
     }
 
     private static class ImageRecordEditInfo extends RecordEditInfo {
-        private final Context mContext;
         private final Intent mIntent;
 
-        public ImageRecordEditInfo(Context context, Intent intent) {
+        public ImageRecordEditInfo(Intent intent) {
             super(RECORD_TYPE);
-            mContext = context;
             mIntent = intent;
+        }
+
+        protected ImageRecordEditInfo(Parcel parcel) {
+            super(parcel);
+            mIntent = parcel.readParcelable(null);
         }
 
         @Override
@@ -120,15 +126,14 @@ public class ImageRecord implements ParsedNdefRecord {
         }
 
         @Override
-        public ParsedNdefRecord handlePickResult(Intent data) {
+        public ParsedNdefRecord handlePickResult(Context context, Intent data) {
             Cursor cursor = null;
             try {
                 String[] projection = {MediaStore.Images.Media.DATA};
-                cursor = mContext.getContentResolver().query(
+                cursor = context.getContentResolver().query(
                         data.getData(), projection, null, null, null);
-                int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
-                String path = cursor.getString(index);
+                String path = cursor.getString(0);
 
                 // TODO: verify size limits.
                 return new ImageRecord(BitmapFactory.decodeFile(path));
@@ -141,6 +146,29 @@ public class ImageRecord implements ParsedNdefRecord {
                     cursor.close();
                 }
             }
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeParcelable(mIntent, flags);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<ImageRecordEditInfo> CREATOR =
+                new Parcelable.Creator<ImageRecordEditInfo>() {
+            public ImageRecordEditInfo createFromParcel(Parcel in) {
+                return new ImageRecordEditInfo(in);
+            }
+
+            public ImageRecordEditInfo[] newArray(int size) {
+                return new ImageRecordEditInfo[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
         }
     }
 }

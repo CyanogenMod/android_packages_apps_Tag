@@ -1,4 +1,18 @@
-// Copyright 2010 Google Inc. All Rights Reserved.
+/*
+ * Copyright (C) 2010 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.android.apps.tag;
 
@@ -18,7 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -30,6 +44,7 @@ import java.util.Set;
  */
 public abstract class EditTagActivity extends Activity {
 
+    private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
     protected static final int DIALOG_ID_SELECT_CONTENT = 0;
 
     private static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
@@ -39,7 +54,7 @@ public abstract class EditTagActivity extends Activity {
     /**
      * Records contained in the current message being edited.
      */
-    private final List<ParsedNdefRecord> mRecords = Lists.newArrayList();
+    private final ArrayList<ParsedNdefRecord> mRecords = Lists.newArrayList();
 
     /**
      * The container where the subviews for each record are housed.
@@ -50,6 +65,15 @@ public abstract class EditTagActivity extends Activity {
      * Info about an outstanding picking activity to add a new record.
      */
     private RecordEditInfo mRecordWithOutstandingPick;
+
+    @Override
+    protected void onCreate(Bundle savedState) {
+        super.onCreate(savedState);
+
+        if (savedState != null) {
+            mRecordWithOutstandingPick = savedState.getParcelable(BUNDLE_KEY_OUTSTANDING_PICK);
+        }
+    }
 
     protected ViewGroup getContentRoot() {
         if (mContentRoot == null) {
@@ -74,7 +98,7 @@ public abstract class EditTagActivity extends Activity {
         if (ImageRecord.RECORD_TYPE.equals(type)) {
             return ImageRecord.getAddView(this, LayoutInflater.from(this), parent);
         }
-        return null;
+        throw new IllegalArgumentException("Not a supported view type");
     }
 
     /**
@@ -121,12 +145,21 @@ public abstract class EditTagActivity extends Activity {
         }
         // Handles results from another Activity that picked content to write to a tag.
         RecordEditInfo recordInfo = mRecordWithOutstandingPick;
-        ParsedNdefRecord record = recordInfo.handlePickResult(data);
+        ParsedNdefRecord record = recordInfo.handlePickResult(this, data);
         if (record != null) {
             addRecord(record);
         }
         // TODO: handle errors in picking (e.g. the image is too big, etc).
 
         mRecordWithOutstandingPick = null;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mRecordWithOutstandingPick != null) {
+            outState.putParcelable(BUNDLE_KEY_OUTSTANDING_PICK, mRecordWithOutstandingPick);
+        }
     }
 }
