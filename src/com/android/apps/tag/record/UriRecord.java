@@ -54,16 +54,18 @@ import java.util.List;
 public class UriRecord implements ParsedNdefRecord, OnClickListener {
     private static final String TAG = "UriRecord";
 
+    private boolean mAbsolute = false;
+
     private static final class ClickInfo {
         public Activity activity;
         public Intent intent;
-        
+
         public ClickInfo(Activity activity, Intent intent) {
             this.activity = activity;
             this.intent = intent;
         }
     }
-    
+
     /**
      * NFC Forum "URI Record Type Definition"
      *
@@ -111,13 +113,18 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
 
     private final Uri mUri;
 
-    private UriRecord(Uri uri) {
+    private UriRecord(Uri uri, boolean absolute) {
         this.mUri = Preconditions.checkNotNull(uri);
+        this.mAbsolute = absolute;
     }
 
     @Override
     public String getRecordType() {
-        return "Uri";
+        if (!mAbsolute) {
+            return "Uri";
+        } else {
+            return "Absolute Uri";
+        }
     }
 
     public Intent getIntentForUri() {
@@ -134,7 +141,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     public String getPrettyUriString(Context context) {
         String scheme = mUri.getScheme();
         boolean tel = "tel".equals(scheme);
-        boolean sms = "sms".equals(scheme) || "smsto".equals(scheme); 
+        boolean sms = "sms".equals(scheme) || "smsto".equals(scheme);
         if (tel || sms) {
             String ssp = mUri.getSchemeSpecificPart();
             int offset = ssp.indexOf('?');
@@ -226,17 +233,30 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     }
 
     /**
-     * Convert {@link android.nfc.NdefRecord} into a {@link android.net.Uri}.
-     *
-     * TODO: This class does not handle NdefRecords where the TNF
-     * (Type Name Format) of the class is {@link android.nfc.NdefRecord#TNF_ABSOLUTE_URI}.
-     * This should be fixed.
+     * Convert {@link android.nfc.NdefRecord} into a {@link android.net.Uri}. This will handle
+     * both TNF_WELL_KNOWN / RTD_URI and TNF_ABSOLUTE_URI. 
      *
      * @throws IllegalArgumentException if the NdefRecord is not a
      *     record containing a URI.
      */
     public static UriRecord parse(NdefRecord record) {
-        Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
+        short tnf = record.getTnf();
+        if (tnf == NdefRecord.TNF_WELL_KNOWN) {
+            return parseWellKnown(record);
+        } else if (tnf == NdefRecord.TNF_ABSOLUTE_URI) {
+            return parseAbsolute(record);
+        }
+        throw new IllegalArgumentException("Unkown TNF " + tnf);
+    }
+
+    /** Parse and absolute URI record */
+    private static UriRecord parseAbsolute(NdefRecord record) {
+        byte[] payload = record.getPayload();
+        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)), false);
+    }
+
+    /** Parse an well known URI record */
+    private static UriRecord parseWellKnown(NdefRecord record) {
         Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_URI));
 
         byte[] payload = record.getPayload();
@@ -253,8 +273,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         byte[] fullUri = Bytes.concat(
                 prefix.getBytes(Charsets.UTF_8),
                 Arrays.copyOfRange(payload, 1, payload.length));
-
-        return new UriRecord(Uri.parse(new String(fullUri, Charsets.UTF_8)));
+        return new UriRecord(Uri.parse(new String(fullUri, Charsets.UTF_8)), false);
     }
 
     public static boolean isUri(NdefRecord record) {

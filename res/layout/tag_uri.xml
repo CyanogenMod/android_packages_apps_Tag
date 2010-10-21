@@ -21,6 +21,7 @@
 
     android:paddingTop="4dip"
     android:paddingBottom="4dip"
+    android:paddingRight="4dip"
 >
 
     <ImageView android:id="@+id/icon"
@@ -41,6 +42,8 @@
         android:layout_marginTop="4dip"
 
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:singleLine="true"
+        android:ellipsize="marquee"
     />
 
     <TextView android:id="@+id/secondary"
@@ -50,6 +53,8 @@
         android:layout_alignLeft="@id/primary"
 
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:singleLine="true"
+        android:ellipsize="marquee"
     />
 </RelativeLayout>
 
