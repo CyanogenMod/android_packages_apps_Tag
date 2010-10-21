@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,17 @@ public abstract class EditTagActivity extends Activity {
             return UriRecord.getAddView(this, mInflater, parent);
         }
         throw new IllegalArgumentException("Not a supported view type");
+    }
+
+    /**
+     * Builds a snapshot of current values as held in the internal state of this editor.
+     */
+    public ArrayList<NdefRecord> getValues() {
+        ArrayList<NdefRecord> result = new ArrayList<NdefRecord>(mRecords.size());
+        for (RecordEditInfo editInfo : mRecords) {
+            result.add(editInfo.getValue());
+        }
+        return result;
     }
 
     /**

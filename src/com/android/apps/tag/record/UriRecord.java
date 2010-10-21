@@ -262,7 +262,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
                 NdefRecord.RTD_URI, EMPTY, payload);
     }
 
-    private static class UriRecordEditInfo extends RecordEditInfo {
+    private static class UriRecordEditInfo extends RecordEditInfo implements TextWatcher {
         private String mCurrentValue;
         private EditText mEditText;
 
@@ -290,24 +290,13 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
             View view = inflater.inflate(R.layout.tag_edit_url, parent, false);
             mEditText = (EditText) view.findViewById(R.id.value);
             mEditText.setText(mCurrentValue);
-            mEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    mCurrentValue = s.toString();
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            });
+            mEditText.addTextChangedListener(this);
             return view;
         }
 
         @Override
-        public ParsedNdefRecord getValue() {
-            // TODO: validate.
-            return new UriRecord(Uri.parse(mCurrentValue));
+        public NdefRecord getValue() {
+            return UriRecord.newUriRecord(Uri.parse(mCurrentValue));
         }
 
         @Override
@@ -331,6 +320,19 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         @Override
         public int describeContents() {
             return 0;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mCurrentValue = s.toString();
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     }
 }

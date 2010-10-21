@@ -20,6 +20,7 @@ import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.TextRecord;
+import com.google.android.collect.Lists;
 
 import android.app.Activity;
 import android.nfc.NdefMessage;
@@ -33,6 +34,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -98,15 +100,15 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
         }
 
         Locale locale = getResources().getConfiguration().locale;
-        NdefRecord[] records = new NdefRecord[] {
+        ArrayList<NdefRecord> values = Lists.newArrayList(
                 TextRecord.newTextRecord(title, locale),
                 TextRecord.newTextRecord(text, locale)
-        };
+        );
 
-        // TODO: add additional records here.
+        values.addAll(getValues());
 
         Log.d(LOG_TAG, "Writing local NdefMessage from tag app....");
-        nfc.setLocalNdefMessage(new NdefMessage(records));
+        nfc.setLocalNdefMessage(new NdefMessage(values.toArray(new NdefRecord[values.size()])));
     }
 
     @Override
