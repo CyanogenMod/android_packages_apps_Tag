@@ -23,6 +23,7 @@ import com.android.apps.tag.record.TextRecord;
 
 import android.app.Activity;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,9 +31,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Editor {@link Activity} for the tag that can be programmed into the device.
@@ -40,6 +43,9 @@ import java.util.List;
 public class MyTagActivity extends Activity implements OnClickListener {
 
     private static final String LOG_TAG = "TagEditor";
+
+    private EditText mTitleView;
+    private EditText mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,9 @@ public class MyTagActivity extends Activity implements OnClickListener {
 
         findViewById(R.id.toggle_enabled_target).setOnClickListener(this);
         findViewById(R.id.add_content_target).setOnClickListener(this);
+
+        mTitleView = (EditText) findViewById(R.id.input_tag_title);
+        mTextView = (EditText) findViewById(R.id.input_tag_text);
     }
 
     @Override
@@ -72,15 +81,31 @@ public class MyTagActivity extends Activity implements OnClickListener {
         TextRecord titleRecord = (TextRecord) records.get(0);
         TextRecord textRecord = (TextRecord) records.get(1);
 
-        ((EditText) findViewById(R.id.input_tag_title)).setText(titleRecord.getText());
-        ((EditText) findViewById(R.id.input_tag_text)).setText(textRecord.getText());
+        mTitleView.setText(titleRecord.getText());
+        mTextView.setText(textRecord.getText());
     }
 
     /**
      * Persists content to store.
      */
     private void onSave() {
-        // TODO: persist to NfcAdapter.setLocalNdefMessage(NdefMessage message);
+        String title = mTitleView.getText().toString();
+        String text = mTextView.getText().toString();
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter();
+
+        if (title.isEmpty() && text.isEmpty()) {
+            nfc.setLocalNdefMessage(null);
+            return;
+        }
+
+        Locale locale = getResources().getConfiguration().locale;
+        NdefRecord[] records = new NdefRecord[] {
+                TextRecord.newTextRecord(title, locale),
+                TextRecord.newTextRecord(text, locale)
+        };
+
+        Log.d(LOG_TAG, "Writing local NdefMessage from tag app....");
+        nfc.setLocalNdefMessage(new NdefMessage(records));
     }
 
     @Override

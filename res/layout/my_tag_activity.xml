@@ -100,12 +100,12 @@ limitations under the License.
 
         <TextView
             android:text="@string/tag_text"
-            android:id="@+id/input_tag_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/input_tag_text"
             android:inputType="textMultiLine"
             android:lines="2"
             android:layout_width="match_parent"
