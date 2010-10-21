@@ -246,13 +246,13 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         } else if (tnf == NdefRecord.TNF_ABSOLUTE_URI) {
             return parseAbsolute(record);
         }
-        throw new IllegalArgumentException("Unkown TNF " + tnf);
+        throw new IllegalArgumentException("Unknown TNF " + tnf);
     }
 
     /** Parse and absolute URI record */
     private static UriRecord parseAbsolute(NdefRecord record) {
         byte[] payload = record.getPayload();
-        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)), false);
+        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)), true);
     }
 
     /** Parse an well known URI record */
