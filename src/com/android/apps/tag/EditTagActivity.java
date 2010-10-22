@@ -125,7 +125,7 @@ public abstract class EditTagActivity extends Activity {
      */
     public void addRecord(RecordEditInfo editInfo) {
         mRecords.add(Preconditions.checkNotNull(editInfo));
-        mInflater.inflate(R.layout.tag_divider, mContentRoot);
+        getContentRoot().addView(mInflater.inflate(R.layout.tag_divider, mContentRoot, false));
         getContentRoot().addView(editInfo.getEditView(this, mInflater, mContentRoot));
     }
 
