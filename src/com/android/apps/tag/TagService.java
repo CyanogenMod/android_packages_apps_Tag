@@ -17,10 +17,13 @@
 package com.android.apps.tag;
 
 import com.android.apps.tag.provider.TagContract;
+import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.provider.TagContract.NdefTags;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.net.Uri;
@@ -33,8 +36,11 @@ import java.util.ArrayList;
 public class TagService extends IntentService {
     private static final String TAG = "TagService";
 
-    public static final String EXTRA_SAVE_TAG = "tag";
-    public static final String EXTRA_DELETE_URI = "delete";
+    private static final String EXTRA_SAVE_TAG = "tag";
+    private static final String EXTRA_DELETE_URI = "delete";
+    private static final String EXTRA_STAR_URI = "set_star";
+    private static final String EXTRA_UNSTAR_URI = "remove_star";
+    private static final String EXTRA_STARRED = "starred";
 
     public TagService() {
         super("SaveTagService");
@@ -44,7 +50,9 @@ public class TagService extends IntentService {
     public void onHandleIntent(Intent intent) {
         if (intent.hasExtra(EXTRA_SAVE_TAG)) {
             NdefTag tag = (NdefTag) intent.getParcelableExtra(EXTRA_SAVE_TAG);
-            ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(this, tag);
+            boolean starred = intent.getBooleanExtra(EXTRA_STARRED, false);
+            ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(this,
+                    tag, starred);
             try {
                 getContentResolver().applyBatch(TagContract.AUTHORITY, ops);
             } catch (OperationApplicationException e) {
@@ -53,10 +61,49 @@ public class TagService extends IntentService {
                 Log.e(TAG, "Failed to save tag", e);
             }
             return;
-        } else if (intent.hasExtra(EXTRA_DELETE_URI)) {
+        }
+
+        if (intent.hasExtra(EXTRA_DELETE_URI)) {
             Uri uri = (Uri) intent.getParcelableExtra(EXTRA_DELETE_URI);
             getContentResolver().delete(uri, null, null);
             return;
         }
+
+        if (intent.hasExtra(EXTRA_STAR_URI)) {
+            Uri uri = (Uri) intent.getParcelableExtra(EXTRA_STAR_URI);
+            ContentValues values = new ContentValues();
+            values.put(NdefMessages.STARRED, 1);
+            getContentResolver().update(uri, values, null, null);
+        }
+
+        if (intent.hasExtra(EXTRA_UNSTAR_URI)) {
+            Uri uri = (Uri) intent.getParcelableExtra(EXTRA_UNSTAR_URI);
+            ContentValues values = new ContentValues();
+            values.put(NdefMessages.STARRED, 0);
+            getContentResolver().update(uri, values, null, null);
+        }
+    }
+
+    public static void saveTag(Context context, NdefTag tag, boolean starred) {
+        Intent intent = new Intent(context, TagService.class);
+        intent.putExtra(TagService.EXTRA_SAVE_TAG, tag);
+        intent.putExtra(TagService.EXTRA_STARRED, starred);
+        context.startService(intent);
+    }
+
+    public static void delete(Context context, Uri uri) {
+        Intent intent = new Intent(context, TagService.class);
+        intent.putExtra(TagService.EXTRA_DELETE_URI, uri);
+        context.startService(intent);
+    }
+
+    public static void setStar(Context context, Uri message, boolean star) {
+        Intent intent = new Intent(context, TagService.class);
+        if (star) {
+            intent.putExtra(EXTRA_STAR_URI, message);
+        } else {
+            intent.putExtra(EXTRA_UNSTAR_URI, message);
+        }
+        context.startService(intent);
     }
 }
