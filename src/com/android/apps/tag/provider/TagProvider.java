@@ -20,10 +20,10 @@ import com.android.apps.tag.R;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.provider.TagContract.NdefRecords;
 import com.android.apps.tag.provider.TagContract.NdefTags;
-import com.google.android.collect.Maps;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
