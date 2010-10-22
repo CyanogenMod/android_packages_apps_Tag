@@ -47,7 +47,8 @@ public class TagContract {
         /**
          * The content:// style URL for this table
          */
-        public static final Uri CONTENT_URI = AUTHORITY_URI.buildUpon().appendPath("ndef_msgs").build();
+        public static final Uri CONTENT_URI =
+                AUTHORITY_URI.buildUpon().appendPath("ndef_msgs").build();
 
         /**
          * The MIME type of {@link #CONTENT_URI} providing a directory of
@@ -73,7 +74,7 @@ public class TagContract {
         /**
          * Converts an NdefMessage to ContentValues that can be insrted into this table.
          */
-        private static ContentValues toValues(Context context, NdefMessage msg,
+        static ContentValues toValues(Context context, NdefMessage msg,
                 boolean isStarred, long date, int ordinal) {
             ParsedNdefMessage parsedMsg = NdefMessageParser.parse(msg);
             ContentValues values = new ContentValues();
@@ -92,7 +93,8 @@ public class TagContract {
          */
         private NdefRecords() {}
 
-        public static final Uri CONTENT_URI = AUTHORITY_URI.buildUpon().appendPath("ndef_records").build();
+        public static final Uri CONTENT_URI =
+                AUTHORITY_URI.buildUpon().appendPath("ndef_records").build();
 
         /**
          * The MIME type of {@link #CONTENT_URI} providing a directory of
@@ -116,7 +118,7 @@ public class TagContract {
         public static final String TAG_ID = "tag_id";
         public static final String POSTER_ID = "poster_id";
 
-        private static ContentValues toValues(Context context, NdefRecord record, int ordinal) {
+        static ContentValues toValues(Context context, NdefRecord record, int ordinal) {
             ContentValues values = new ContentValues();
             values.put(TNF, record.getTnf());
             values.put(TYPE, record.getTnf());
@@ -128,7 +130,8 @@ public class TagContract {
 
         static final class MIME implements OpenableColumns {
             /**
-             * A sub directory of a single entry in this table that treats the entry as raw MIME data.
+             * A sub directory of a single entry in this table that treats the entry as raw
+             * MIME data.
              */
             public static final String CONTENT_DIRECTORY_MIME = "mime";
 
@@ -142,7 +145,8 @@ public class TagContract {
          */
         private NdefTags() {}
 
-        public static final Uri CONTENT_URI = AUTHORITY_URI.buildUpon().appendPath("ndef_tags").build();
+        public static final Uri CONTENT_URI =
+                AUTHORITY_URI.buildUpon().appendPath("ndef_tags").build();
 
         /**
          * The MIME type of {@link #CONTENT_URI} providing a directory of
@@ -159,7 +163,8 @@ public class TagContract {
         public static final String _ID = "_id";
         public static final String DATE = "date";
 
-        public static ArrayList<ContentProviderOperation> toContentProviderOperations(Context context, NdefTag tag) {
+        public static ArrayList<ContentProviderOperation> toContentProviderOperations(
+                Context context, NdefTag tag, boolean starred) {
             ArrayList<ContentProviderOperation> ops = Lists.newArrayList();
             long now = System.currentTimeMillis();
 
@@ -181,10 +186,10 @@ public class TagContract {
                 ContentValues values = NdefMessages.toValues(context, msg, false, now, msgOrdinal);
                 op = ContentProviderOperation.newInsert(NdefMessages.CONTENT_URI)
                         .withValues(values)
+                        .withValue(NdefMessages.STARRED, starred ? 1 : 0)
                         .withValueBackReference(NdefMessages.TAG_ID, 0)
                         .build();
                 ops.add(op);
-
 
                 for (NdefRecord record : msg.getRecords()) {
                     values = NdefRecords.toValues(context, record, recordOrdinal);
@@ -213,8 +218,10 @@ public class TagContract {
 
                                 op = ContentProviderOperation.newInsert(NdefRecords.CONTENT_URI)
                                         .withValues(values)
-                                        .withValueBackReference(NdefRecords.POSTER_ID, posterOffset)
-                                        .withValueBackReference(NdefRecords.MESSAGE_ID, messageOffset)
+                                        .withValueBackReference(NdefRecords.POSTER_ID,
+                                                posterOffset)
+                                        .withValueBackReference(NdefRecords.MESSAGE_ID,
+                                                messageOffset)
                                         .withValueBackReference(NdefRecords.TAG_ID, 0)
                                         .build();
 
