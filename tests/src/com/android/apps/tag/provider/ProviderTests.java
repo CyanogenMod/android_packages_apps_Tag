@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NdefTag;
+import android.nfc.Tag;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContentProvider;
 
@@ -213,8 +214,10 @@ public class ProviderTests extends AndroidTestCase {
         msgs[1] = new NdefMessage(new NdefRecord[] { TextRecord.newTextRecord("1", Locale.US) });
         msgs[2] = new NdefMessage(new NdefRecord[] { TextRecord.newTextRecord("2", Locale.US) });
 
-        // String typeName, byte[] uid, int nativeHandle, NdefMessage[] messages
-        NdefTag tag = new NdefTag(NdefTag.TARGET_TYPE_4, new byte[] { }, 0, msgs);
+        NdefTag tag = NdefTag.createMockNdefTag(new byte[] { },
+                new String[] { Tag.TARGET_ISO_14443_4 },
+                null, null, new String[] { NdefTag.TARGET_TYPE_4 },
+                new NdefMessage[][] { msgs });
 
         Context context = getContext();
 
@@ -282,9 +285,10 @@ public class ProviderTests extends AndroidTestCase {
         msgs[2] = new NdefMessage(new NdefRecord[] { poster });
         msgs[3] = new NdefMessage(new NdefRecord[] { TextRecord.newTextRecord("6", Locale.US) });
 
-        // String typeName, byte[] uid, int nativeHandle, NdefMessage[] messages
-        NdefTag tag = new NdefTag(NdefTag.TARGET_TYPE_4, new byte[] { }, 0, msgs);
-
+        NdefTag tag = NdefTag.createMockNdefTag(new byte[] { },
+                new String[] { Tag.TARGET_ISO_14443_4 },
+                null, null, new String[] { NdefTag.TARGET_TYPE_4 },
+                new NdefMessage[][] { msgs });
 
         Context context = getContext();
 
