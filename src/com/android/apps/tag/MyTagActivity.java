@@ -20,7 +20,7 @@ import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.TextRecord;
-import com.google.android.collect.Lists;
+import com.google.common.collect.Lists;
 
 import android.app.Activity;
 import android.nfc.NdefMessage;
