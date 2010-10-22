@@ -42,7 +42,6 @@ import android.util.Log;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -92,7 +91,7 @@ public class TagProvider extends SQLiteContentProvider implements TagProviderPip
                 .put(NdefRecords.POSTER_ID, NdefRecords.POSTER_ID)
                 .build();
 
-    private static final Map<String, String> NDEF_RECORDS_MIME_PROJECTION_MAP;
+    private Map<String, String> mNdefRecordsMimeProjectionMap;
 
     static {
         MATCHER = new UriMatcher(0);
@@ -107,21 +106,22 @@ public class TagProvider extends SQLiteContentProvider implements TagProviderPip
 
         MATCHER.addURI(auth, "ndef_tags", NDEF_TAGS);
         MATCHER.addURI(auth, "ndef_tags/#", NDEF_TAGS_ID);
-
-        // Records MIME (needs to be updated in onCreate with a localized display name)
-        HashMap<String, String> map = Maps.newHashMap();
-        map.put(NdefRecords.MIME._ID, NdefRecords.MIME._ID);
-        map.put(NdefRecords.MIME.SIZE, "len(" + NdefRecords.BYTES + ") AS " + NdefRecords.MIME.SIZE);
-        NDEF_RECORDS_MIME_PROJECTION_MAP = map;
     }
 
     @Override
     public boolean onCreate() {
         boolean result = super.onCreate();
-        // Fill in the display name with a localized string
-        NDEF_RECORDS_MIME_PROJECTION_MAP.put(NdefRecords.MIME.DISPLAY_NAME,
-                "'" + getContext().getString(R.string.mime_display_name) + "' AS "
-                    + NdefRecords.MIME.DISPLAY_NAME);
+
+        // Build the projection map for the MIME records using a localized display name
+        mNdefRecordsMimeProjectionMap = ImmutableMap.<String, String>builder()
+                .put(NdefRecords.MIME._ID, NdefRecords.MIME._ID)
+                .put(NdefRecords.MIME.SIZE,
+                        "LEN(" + NdefRecords.BYTES + ") AS " + NdefRecords.MIME.SIZE)
+                .put(NdefRecords.MIME.DISPLAY_NAME,
+                        "'" + getContext().getString(R.string.mime_display_name) + "' AS "
+                        + NdefRecords.MIME.DISPLAY_NAME)
+                .build();
+
         return result;
     }
 
@@ -210,7 +210,7 @@ public class TagProvider extends SQLiteContentProvider implements TagProviderPip
                 selectionArgs = appendSelectionArgs(selectionArgs,
                         new String[] { Long.toString(ContentUris.parseId(uri)) });
                 qb.setTables(TagDBHelper.TABLE_NAME_NDEF_RECORDS);
-                qb.setProjectionMap(NDEF_RECORDS_MIME_PROJECTION_MAP);
+                qb.setProjectionMap(mNdefRecordsMimeProjectionMap);
                 break;
             }
 
