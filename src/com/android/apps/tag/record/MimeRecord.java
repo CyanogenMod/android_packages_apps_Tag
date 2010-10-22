@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.nio.charset.Charsets;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -62,7 +62,7 @@ public class MimeRecord implements ParsedNdefRecord {
 
     public static MimeRecord parse(NdefRecord record) {
         Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_MIME_MEDIA);
-        String type = new String(record.getType(), Charsets.US_ASCII);
+        String type = new String(record.getType(), Charset.forName("US-ASCII"));
         byte[] payload = record.getPayload();
         return new MimeRecord(type, payload);
     }
@@ -80,7 +80,7 @@ public class MimeRecord implements ParsedNdefRecord {
         Preconditions.checkNotNull(type);
         Preconditions.checkNotNull(data);
 
-        byte[] typeBytes = type.getBytes(Charsets.US_ASCII);
+        byte[] typeBytes = type.getBytes(Charset.forName("US-ASCII"));
 
         return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, typeBytes, new byte[0], data);
     }

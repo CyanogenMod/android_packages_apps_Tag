@@ -45,7 +45,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.nio.charset.Charsets;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -205,7 +205,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     /** Parse and absolute URI record */
     private static UriRecord parseAbsolute(NdefRecord record) {
         byte[] payload = record.getPayload();
-        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)));
+        return new UriRecord(Uri.parse(new String(payload, Charset.forName("UTF-8"))));
     }
 
     /** Parse an well known URI record */
@@ -224,9 +224,9 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
 
         String prefix = URI_PREFIX_MAP.get(payload[0]);
         byte[] fullUri = Bytes.concat(
-                prefix.getBytes(Charsets.UTF_8),
+                prefix.getBytes(Charset.forName("UTF-8")),
                 Arrays.copyOfRange(payload, 1, payload.length));
-        return new UriRecord(Uri.parse(new String(fullUri, Charsets.UTF_8)));
+        return new UriRecord(Uri.parse(new String(fullUri, Charset.forName("UTF-8"))));
     }
 
     public static boolean isUri(NdefRecord record) {
@@ -244,7 +244,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
      * Convert a {@link Uri} to an {@link NdefRecord}
      */
     public static NdefRecord newUriRecord(Uri uri) {
-        byte[] uriBytes = uri.toString().getBytes(Charsets.UTF_8);
+        byte[] uriBytes = uri.toString().getBytes(Charset.forName("UTF-8"));
 
         /*
          * We prepend 0x00 to the bytes of the URI to indicate that this
