@@ -102,4 +102,7 @@
 
     <!-- Action description indicating the user can import a scanned vCard -->
     <string name="import_vcard">Import vCard</string>
+
+    <!-- String describing MIME content when it's shared with other application -->
+    <string name="mime_display_name">Data from NFC Tag</string>
 </resources>
