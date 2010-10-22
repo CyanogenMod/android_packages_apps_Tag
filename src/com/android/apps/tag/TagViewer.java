@@ -68,7 +68,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     CheckBox mStar;
     Button mDeleteButton;
     Button mDoneButton;
-    NdefMessage[] mMessagesToSave = null;
+    NdefTag mTag = null;
     LinearLayout mTagContent;
 
     @Override
@@ -139,8 +139,8 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
             // Set a timer on this activity since it wasn't created by the user
 //            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
 
-            // Mark messages that were just scanned for saving
-            mMessagesToSave = msgs;
+            // Mark tag that were just scanned for saving
+            mTag = tag;
 
             // Build the views for the tag
             buildTagViews(msgs);
@@ -185,9 +185,9 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     @Override
     public void onNewIntent(Intent intent) {
         // If we get a new scan while looking at a tag just save off the old tag...
-        if (mMessagesToSave != null) {
-            saveMessages(mMessagesToSave);
-            mMessagesToSave = null;
+        if (mTag != null) {
+            saveTag(mTag);
+            mTag = null;
         }
 
         // ... and show the new one.
@@ -204,7 +204,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
         if (view == mDeleteButton) {
             if (mTagUri == null) {
                 // The tag hasn't been saved yet, so indicate it shouldn't be saved
-                mMessagesToSave = null;
+                mTag = null;
                 finish();
             } else {
                 // The tag came from the database, start a service to delete it
@@ -221,17 +221,15 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     @Override
     public void onStop() {
         super.onStop();
-        if (mMessagesToSave != null) {
-            saveMessages(mMessagesToSave);
+        if (mTag != null) {
+            saveTag(mTag);
+            mTag = null;
         }
     }
 
-    /**
-     * Starts a service to asynchronously save the messages to the content provider.
-     */
-    void saveMessages(NdefMessage[] msgs) {
+    private void saveTag(NdefTag tag) {
         Intent save = new Intent(this, TagService.class);
-        save.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
+        save.putExtra(TagService.EXTRA_SAVE_TAG, tag);
         startService(save);
     }
 

@@ -38,15 +38,25 @@ public class TagProvider extends SQLiteContentProvider {
 
     private static final int NDEF_MESSAGES = 1000;
     private static final int NDEF_MESSAGES_ID = 1001;
-    private static final UriMatcher sMatcher;
+    private static final int NDEF_RECORDS = 1002;
+    private static final int NDEF_RECORDS_ID = 1003;
+    private static final int NDEF_TAGS = 1004;
 
-    private static final HashMap<String, String> sNdefMessagesProjectionMap;
+    private static final UriMatcher MATCHER;
+
+    private static final HashMap<String, String> NDEF_MESSAGES_PROJECTION_MAP;
 
     static {
-        sMatcher = new UriMatcher(0);
+        MATCHER = new UriMatcher(0);
         String auth = TagContract.AUTHORITY;
-        sMatcher.addURI(auth, "ndef", NDEF_MESSAGES);
-        sMatcher.addURI(auth, "ndef/#", NDEF_MESSAGES_ID);
+
+        MATCHER.addURI(auth, "ndef_msgs", NDEF_MESSAGES);
+        MATCHER.addURI(auth, "ndef_msgs/#", NDEF_MESSAGES_ID);
+
+        MATCHER.addURI(auth, "ndef_records", NDEF_RECORDS);
+        MATCHER.addURI(auth, "ndef_records/#", NDEF_RECORDS_ID);
+
+        MATCHER.addURI(auth, "ndef_tags", NDEF_TAGS);
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(NdefMessages._ID, NdefMessages._ID);
@@ -54,7 +64,7 @@ public class TagProvider extends SQLiteContentProvider {
         map.put(NdefMessages.BYTES, NdefMessages.BYTES);
         map.put(NdefMessages.DATE, NdefMessages.DATE);
         map.put(NdefMessages.STARRED, NdefMessages.STARRED);
-        sNdefMessagesProjectionMap = map;
+        NDEF_MESSAGES_PROJECTION_MAP = map;
     }
 
     @Override
@@ -81,7 +91,7 @@ public class TagProvider extends SQLiteContentProvider {
             String sortOrder) {
         SQLiteDatabase db = getDatabaseHelper().getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        int match = sMatcher.match(uri);
+        int match = MATCHER.match(uri);
         switch (match) {
             case NDEF_MESSAGES_ID: {
                 selection = DatabaseUtils.concatenateWhere(selection,
@@ -92,7 +102,7 @@ public class TagProvider extends SQLiteContentProvider {
             }
             case NDEF_MESSAGES: {
                 qb.setTables(TagDBHelper.TABLE_NAME_NDEF_MESSAGES);
-                qb.setProjectionMap(sNdefMessagesProjectionMap);
+                qb.setProjectionMap(NDEF_MESSAGES_PROJECTION_MAP);
                 break;
             }
 
@@ -111,11 +121,21 @@ public class TagProvider extends SQLiteContentProvider {
     @Override
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
-        int match = sMatcher.match(uri);
+        int match = MATCHER.match(uri);
         long id = -1;
         switch (match) {
             case NDEF_MESSAGES: {
                 id = db.insert(TagDBHelper.TABLE_NAME_NDEF_MESSAGES, NdefMessages.TITLE, values);
+                break;
+            }
+
+            case NDEF_RECORDS: {
+                id = db.insert(TagDBHelper.TABLE_NAME_NDEF_RECORDS, "", values);
+                break;
+            }
+
+            case NDEF_TAGS: {
+                id = db.insert(TagDBHelper.TABLE_NAME_NDEF_TAGS, "", values);
                 break;
             }
 
@@ -134,7 +154,7 @@ public class TagProvider extends SQLiteContentProvider {
     protected int updateInTransaction(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
-        int match = sMatcher.match(uri);
+        int match = MATCHER.match(uri);
         int count = 0;
         switch (match) {
             case NDEF_MESSAGES_ID: {
@@ -161,7 +181,7 @@ public class TagProvider extends SQLiteContentProvider {
     @Override
     protected int deleteInTransaction(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
-        int match = sMatcher.match(uri);
+        int match = MATCHER.match(uri);
         int count = 0;
         switch (match) {
             case NDEF_MESSAGES_ID: {
@@ -186,7 +206,7 @@ public class TagProvider extends SQLiteContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        int match = sMatcher.match(uri);
+        int match = MATCHER.match(uri);
         switch (match) {
             case NDEF_MESSAGES_ID: {
                 return NdefMessages.CONTENT_ITEM_TYPE;

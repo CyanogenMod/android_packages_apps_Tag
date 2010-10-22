@@ -17,6 +17,8 @@
 package com.android.apps.tag.provider;
 
 import com.android.apps.tag.provider.TagContract.NdefMessages;
+import com.android.apps.tag.provider.TagContract.NdefRecords;
+import com.android.apps.tag.provider.TagContract.NdefTags;
 import com.google.common.annotations.VisibleForTesting;
 
 import android.content.Context;
@@ -29,9 +31,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TagDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "tags.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 11;
 
-    public static final String TABLE_NAME_NDEF_MESSAGES = "nedf_msg";
+    public static final String TABLE_NAME_NDEF_MESSAGES = "ndef_msgs";
+    public static final String TABLE_NAME_NDEF_RECORDS = "ndef_records";
+    public static final String TABLE_NAME_NDEF_TAGS = "ndef_tags";
 
     TagDBHelper(Context context) {
         this(context, DATABASE_NAME);
@@ -44,17 +48,47 @@ public class TagDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("CREATE TABLE " + TABLE_NAME_NDEF_MESSAGES + " (" +
                 NdefMessages._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NdefMessages.TAG_ID + " INTEGER NOT NULL, " +
+                NdefMessages.DATE + " INTEGER NOT NULL, " +
                 NdefMessages.TITLE + " TEXT NOT NULL DEFAULT ''," +
                 NdefMessages.BYTES + " BLOB NOT NULL, " +
-                NdefMessages.DATE + " INTEGER NOT NULL, " +
-                NdefMessages.STARRED + " INTEGER NOT NULL DEFAULT 0" +  // boolean
+                NdefMessages.STARRED + " INTEGER NOT NULL DEFAULT 0," +  // boolean
+                NdefMessages.ORDINAL + " INTEGER NOT NULL " +
                 ");");
 
-        db.execSQL("CREATE INDEX msgIndex ON " + TABLE_NAME_NDEF_MESSAGES + " (" +
-                TagContract.NdefMessages.DATE + " DESC, " +
-                TagContract.NdefMessages.STARRED + " ASC" +
+        db.execSQL("CREATE INDEX mags_tag_id_index ON " + TABLE_NAME_NDEF_MESSAGES + " (" +
+                NdefMessages.TAG_ID +
+                ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_NAME_NDEF_RECORDS + " (" +
+                NdefRecords._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NdefRecords.TAG_ID + " INTEGER NOT NULL, " +
+                NdefRecords.MESSAGE_ID + " INTEGER NOT NULL, " +
+                NdefRecords.TNF + " INTEGER NOT NULL, " +
+                NdefRecords.TYPE + " BLOB NOT NULL, " +
+                NdefRecords.POSTER_ID + " INTEGER, " +
+                NdefRecords.BYTES + " BLOB NOT NULL, " +
+                NdefRecords.ORDINAL + " INTEGER NOT NULL " +
+                ");");
+
+        db.execSQL("CREATE INDEX records_msg_id_index ON " + TABLE_NAME_NDEF_RECORDS + " (" +
+                NdefRecords.MESSAGE_ID +
+                ")");
+
+        db.execSQL("CREATE INDEX records_poster_id_index ON " + TABLE_NAME_NDEF_RECORDS + " (" +
+                NdefRecords.POSTER_ID +
+                ")");
+
+        db.execSQL("CREATE INDEX records_tag_id_index ON " + TABLE_NAME_NDEF_RECORDS + " (" +
+                NdefRecords.TAG_ID +
+                ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_NAME_NDEF_TAGS + " (" +
+                NdefTags._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NdefTags.DATE + " INTEGER NOT NULL " +
                 ")");
     }
 
@@ -62,6 +96,8 @@ public class TagDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop everything and recreate it for now
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NDEF_MESSAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NDEF_RECORDS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NDEF_TAGS);
         onCreate(db);
     }
 }
