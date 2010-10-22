@@ -218,7 +218,8 @@ public class ProviderTests extends AndroidTestCase {
 
         Context context = getContext();
 
-        ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(context, tag);
+        ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(context, tag,
+                false);
 
         // There should be seven operations. tag insert, three msg inserts, and three record inserts
         assertEquals(7, ops.size());
@@ -287,7 +288,8 @@ public class ProviderTests extends AndroidTestCase {
 
         Context context = getContext();
 
-        ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(context, tag);
+        ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(context, tag,
+                false);
 
         // There should be seven operations. tag insert, three msg inserts, and three record inserts
         assertEquals(12, ops.size());
