@@ -34,8 +34,6 @@ import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +51,7 @@ import java.io.IOException;
 /**
  * An {@link Activity} which handles a broadcast of a new tag that the device just discovered.
  */
-public class TagViewer extends Activity implements OnClickListener, Handler.Callback {
+public class TagViewer extends Activity implements OnClickListener {
     static final String TAG = "SaveTag";
     static final String EXTRA_TAG_DB_ID = "db_id";
     static final String EXTRA_MESSAGE = "msg";
@@ -95,6 +93,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
 
         mDeleteButton.setOnClickListener(this);
         mDoneButton.setOnClickListener(this);
+        mStar.setOnClickListener(this);
         mIcon.setImageResource(R.drawable.ic_launcher_nfc);
 
         resolveIntent(getIntent());
@@ -116,8 +115,9 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
 
             // Setup the views
             setTitle(R.string.title_scanned_tag);
-            mStar.setVisibility(View.GONE);
             mDate.setVisibility(View.GONE);
+            mStar.setChecked(false);
+            mStar.setEnabled(true);
 
             // Play notification.
             try {
@@ -136,9 +136,6 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
                 Log.w(TAG, "Sound creation failed for tag discovery");
             }
 
-            // Set a timer on this activity since it wasn't created by the user
-//            new Handler(this).sendEmptyMessageDelayed(0, ACTIVITY_TIMEOUT_MS);
-
             // Mark tag that were just scanned for saving
             mTag = tag;
 
@@ -148,6 +145,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
             // Setup the views
             setTitle(R.string.title_existing_tag);
             mStar.setVisibility(View.VISIBLE);
+            mStar.setEnabled(false); // it's reenabled when the async load completes
             mDate.setVisibility(View.VISIBLE);
 
             // Read the tag from the database asynchronously
@@ -186,7 +184,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     public void onNewIntent(Intent intent) {
         // If we get a new scan while looking at a tag just save off the old tag...
         if (mTag != null) {
-            saveTag(mTag);
+            TagService.saveTag(this, mTag, mStar.isChecked());
             mTag = null;
         }
 
@@ -208,13 +206,15 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
                 finish();
             } else {
                 // The tag came from the database, start a service to delete it
-                Intent delete = new Intent(this, TagService.class);
-                delete.putExtra(TagService.EXTRA_DELETE_URI, mTagUri);
-                startService(delete);
+                TagService.delete(this, mTagUri);
                 finish();
             }
         } else if (view == mDoneButton) {
             finish();
+        } else if (view == mStar) {
+            if (mTagUri != null) {
+                TagService.setStar(this, mTagUri, mStar.isChecked());
+            }
         }
     }
 
@@ -222,21 +222,9 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
     public void onStop() {
         super.onStop();
         if (mTag != null) {
-            saveTag(mTag);
+            TagService.saveTag(this, mTag, mStar.isChecked());
             mTag = null;
         }
-    }
-
-    private void saveTag(NdefTag tag) {
-        Intent save = new Intent(this, TagService.class);
-        save.putExtra(TagService.EXTRA_SAVE_TAG, tag);
-        startService(save);
-    }
-
-    @Override
-    public boolean handleMessage(Message msg) {
-        finish();
-        return true;
     }
 
     interface ViewTagQuery {
@@ -275,6 +263,7 @@ public class TagViewer extends Activity implements OnClickListener, Handler.Call
                         mDate.setText(DateUtils.getRelativeTimeSpanString(TagViewer.this,
                                 cursor.getLong(ViewTagQuery.COLUMN_DATE)));
                         mStar.setChecked(cursor.getInt(ViewTagQuery.COLUMN_STARRED) != 0);
+                        mStar.setEnabled(true);
                         buildTagViews(new NdefMessage[] { msg });
                     }
                 }
