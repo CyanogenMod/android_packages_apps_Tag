@@ -238,6 +238,29 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         }
     }
 
+    private static final byte[] EMPTY = new byte[0];
+
+    /**
+     * Convert a {@link Uri} to an {@link NdefRecord}
+     */
+    public static NdefRecord newUriRecord(Uri uri) {
+        byte[] uriBytes = uri.toString().getBytes(Charsets.UTF_8);
+
+        /*
+         * We prepend 0x00 to the bytes of the URI to indicate that this
+         * is the entire URI, and we are not taking advantage of the
+         * URI shortening rules in the NFC Forum URI spec section 3.2.2.
+         * This produces a NdefRecord which is slightly larger than
+         * necessary.
+         *
+         * In the future, we should use the URI shortening rules in 3.2.2
+         * to create a smaller NdefRecord.
+         */
+        byte[] payload = Bytes.concat(new byte[] { 0x00 }, uriBytes);
+
+        return new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                NdefRecord.RTD_URI, EMPTY, payload);
+    }
 
     private static class UriRecordEditInfo extends RecordEditInfo {
         private String mCurrentValue;
