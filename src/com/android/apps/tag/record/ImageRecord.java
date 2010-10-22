@@ -27,6 +27,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -111,15 +112,17 @@ public class ImageRecord implements ParsedNdefRecord {
 
     public static NdefRecord newImageRecord(Bitmap bitmap) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
         byte[] content = out.toByteArray();
-        return MimeRecord.newMimeRecord("image/png", content);
+        return MimeRecord.newMimeRecord("image/jpeg", content);
     }
 
     private static class ImageRecordEditInfo extends RecordEditInfo {
         private final Intent mIntent;
         private String mCurrentPath;
         private Bitmap mCachedValue;
+
+        public static final int MAX_IMAGE_SIZE = 128;
 
         public ImageRecordEditInfo(Intent intent) {
             super(RECORD_TYPE);
@@ -145,7 +148,16 @@ public class ImageRecord implements ParsedNdefRecord {
 
         private Bitmap getValueInternal() {
             if (mCachedValue == null) {
-                mCachedValue = BitmapFactory.decodeFile(mCurrentPath);
+                Bitmap original = BitmapFactory.decodeFile(mCurrentPath);
+                int width = original.getWidth();
+                int height = original.getHeight();
+                int major = (width > height) ? width : height;
+                if (major > MAX_IMAGE_SIZE) {
+                    double scale = 1.0 * MAX_IMAGE_SIZE / major;
+                    width *= scale;
+                    height *= scale;
+                }
+                mCachedValue = ThumbnailUtils.extractThumbnail(original, width, height);
             }
             return mCachedValue;
         }
@@ -173,9 +185,9 @@ public class ImageRecord implements ParsedNdefRecord {
 
         @Override
         public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-            // TODO: make a nicer edit view for images. Right now we just plop the entire image
-            // down. It should also be tappable to select a new image.
-            return new ImageRecord(getValueInternal()).getView(activity, inflater, parent);
+            View result = inflater.inflate(R.layout.tag_edit_image, parent, false);
+            ((ImageView) result.findViewById(R.id.image)).setImageBitmap(getValueInternal());
+            return result;
         }
 
         @Override
