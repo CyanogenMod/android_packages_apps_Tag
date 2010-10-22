@@ -28,6 +28,7 @@ import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NdefTag;
+import android.provider.OpenableColumns;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,7 +86,6 @@ public class TagContract {
         }
     }
 
-
     public static final class NdefRecords {
         /**
          * Utility class, cannot be instantiated.
@@ -93,6 +93,18 @@ public class TagContract {
         private NdefRecords() {}
 
         public static final Uri CONTENT_URI = AUTHORITY_URI.buildUpon().appendPath("ndef_records").build();
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of
+         * NDEF messages.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/ndef_record";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} subdirectory of a single
+         * NDEF message.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/ndef_record";
 
         // columns
         public static final String _ID = "_id";
@@ -104,8 +116,6 @@ public class TagContract {
         public static final String TAG_ID = "tag_id";
         public static final String POSTER_ID = "poster_id";
 
-
-
         private static ContentValues toValues(Context context, NdefRecord record, int ordinal) {
             ContentValues values = new ContentValues();
             values.put(TNF, record.getTnf());
@@ -115,8 +125,16 @@ public class TagContract {
             values.put(ORDINAL, ordinal);
             return values;
         }
-    }
 
+        static final class MIME implements OpenableColumns {
+            /**
+             * A sub directory of a single entry in this table that treats the entry as raw MIME data.
+             */
+            public static final String CONTENT_DIRECTORY_MIME = "mime";
+
+            public static final String _ID = "_id";
+        }
+    }
 
     public static final class NdefTags {
         /**
@@ -125,6 +143,18 @@ public class TagContract {
         private NdefTags() {}
 
         public static final Uri CONTENT_URI = AUTHORITY_URI.buildUpon().appendPath("ndef_tags").build();
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of
+         * NDEF messages.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/ndef_tag";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} subdirectory of a single
+         * NDEF message.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/ndef_tag";
 
         public static final String _ID = "_id";
         public static final String DATE = "date";
