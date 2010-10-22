@@ -19,6 +19,7 @@ package com.android.apps.tag.record;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public abstract class RecordEditInfo implements Parcelable {
      * Returns the current value of the record in edit. Can be {@code null} if not fully inputted
      * by user, or the value is invalid for any reason.
      */
-    public abstract ParsedNdefRecord getValue();
+    public abstract NdefRecord getValue();
 
     /**
      * An {@link Intent} which can be fired to retrieve content for the {@code ParsedNdefRecord}.

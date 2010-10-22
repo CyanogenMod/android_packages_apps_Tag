@@ -31,6 +31,7 @@ import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,7 @@ public class ImageRecord implements ParsedNdefRecord {
     private static class ImageRecordEditInfo extends RecordEditInfo {
         private final Intent mIntent;
         private String mCurrentPath;
+        private Bitmap mCachedValue;
 
         public ImageRecordEditInfo(Intent intent) {
             super(RECORD_TYPE);
@@ -129,21 +131,32 @@ public class ImageRecord implements ParsedNdefRecord {
         }
 
         @Override
-        public ParsedNdefRecord getValue() {
-            return new ImageRecord(BitmapFactory.decodeFile(mCurrentPath));
+        public NdefRecord getValue() {
+            // TODO: build an actual NdefRecord from getValueInternal();
+            // This requires ImageRecord.newNdefRecord(Bitmap) though.
+            return null;
+        }
+
+        private Bitmap getValueInternal() {
+            if (mCachedValue == null) {
+                mCachedValue = BitmapFactory.decodeFile(mCurrentPath);
+            }
+            return mCachedValue;
         }
 
         @Override
         public void handlePickResult(Context context, Intent data) {
             Cursor cursor = null;
+            mCachedValue = null;
             try {
-                String[] projection = {MediaStore.Images.Media.DATA};
+                String[] projection = { MediaStore.Images.Media.DATA, OpenableColumns.SIZE };
                 cursor = context.getContentResolver().query(
                         data.getData(), projection, null, null, null);
                 cursor.moveToFirst();
+                int size = cursor.getInt(1);
                 mCurrentPath = cursor.getString(0);
 
-                // TODO: verify size limits.
+                // TODO: enforce a size limit. May be tricky.
 
             } finally {
                 if (cursor != null) {
@@ -156,7 +169,7 @@ public class ImageRecord implements ParsedNdefRecord {
         public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
             // TODO: make a nicer edit view for images. Right now we just plop the entire image
             // down. It should also be tappable to select a new image.
-            return getValue().getView(activity, inflater, parent);
+            return new ImageRecord(getValueInternal()).getView(activity, inflater, parent);
         }
 
         @Override
