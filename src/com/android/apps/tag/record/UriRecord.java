@@ -27,17 +27,27 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.nfc.NdefRecord;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.telephony.PhoneNumberUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.nio.charset.Charsets;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A parsed record containing a Uri.
@@ -45,7 +55,7 @@ import java.util.Arrays;
 public class UriRecord implements ParsedNdefRecord, OnClickListener {
     private static final String TAG = "UriRecord";
 
-    private boolean mAbsolute = false;
+    public static final String RECORD_TYPE = "UriRecord";
 
     /**
      * NFC Forum "URI Record Type Definition"
@@ -94,9 +104,8 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
 
     private final Uri mUri;
 
-    private UriRecord(Uri uri, boolean absolute) {
+    private UriRecord(Uri uri) {
         this.mUri = Preconditions.checkNotNull(uri);
-        this.mAbsolute = absolute;
     }
 
     public Intent getIntentForUri() {
@@ -148,6 +157,29 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         }
     }
 
+    /**
+     * Returns a view in a list of record types for adding new records to a message.
+     */
+    public static View getAddView(Context context, LayoutInflater inflater, ViewGroup parent) {
+        ViewGroup root = (ViewGroup) inflater.inflate(
+                R.layout.tag_add_record_list_item, parent, false);
+
+        // Determine which Activity can open up normal URL's.
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities.isEmpty()) {
+            return null;
+        }
+
+        ResolveInfo info = activities.get(0);
+        ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
+        ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.url));
+
+        root.setTag(new UriRecordEditInfo());
+        return root;
+    }
+
     @VisibleForTesting
     public Uri getUri() {
         return mUri;
@@ -155,7 +187,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
 
     /**
      * Convert {@link android.nfc.NdefRecord} into a {@link android.net.Uri}. This will handle
-     * both TNF_WELL_KNOWN / RTD_URI and TNF_ABSOLUTE_URI. 
+     * both TNF_WELL_KNOWN / RTD_URI and TNF_ABSOLUTE_URI.
      *
      * @throws IllegalArgumentException if the NdefRecord is not a
      *     record containing a URI.
@@ -173,7 +205,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     /** Parse and absolute URI record */
     private static UriRecord parseAbsolute(NdefRecord record) {
         byte[] payload = record.getPayload();
-        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)), true);
+        return new UriRecord(Uri.parse(new String(payload, Charsets.UTF_8)));
     }
 
     /** Parse an well known URI record */
@@ -194,7 +226,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         byte[] fullUri = Bytes.concat(
                 prefix.getBytes(Charsets.UTF_8),
                 Arrays.copyOfRange(payload, 1, payload.length));
-        return new UriRecord(Uri.parse(new String(fullUri, Charsets.UTF_8)), false);
+        return new UriRecord(Uri.parse(new String(fullUri, Charsets.UTF_8)));
     }
 
     public static boolean isUri(NdefRecord record) {
@@ -203,6 +235,79 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
             return true;
         } catch (IllegalArgumentException e) {
             return false;
+        }
+    }
+
+
+    private static class UriRecordEditInfo extends RecordEditInfo {
+        private String mCurrentValue;
+        private EditText mEditText;
+
+        public UriRecordEditInfo() {
+            super(RECORD_TYPE);
+            mCurrentValue = "";
+        }
+
+        protected UriRecordEditInfo(Parcel parcel) {
+            super(parcel);
+            mCurrentValue = parcel.readString();
+        }
+
+        @Override
+        public Intent getPickIntent() {
+            return null;
+        }
+
+        @Override
+        public void handlePickResult(Context context, Intent data) {
+        }
+
+        @Override
+        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+            View view = inflater.inflate(R.layout.tag_edit_url, parent, false);
+            mEditText = (EditText) view.findViewById(R.id.value);
+            mEditText.setText(mCurrentValue);
+            mEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                    mCurrentValue = s.toString();
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            });
+            return view;
+        }
+
+        @Override
+        public ParsedNdefRecord getValue() {
+            // TODO: validate.
+            return new UriRecord(Uri.parse(mCurrentValue));
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(mCurrentValue);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<UriRecordEditInfo> CREATOR =
+                new Parcelable.Creator<UriRecordEditInfo>() {
+            public UriRecordEditInfo createFromParcel(Parcel in) {
+                return new UriRecordEditInfo(in);
+            }
+
+            public UriRecordEditInfo[] newArray(int size) {
+                return new UriRecordEditInfo[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
         }
     }
 }
