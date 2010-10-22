@@ -32,6 +32,7 @@ import android.nfc.NdefRecord;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ import java.util.Set;
  * {@link ParsedNdefRecord} types. Each type of {@link ParsedNdefRecord} can build views to
  * pick/select a new piece of content, or edit an existing content for the {@link NdefMessage}.
  */
-public abstract class EditTagActivity extends Activity {
+public abstract class EditTagActivity extends Activity implements OnClickListener {
 
     private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
     protected static final int DIALOG_ID_ADD_CONTENT = 0;
@@ -125,8 +126,28 @@ public abstract class EditTagActivity extends Activity {
      */
     public void addRecord(RecordEditInfo editInfo) {
         mRecords.add(Preconditions.checkNotNull(editInfo));
-        getContentRoot().addView(mInflater.inflate(R.layout.tag_divider, mContentRoot, false));
-        getContentRoot().addView(editInfo.getEditView(this, mInflater, mContentRoot));
+        addViewForRecord(editInfo);
+    }
+
+    /**
+     * Adds a child editor view for a record.
+     */
+    public void addViewForRecord(RecordEditInfo editInfo) {
+        ViewGroup root = getContentRoot();
+        View editView = editInfo.getEditView(this, mInflater, root);
+        root.addView(mInflater.inflate(R.layout.tag_divider, root, false));
+        root.addView(editView);
+
+        if (editInfo.getPickIntent() != null) {
+            editView.setOnClickListener(this);
+        }
+    }
+
+    private void rebuildChildViews() {
+        ViewGroup root = getContentRoot();
+        for (RecordEditInfo editInfo : mRecords) {
+            addViewForRecord(editInfo);
+        }
     }
 
     @Override
@@ -137,6 +158,14 @@ public abstract class EditTagActivity extends Activity {
         return super.onCreateDialog(id, args);
     }
 
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+        super.onPrepareDialog(id, dialog, args);
+        if (dialog instanceof TagContentSelector) {
+            ((TagContentSelector) dialog).rebuildViews();
+        }
+    }
+
     /**
      * Displays a {@link Dialog} to select a new content type to add to the Tag.
      */
@@ -145,20 +174,39 @@ public abstract class EditTagActivity extends Activity {
     }
 
     /**
+     * Fires an {@link Intent} to pick content for a record.
+     */
+    public void startPickForRecord(RecordEditInfo editInfo, Intent intent) {
+        mRecordWithOutstandingPick = editInfo;
+        startActivityForResult(intent, 0);
+    }
+
+    /**
      * Handles a click to select and add a new content type.
      */
     public void onAddContentClick(View target) {
-        RecordEditInfo info = (RecordEditInfo) target.getTag();
+        Object tag = target.getTag();
+        if ((tag == null) || !(tag instanceof RecordEditInfo)) {
+            return;
+        }
+
+        RecordEditInfo info = (RecordEditInfo) tag;
         Intent pickIntent = info.getPickIntent();
         if (pickIntent != null) {
-            mRecordWithOutstandingPick = info;
-            startActivityForResult(pickIntent, 0);
+            startPickForRecord(info, pickIntent);
         } else {
             // Does not require an external Activity. Add the edit view directly.
             addRecord(info);
         }
+    }
 
-        // TODO: handle content types that don't require external activities to pick content.
+    @Override
+    public void onClick(View target) {
+        Object tag = target.getTag();
+        if ((tag != null) && (tag instanceof RecordEditInfo)) {
+            RecordEditInfo editInfo = (RecordEditInfo) tag;
+            startPickForRecord(editInfo, Preconditions.checkNotNull(editInfo.getPickIntent()));
+        }
     }
 
     @Override
@@ -169,7 +217,17 @@ public abstract class EditTagActivity extends Activity {
         // Handles results from another Activity that picked content to write to a tag.
         RecordEditInfo recordInfo = mRecordWithOutstandingPick;
         recordInfo.handlePickResult(this, data);
-        addRecord(recordInfo);
+
+        if (mRecords.contains(recordInfo)) {
+            // Editing an existing record. Just rebuild everything.
+            ViewGroup root = getContentRoot();
+            root.removeAllViews();
+            rebuildChildViews();
+
+        } else {
+            // Adding a new record.
+            addRecord(recordInfo);
+        }
         // TODO: handle errors in picking (e.g. the image is too big, etc).
 
         mRecordWithOutstandingPick = null;

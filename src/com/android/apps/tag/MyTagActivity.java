@@ -134,6 +134,9 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             case R.id.add_content_target:
                 showAddContentDialog();
                 break;
+
+            default:
+                super.onClick(target);
         }
     }
 

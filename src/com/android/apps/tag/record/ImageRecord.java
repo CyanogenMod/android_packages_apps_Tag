@@ -187,6 +187,7 @@ public class ImageRecord implements ParsedNdefRecord {
         public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
             View result = inflater.inflate(R.layout.tag_edit_image, parent, false);
             ((ImageView) result.findViewById(R.id.image)).setImageBitmap(getValueInternal());
+            result.setTag(this);
             return result;
         }
 
