@@ -30,6 +30,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -112,7 +113,9 @@ public class TagCanon extends ListActivity {
             this.title = title;
             try {
                 NdefMessage[] msgs = new NdefMessage[] { new NdefMessage(bytes) };
-                this.tag = new NdefTag(NdefTag.TARGET_TYPE_4, UID, 0, msgs);
+                this.tag = NdefTag.createMockNdefTag(UID, new String[] { Tag.TARGET_ISO_14443_4 },
+                        null, null, new String[] { NdefTag.TARGET_TYPE_4 },
+                        new NdefMessage[][] { msgs });
             } catch (Exception e) {
                 throw new RuntimeException("Failed to create tag description", e);
             }
@@ -121,7 +124,9 @@ public class TagCanon extends ListActivity {
         public TagDescription(String title, NdefMessage[] msgs) {
             this.title = title;
             try {
-                this.tag = new NdefTag(NdefTag.TARGET_TYPE_4, UID, 0, msgs);
+                this.tag = NdefTag.createMockNdefTag(UID, new String[] { Tag.TARGET_ISO_14443_4 },
+                        null, null, new String[] { NdefTag.TARGET_TYPE_4 },
+                        new NdefMessage[][] { msgs });
             } catch (Exception e) {
                 throw new RuntimeException("Failed to create tag description", e);
             }
