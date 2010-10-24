@@ -69,6 +69,7 @@ public abstract class RecordEditInfo implements Parcelable {
     /**
      * Builds a {@link View} that can edit an underlying record, or launch a picker to change
      * the value of the record.
+     * This {@code RecordEditInfo} will be set as the {@link View}'s tag.
      */
     public abstract View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent);
 

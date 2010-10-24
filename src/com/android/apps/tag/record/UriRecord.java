@@ -291,6 +291,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
             mEditText = (EditText) view.findViewById(R.id.value);
             mEditText.setText(mCurrentValue);
             mEditText.addTextChangedListener(this);
+            view.setTag(this);
             return view;
         }
 
