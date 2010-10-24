@@ -228,7 +228,8 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
             if (mCachedPhoto != null) {
                 ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(mCachedPhoto);
             } else {
-                // TODO: get placeholder image.
+                ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(
+                        activity.getResources().getDrawable(R.drawable.default_contact_photo));
             }
 
             if (mCachedName != null) {
