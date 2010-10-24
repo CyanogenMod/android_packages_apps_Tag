@@ -20,6 +20,7 @@ import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.VCardRecord;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -52,7 +53,8 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
 
     private static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
         ImageRecord.RECORD_TYPE,
-        UriRecord.RECORD_TYPE
+        UriRecord.RECORD_TYPE,
+        VCardRecord.RECORD_TYPE
     );
 
     /**
@@ -106,6 +108,8 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
             return ImageRecord.getAddView(this, mInflater, parent);
         } else if (UriRecord.RECORD_TYPE.equals(type)) {
             return UriRecord.getAddView(this, mInflater, parent);
+        } else if (VCardRecord.RECORD_TYPE.equals(type)) {
+            return VCardRecord.getAddView(this, mInflater, parent);
         }
         throw new IllegalArgumentException("Not a supported view type");
     }
