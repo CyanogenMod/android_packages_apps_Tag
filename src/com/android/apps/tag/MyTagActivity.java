@@ -47,6 +47,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
     private EditText mTitleView;
     private EditText mTextView;
+    private CheckBox mEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
         mTitleView = (EditText) findViewById(R.id.input_tag_title);
         mTextView = (EditText) findViewById(R.id.input_tag_text);
+        mEnabled = (CheckBox) findViewById(R.id.toggle_enabled_checkbox);
     }
 
     @Override
@@ -68,9 +70,11 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
         // Populate tag editor from stored tag info.
         NdefMessage localMessage = NfcAdapter.getDefaultAdapter().getLocalNdefMessage();
         if (localMessage == null) {
+            mEnabled.setChecked(false);
             return;
         }
 
+        mEnabled.setChecked(true);
         ParsedNdefMessage parsed = NdefMessageParser.parse(localMessage);
 
         // There is always a "Title" and a "Text" record for the local message, if it exists.
@@ -94,7 +98,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
         String text = mTextView.getText().toString();
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter();
 
-        if (title.isEmpty() && text.isEmpty()) {
+        if ((title.isEmpty() && text.isEmpty()) || !mEnabled.isChecked()) {
             nfc.setLocalNdefMessage(null);
             return;
         }
@@ -121,14 +125,15 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
     public void onClick(View target) {
         switch (target.getId()) {
             case R.id.toggle_enabled_target:
-                CheckBox checkbox = ((CheckBox) target.findViewById(R.id.toggle_enabled_checkbox));
-                boolean enabled = !checkbox.isChecked();
-                checkbox.setChecked(enabled);
+                boolean enabled = !mEnabled.isChecked();
+                mEnabled.setChecked(enabled);
 
                 // TODO: Persist to some store.
-                Toast.makeText(this,
-                        "Just " + (enabled ? "enabled" : "disabled") + " NFC MyTag",
-                        Toast.LENGTH_SHORT).show();
+                if (enabled) {
+                    onSave();
+                } else {
+                    NfcAdapter.getDefaultAdapter().setLocalNdefMessage(null);
+                }
                 break;
 
             case R.id.add_content_target:
