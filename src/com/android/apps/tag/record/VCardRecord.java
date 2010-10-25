@@ -31,6 +31,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NdefRecord;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
@@ -45,6 +46,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -125,9 +127,17 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
         private final Intent mIntent;
         private Uri mLookupUri;
 
+        private WeakReference<View> mActiveView = null;
+
         private String mCachedName = null;
         private Drawable mCachedPhoto = null;
         private byte[] mCachedValue = null;
+
+        private static final class CacheData {
+            public String mName;
+            public Drawable mPhoto;
+            public byte[] mVcard;
+        }
 
         public VCardRecordEditInfo(Intent intent) {
             super(RECORD_TYPE);
@@ -145,66 +155,88 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
             return mIntent;
         }
 
-        private void buildInternalValues(Context context) {
+        private void fetchValues(final Context context) {
             if (mCachedValue != null) {
+                bindView();
                 return;
             }
-            // TODO: do all this work asynchronously?
 
-            Cursor cursor = null;
-            long id;
-            String lookupKey = null;
-            try {
-                String[] projection = {
-                        ContactsContract.Contacts._ID,
-                        ContactsContract.Contacts.LOOKUP_KEY,
-                        ContactsContract.Contacts.DISPLAY_NAME
+            new AsyncTask<Uri, Void, CacheData>() {
+                @Override
+                protected CacheData doInBackground(Uri... params) {
+                    Cursor cursor = null;
+                    long id;
+                    String lookupKey = null;
+                    Uri lookupUri = params[0];
+                    CacheData result = new CacheData();
+                    try {
+                        String[] projection = {
+                                ContactsContract.Contacts._ID,
+                                ContactsContract.Contacts.LOOKUP_KEY,
+                                ContactsContract.Contacts.DISPLAY_NAME
                         };
-                cursor = context.getContentResolver().query(
-                        mLookupUri, projection, null, null, null);
-                cursor.moveToFirst();
-                id = cursor.getLong(0);
-                lookupKey = cursor.getString(1);
-                mCachedName = cursor.getString(2);
+                        cursor = context.getContentResolver().query(
+                                lookupUri, projection, null, null, null);
+                        cursor.moveToFirst();
+                        id = cursor.getLong(0);
+                        lookupKey = cursor.getString(1);
+                        result.mName = cursor.getString(2);
 
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                    cursor = null;
+                    } finally {
+                        if (cursor != null) {
+                            cursor.close();
+                            cursor = null;
+                        }
+                    }
+
+                    if (lookupKey == null) {
+                        // TODO: handle errors.
+                        return null;
+                    }
+
+                    // Note: the lookup key should already encoded.
+                    Uri vcardUri = Uri.withAppendedPath(
+                            ContactsContract.Contacts.CONTENT_VCARD_URI,
+                            lookupKey);
+
+                    AssetFileDescriptor descriptor;
+                    FileInputStream in = null;
+                    try {
+                        descriptor =  context.getContentResolver().openAssetFileDescriptor(
+                                vcardUri, "r");
+                        result.mVcard = new byte[(int) descriptor.getLength()];
+
+                        in = descriptor.createInputStream();
+                        in.read(result.mVcard);
+                        in.close();
+                    } catch (FileNotFoundException e) {
+                        return null;
+                    } catch (IOException e) {
+                        return null;
+                    }
+
+                    Uri contactUri = ContentUris.withAppendedId(
+                            ContactsContract.Contacts.CONTENT_URI, id);
+                    InputStream photoIn = ContactsContract.Contacts.openContactPhotoInputStream(
+                            context.getContentResolver(), contactUri);
+                    if (photoIn != null) {
+                        result.mPhoto = Drawable.createFromStream(photoIn, contactUri.toString());
+                    }
+                    return result;
                 }
-            }
 
-            if (lookupKey == null) {
-                // TODO: handle errors.
-                return;
-            }
+                @Override
+                protected void onPostExecute(CacheData data) {
+                    if (data == null) {
+                        return;
+                    }
 
-            // Note: the lookup key should already encoded.
-            Uri vcardUri = Uri.withAppendedPath(
-                    ContactsContract.Contacts.CONTENT_VCARD_URI,
-                    lookupKey);
-
-            AssetFileDescriptor descriptor;
-            FileInputStream in = null;
-            try {
-                descriptor =  context.getContentResolver().openAssetFileDescriptor(vcardUri, "r");
-                mCachedValue = new byte[(int) descriptor.getLength()];
-
-                in = descriptor.createInputStream();
-                in.read(mCachedValue);
-                in.close();
-            } catch (FileNotFoundException e) {
-                mCachedValue = null;
-            } catch (IOException e) {
-                mCachedValue = null;
-            }
-
-            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-            InputStream photoIn = ContactsContract.Contacts.openContactPhotoInputStream(
-                    context.getContentResolver(), contactUri);
-            if (photoIn != null) {
-                mCachedPhoto = Drawable.createFromStream(photoIn, contactUri.toString());
-            }
+                    mCachedName = data.mName;
+                    mCachedValue = data.mVcard;
+                    mCachedPhoto = data.mPhoto;
+                    bindView();
+                }
+            }.execute(mLookupUri);
         }
 
         @Override
@@ -220,22 +252,32 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
             mCachedPhoto = null;
         }
 
-        @Override
-        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-            buildInternalValues(activity);
+        private void bindView() {
+            View view = (mActiveView == null) ? null : mActiveView.get();
+            if (view == null) {
+                return;
+            }
 
-            View result = inflater.inflate(R.layout.tag_edit_vcard, parent, false);
             if (mCachedPhoto != null) {
-                ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(mCachedPhoto);
-            } else {
-                ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(
-                        activity.getResources().getDrawable(R.drawable.default_contact_photo));
+                ((ImageView) view.findViewById(R.id.photo)).setImageDrawable(mCachedPhoto);
             }
 
             if (mCachedName != null) {
-                ((TextView) result.findViewById(R.id.display_name)).setText(mCachedName);
+                ((TextView) view.findViewById(R.id.display_name)).setText(mCachedName);
             }
+        }
+
+        @Override
+        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+            View result = inflater.inflate(R.layout.tag_edit_vcard, parent, false);
+            mActiveView = new WeakReference<View>(result);
             result.setTag(this);
+
+            // Show default contact photo until the data loads.
+            ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(
+                    activity.getResources().getDrawable(R.drawable.default_contact_photo));
+
+            fetchValues(activity);
             return result;
         }
 
