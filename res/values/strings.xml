@@ -105,4 +105,13 @@
 
     <!-- String describing MIME content when it's shared with other application -->
     <string name="mime_display_name">Data from NFC Tag</string>
+
+    <!-- Title of a dialog presented to the user when they launch the Tag app with the NFC hardware disabled. -->
+    <string name="dialog_title_nfc_off">NFC turned off</string>
+
+    <!-- Dialog text telling the user they must turn on the NFC hardware to be able to scan tags -->
+    <string name="dialog_text_nfc_off">You must turn on NFC to scan new Tags.</string>
+
+    <!-- Button that takes the user to the settings panel so they can enable the NFC hardware -->
+    <string name="button_settings">Settings</string>
 </resources>
