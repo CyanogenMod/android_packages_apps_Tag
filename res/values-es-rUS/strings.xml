@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name" msgid="5128188288358721369">"Etiquetas"</string>
+    <string name="title_scanned_tag" msgid="4347835407095551450">"Nueva etiqueta recolectada"</string>
+    <string name="title_existing_tag" msgid="5656560272594190244">"Etiqueta"</string>
+    <string name="tab_tags" msgid="3254131516215269385">"Etiquetas"</string>
+    <string name="tab_starred" msgid="3892615665321783044">"Destacado"</string>
+    <string name="tab_my_tag" msgid="4194581094362833242">"Mi etiqueta"</string>
+    <string name="tag_unknown" msgid="2897956823877728783">"Tipo de etiqueta desconocido"</string>
+    <string name="tag_empty" msgid="3726529819932095782">"Etiqueta vacía"</string>
+    <string name="button_delete" msgid="8636971153075546776">"Eliminar"</string>
+    <string name="button_done" msgid="7048822758098308158">"Finalizado"</string>
+    <string name="cancel_help_text" msgid="365822201502077181">"Para no agregar la etiqueta a tu colección en este momento, presiona Finalizado."</string>
+    <string name="action_text" msgid="577417996159152923">"Texto <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_call" msgid="6226253647953184035">"Llamar a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="turn_on_my_tag" msgid="6562647393888581594">"Activar mi etiqueta"</string>
+    <string name="turn_on_my_tag_subtitle" msgid="1011044901986151563">"Mostrar el contenido de la etiqueta a otros dispositivos"</string>
+    <string name="add_content" msgid="8406651662147887724">"Agregar otro contenido…"</string>
+    <string name="tag_title" msgid="4734199420853998617">"Título"</string>
+    <string name="tag_text" msgid="522896767632155048">"Enviar texto"</string>
+    <string name="select_type" msgid="1845302736320827995">"Selecciona el tipo de etiqueta que agregarás."</string>
+    <string name="photo" msgid="986413518082114481">"Foto"</string>
+    <!-- no translation found for url (5939765162489949437) -->
+    <skip />
+    <string name="contact" msgid="8810195884019228695">"Contacto"</string>
+    <string name="location" msgid="2476366526591580807">"Ubicación"</string>
+    <string name="empty_tag_prompt" msgid="223147094383092767">"Esta etiqueta está vacía y está disponible para escritura."</string>
+    <string name="empty_tag_instructions" msgid="7637637289034694058">"Para agregar contenido, selecciona Escribir."</string>
+    <string name="write" msgid="6603572710467839029">"Escribir"</string>
+    <string name="cancel" msgid="2168193471147260328">"Cancelar"</string>
+    <string name="menu_help" msgid="2340550693525288105">"Ayuda"</string>
+    <!-- no translation found for import_vcard (4645060265415019350) -->
+    <skip />
+</resources>
