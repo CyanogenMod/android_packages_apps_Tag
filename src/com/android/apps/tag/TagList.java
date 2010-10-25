@@ -25,12 +25,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Browser;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +42,7 @@ import android.widget.TextView;
 /**
  * An {@link Activity} that displays a flat list of tags that can be "opened".
  */
-public class TagList extends ListActivity {
+public class TagList extends ListActivity implements OnClickListener {
     static final String TAG = "TagList";
 
     static final String EXTRA_SHOW_STARRED_ONLY = "show_starred_only";
@@ -49,6 +53,8 @@ public class TagList extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.tag_list);
 
         mShowStarredOnly = getIntent().getBooleanExtra(EXTRA_SHOW_STARRED_ONLY, false);
 
@@ -70,6 +76,28 @@ public class TagList extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id));
+        startActivity(intent);
+    }
+
+    public void setEmptyView() {
+        TextView empty = (TextView) findViewById(R.id.text);
+        View button = findViewById(R.id.more_info);
+
+        if (mShowStarredOnly) {
+            empty.setText(R.string.empty_list_starred);
+            button.setVisibility(View.GONE);
+        } else {
+            empty.setText(Html.fromHtml(getString(R.string.empty_list)));
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.more_info_url)));
+        intent.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
         startActivity(intent);
     }
 
@@ -107,6 +135,12 @@ public class TagList extends ListActivity {
 
         @Override
         protected void onPostExecute(Cursor cursor) {
+            if (cursor == null || cursor.getCount() == 0) {
+                // Don't setup the empty view until after the first load
+                // so the empty text doesn't flash when first loading the
+                // activity.
+                setEmptyView();
+            }
             mAdapter.changeCursor(cursor);
         }
     }
