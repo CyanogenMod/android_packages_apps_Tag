@@ -15,23 +15,13 @@
      limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="8dip"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<resources>
 
-    <TextView
-        android:text="@string/photo"
-        style="@style/record_title"
-    />
+    <style name="record_title">
+        <item name="android:layout_marginBottom">4dip</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    />
-</LinearLayout>
-
-
-
+</resources>
