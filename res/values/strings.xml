@@ -114,4 +114,16 @@
 
     <!-- Button that takes the user to the settings panel so they can enable the NFC hardware -->
     <string name="button_settings">Settings</string>
+
+    <!-- Text shown in the list view when there are no tags present -->
+    <string name="empty_list">You have not scanned any tags.</string>
+
+    <!-- Text shown in the list of starred tags when there are no starred tags present -->
+    <string name="empty_list_starred">You have no starred tags.</string>
+
+    <!-- Button taking the user to more information about tags and how they work -->
+    <string name="button_more_info">More info</string>
+
+    <!-- URL for the help topic that provides more info on tags -->
+    <string name="more_info_url" translatable="false">http://www.google.com/support/android/bin/topic.py?hl=en&amp;topic=27236</string>
 </resources>
