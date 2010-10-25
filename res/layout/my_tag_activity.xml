@@ -28,7 +28,7 @@ limitations under the License.
         <!-- The touch target for enabling/disabling "My Tag". -->
         <RelativeLayout
             android:id="@+id/toggle_enabled_target"
-            android:padding="4dip"
+            android:padding="8dip"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal"
@@ -38,7 +38,6 @@ limitations under the License.
             <!-- The checkbox simply presents state to the user - its parent
             is the real click target -->
             <CheckBox android:id="@+id/toggle_enabled_checkbox"
-                android:padding="12dip"
                 android:layout_marginRight="4dip"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -75,9 +74,8 @@ limitations under the License.
 
             <TextView
                 android:text="@string/tag_title"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                style="@style/record_title"
+            />
 
             <EditText
                 android:id="@+id/input_tag_title"
@@ -99,9 +97,8 @@ limitations under the License.
 
             <TextView
                 android:text="@string/tag_text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                style="@style/record_title"
+            />
 
             <EditText
                 android:id="@+id/input_tag_text"
@@ -125,7 +122,10 @@ limitations under the License.
             android:id="@+id/add_content_target"
             android:text="@string/add_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:padding="16dip"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"
+            android:paddingTop="16dip"
+            android:paddingBottom="16dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
