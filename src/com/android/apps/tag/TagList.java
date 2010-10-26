@@ -33,11 +33,13 @@ import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 /**
  * An {@link Activity} that displays a flat list of tags that can be "opened".
@@ -55,6 +57,7 @@ public class TagList extends ListActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tag_list);
+        findViewById(R.id.more_info).setVisibility(View.GONE);
 
         mShowStarredOnly = getIntent().getBooleanExtra(EXTRA_SHOW_STARRED_ONLY, false);
 
@@ -93,10 +96,19 @@ public class TagList extends ListActivity implements OnClickListener {
         }
     }
 
+    private static String replaceLocale(String str) {
+        // Substitute locale if present in string
+        if (str.contains("%locale%")) {
+            Locale locale = Locale.getDefault();
+            str = str.replace("%locale%", locale.getLanguage());
+        }
+        return str;
+    }
+
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.more_info_url)));
+        Uri uri = Uri.parse(replaceLocale(getString(R.string.more_info_url)));
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
         startActivity(intent);
     }
