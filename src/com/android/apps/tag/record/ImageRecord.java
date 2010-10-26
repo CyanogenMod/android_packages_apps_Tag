@@ -184,10 +184,13 @@ public class ImageRecord implements ParsedNdefRecord {
         }
 
         @Override
-        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-            View result = inflater.inflate(R.layout.tag_edit_image, parent, false);
+        public View getEditView(
+                Activity activity, LayoutInflater inflater,
+                ViewGroup parent, EditCallbacks callbacks) {
+            View result = buildEditView(
+                    activity, inflater, R.layout.tag_edit_image, parent, callbacks);
             ((ImageView) result.findViewById(R.id.image)).setImageBitmap(getValueInternal());
-            result.setTag(this);
+            result.setOnClickListener(this);
             return result;
         }
 
@@ -213,6 +216,15 @@ public class ImageRecord implements ParsedNdefRecord {
         @Override
         public int describeContents() {
             return 0;
+        }
+
+        @Override
+        public void onClick(View target) {
+            if (this == target.getTag()) {
+                mCallbacks.startPickForRecord(this, mIntent);
+            } else {
+                super.onClick(target);
+            }
         }
     }
 }

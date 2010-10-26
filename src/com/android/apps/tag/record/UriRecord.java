@@ -286,12 +286,13 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         }
 
         @Override
-        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-            View view = inflater.inflate(R.layout.tag_edit_url, parent, false);
+        public View getEditView(
+                Activity activity, LayoutInflater inflater,
+                ViewGroup parent, EditCallbacks callbacks) {
+            View view = buildEditView(activity, inflater, R.layout.tag_edit_url, parent, callbacks);
             mEditText = (EditText) view.findViewById(R.id.value);
             mEditText.setText(mCurrentValue);
             mEditText.addTextChangedListener(this);
-            view.setTag(this);
             return view;
         }
 

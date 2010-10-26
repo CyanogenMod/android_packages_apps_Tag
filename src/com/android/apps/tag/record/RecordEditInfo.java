@@ -16,6 +16,8 @@
 
 package com.android.apps.tag.record;
 
+import com.android.apps.tag.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,12 +31,19 @@ import android.view.ViewGroup;
 /**
  * A simple holder for information required for editing a {@code ParsedNdefRecord}.
  */
-public abstract class RecordEditInfo implements Parcelable {
+public abstract class RecordEditInfo implements Parcelable, View.OnClickListener {
+
+    public interface EditCallbacks {
+        void startPickForRecord(RecordEditInfo info, Intent intent);
+        void deleteRecord(RecordEditInfo info);
+    }
 
     /**
      * The record type being edited.
      */
     private final String mType;
+
+    protected EditCallbacks mCallbacks;
 
     public RecordEditInfo(String type) {
         mType = type;
@@ -71,10 +80,37 @@ public abstract class RecordEditInfo implements Parcelable {
      * the value of the record.
      * This {@code RecordEditInfo} will be set as the {@link View}'s tag.
      */
-    public abstract View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent);
+    public abstract View getEditView(
+            Activity activity, LayoutInflater inflater, ViewGroup parent, EditCallbacks callbacks);
+
+    /**
+     * Does the work of building a {@link View} and binding common controls.
+     */
+    protected View buildEditView(
+            Activity activity, LayoutInflater inflater, int resourceId,
+            ViewGroup parent, EditCallbacks callbacks) {
+        View result = inflater.inflate(resourceId, parent, false);
+        result.setTag(this);
+
+        View deleteButton = result.findViewById(R.id.delete);
+        if (deleteButton == null) {
+            throw new IllegalArgumentException("All record edit layouts must have a delete button");
+        } else {
+            deleteButton.setOnClickListener(this);
+        }
+        mCallbacks = callbacks;
+        return result;
+    }
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(mType);
+    }
+
+    @Override
+    public void onClick(View target) {
+        if (target.getId() == R.id.delete) {
+            mCallbacks.deleteRecord(this);
+        }
     }
 }

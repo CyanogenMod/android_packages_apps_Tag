@@ -268,10 +268,14 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
         }
 
         @Override
-        public View getEditView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-            View result = inflater.inflate(R.layout.tag_edit_vcard, parent, false);
+        public View getEditView(
+                Activity activity, LayoutInflater inflater,
+                ViewGroup parent, EditCallbacks callbacks) {
+            View result = buildEditView(
+                    activity, inflater, R.layout.tag_edit_vcard, parent, callbacks);
+
             mActiveView = new WeakReference<View>(result);
-            result.setTag(this);
+            result.setOnClickListener(this);
 
             // Show default contact photo until the data loads.
             ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(
@@ -303,6 +307,15 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
         @Override
         public int describeContents() {
             return 0;
+        }
+
+        @Override
+        public void onClick(View target) {
+            if (this == target.getTag()) {
+                mCallbacks.startPickForRecord(this, mIntent);
+            } else {
+                super.onClick(target);
+            }
         }
     }
 }
