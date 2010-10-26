@@ -108,20 +108,20 @@
         style="@android:style/ButtonBar"
     >
 
-        <Button android:id="@+id/button_delete"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:text="@string/button_delete"
-        />
-
         <Button android:id="@+id/button_done"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
             android:text="@string/button_done"
+        />
+
+        <Button android:id="@+id/button_delete"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="@string/button_delete"
         />
 
     </LinearLayout>

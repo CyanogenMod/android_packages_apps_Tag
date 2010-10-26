@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 /**
  * A representation of an NFC Forum "Smart Poster".
  */
-public class SmartPoster implements ParsedNdefRecord {
+public class SmartPoster extends ParsedNdefRecord {
 
     /**
      * NFC Forum Smart Poster Record Type Definition section 3.2.1.
@@ -155,7 +155,7 @@ public class SmartPoster implements ParsedNdefRecord {
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
         if (mTitleRecord != null) {
             // Build a container to hold the title and the URI
             LinearLayout container = new LinearLayout(activity);
@@ -163,13 +163,13 @@ public class SmartPoster implements ParsedNdefRecord {
             container.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-            container.addView(mTitleRecord.getView(activity, inflater, container));
+            container.addView(mTitleRecord.getView(activity, inflater, container, offset));
             inflater.inflate(R.layout.tag_divider, container);
-            container.addView(mUriRecord.getView(activity, inflater, container));
+            container.addView(mUriRecord.getView(activity, inflater, container, offset));
             return container;
         } else {
             // Just a URI, return a view for it directly
-            return mUriRecord.getView(activity, inflater, parent);
+            return mUriRecord.getView(activity, inflater, parent, offset);
         }
     }
 

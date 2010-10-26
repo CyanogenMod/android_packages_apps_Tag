@@ -22,6 +22,7 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.SmartPoster;
 import com.android.apps.tag.record.TextRecord;
 import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.VCardRecord;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -77,6 +78,8 @@ public class NdefMessageParser {
                 elements.add(SmartPoster.parse(record));
             } else if (ImageRecord.isImage(record)) {
                 elements.add(ImageRecord.parse(record));
+            } else if (VCardRecord.isVCard(record)) {
+                elements.add(VCardRecord.parse(record));
             } else if (MimeRecord.isMime(record)) {
                 elements.add(MimeRecord.parse(record));
             }

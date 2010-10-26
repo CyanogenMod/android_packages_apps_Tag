@@ -47,7 +47,7 @@ import java.util.List;
 /**
  * A NdefRecord corresponding to an image type.
  */
-public class ImageRecord implements ParsedNdefRecord {
+public class ImageRecord extends ParsedNdefRecord {
 
     public static final String RECORD_TYPE = "ImageRecord";
 
@@ -58,7 +58,7 @@ public class ImageRecord implements ParsedNdefRecord {
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
         ImageView image = (ImageView) inflater.inflate(R.layout.tag_image, parent, false);
         image.setImageBitmap(mBitmap);
         return image;
@@ -216,10 +216,12 @@ public class ImageRecord implements ParsedNdefRecord {
         @SuppressWarnings("unused")
         public static final Parcelable.Creator<ImageRecordEditInfo> CREATOR =
                 new Parcelable.Creator<ImageRecordEditInfo>() {
+            @Override
             public ImageRecordEditInfo createFromParcel(Parcel in) {
                 return new ImageRecordEditInfo(in);
             }
 
+            @Override
             public ImageRecordEditInfo[] newArray(int size) {
                 return new ImageRecordEditInfo[size];
             }

@@ -17,10 +17,10 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
-import com.android.apps.tag.record.RecordUtils.ClickInfo;
 import com.google.common.base.Preconditions;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +35,7 @@ import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,21 +53,25 @@ import java.util.List;
 /**
  * VCard Ndef Record object
  */
-public class VCardRecord implements ParsedNdefRecord, OnClickListener {
+public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
+    private static final String TAG = VCardRecord.class.getSimpleName();
 
     public static final String RECORD_TYPE = "vcard";
 
     private final byte[] mVCard;
 
-    private VCardRecord(byte[] content) {
+    private VCardRecord( byte[] content) {
         mVCard = content;
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
-        // TODO hookup a way to read the VCARD data from the content provider.
-        Intent intent = new Intent();
-//        intent.setType("text/x-vcard");
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
+
+        Uri uri = activity.getIntent().getData();
+        uri = Uri.withAppendedPath(uri, Integer.toString(offset));
+        uri = Uri.withAppendedPath(uri, "mime");
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         return RecordUtils.getViewsForIntent(activity, inflater, parent, this, intent,
                 activity.getString(R.string.import_vcard));
     }
@@ -109,9 +114,14 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
 
     @Override
     public void onClick(View view) {
-        ClickInfo info = (ClickInfo) view.getTag();
-        info.activity.startActivity(info.intent);
-        info.activity.finish();
+        RecordUtils.ClickInfo info = (RecordUtils.ClickInfo) view.getTag();
+        try {
+            info.activity.startActivity(info.intent);
+            info.activity.finish();
+        } catch (ActivityNotFoundException e) {
+            // The activity wansn't found for some reason. Don't crash, but don't do anything.
+            Log.e(TAG, "Failed to launch activity for intent " + info.intent, e);
+        }
     }
 
     public static boolean isVCard(NdefRecord record) {
@@ -295,10 +305,12 @@ public class VCardRecord implements ParsedNdefRecord, OnClickListener {
         @SuppressWarnings("unused")
         public static final Parcelable.Creator<VCardRecordEditInfo> CREATOR =
                 new Parcelable.Creator<VCardRecordEditInfo>() {
+            @Override
             public VCardRecordEditInfo createFromParcel(Parcel in) {
                 return new VCardRecordEditInfo(in);
             }
 
+            @Override
             public VCardRecordEditInfo[] newArray(int size) {
                 return new VCardRecordEditInfo[size];
             }
