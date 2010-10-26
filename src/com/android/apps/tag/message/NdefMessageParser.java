@@ -63,8 +63,12 @@ public class NdefMessageParser {
     }
 
     public static List<ParsedNdefRecord> getRecords(NdefMessage message) {
+        return getRecords(message.getRecords());
+    }
+
+    public static List<ParsedNdefRecord> getRecords(NdefRecord[] records) {
         List<ParsedNdefRecord> elements = new ArrayList<ParsedNdefRecord>();
-        for (NdefRecord record : message.getRecords()) {
+        for (NdefRecord record : records) {
             if (UriRecord.isUri(record)) {
                 elements.add(UriRecord.parse(record));
             } else if (TextRecord.isText(record)) {
