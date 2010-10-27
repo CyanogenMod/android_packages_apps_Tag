@@ -265,18 +265,21 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
                 NdefRecord.RTD_URI, EMPTY, payload);
     }
 
-    private static class UriRecordEditInfo extends RecordEditInfo implements TextWatcher {
+    public static class UriRecordEditInfo extends RecordEditInfo implements TextWatcher {
         private String mCurrentValue;
         private EditText mEditText;
 
-        public UriRecordEditInfo() {
+        public UriRecordEditInfo(String initialValue) {
             super(RECORD_TYPE);
-            mCurrentValue = "";
+            mCurrentValue = Preconditions.checkNotNull(initialValue);
+        }
+
+        public UriRecordEditInfo() {
+            this("");
         }
 
         protected UriRecordEditInfo(Parcel parcel) {
-            super(parcel);
-            mCurrentValue = parcel.readString();
+            this(parcel.readString());
         }
 
         @Override

@@ -60,7 +60,7 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     /**
      * Records contained in the current message being edited.
      */
-    private final ArrayList<RecordEditInfo> mRecords = Lists.newArrayList();
+    protected final ArrayList<RecordEditInfo> mRecords = Lists.newArrayList();
 
     /**
      * The container where the subviews for each record are housed.
@@ -143,7 +143,7 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
         root.addView(editView);
     }
 
-    private void rebuildChildViews() {
+    protected void rebuildChildViews() {
         ViewGroup root = getContentRoot();
         root.removeAllViews();
         for (RecordEditInfo editInfo : mRecords) {
