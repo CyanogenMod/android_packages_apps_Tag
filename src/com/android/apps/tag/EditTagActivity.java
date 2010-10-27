@@ -19,6 +19,7 @@ package com.android.apps.tag;
 import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
+import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
 import com.android.apps.tag.record.UriRecord;
 import com.android.apps.tag.record.VCardRecord;
 import com.google.common.base.Preconditions;
@@ -46,7 +47,7 @@ import java.util.Set;
  * {@link ParsedNdefRecord} types. Each type of {@link ParsedNdefRecord} can build views to
  * pick/select a new piece of content, or edit an existing content for the {@link NdefMessage}.
  */
-public abstract class EditTagActivity extends Activity implements OnClickListener {
+public abstract class EditTagActivity extends Activity implements OnClickListener, EditCallbacks {
 
     private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
     protected static final int DIALOG_ID_ADD_CONTENT = 0;
@@ -138,13 +139,9 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
      */
     public void addViewForRecord(RecordEditInfo editInfo) {
         ViewGroup root = getContentRoot();
-        View editView = editInfo.getEditView(this, mInflater, root);
+        View editView = editInfo.getEditView(this, mInflater, root, this);
         root.addView(mInflater.inflate(R.layout.tag_divider, root, false));
         root.addView(editView);
-
-        if (editInfo.getPickIntent() != null) {
-            editView.setOnClickListener(this);
-        }
     }
 
     private void rebuildChildViews() {
@@ -177,9 +174,7 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
         showDialog(DIALOG_ID_ADD_CONTENT);
     }
 
-    /**
-     * Fires an {@link Intent} to pick content for a record.
-     */
+    @Override
     public void startPickForRecord(RecordEditInfo editInfo, Intent intent) {
         mRecordWithOutstandingPick = editInfo;
         startActivityForResult(intent, 0);
@@ -205,12 +200,11 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     }
 
     @Override
-    public void onClick(View target) {
-        Object tag = target.getTag();
-        if ((tag != null) && (tag instanceof RecordEditInfo)) {
-            RecordEditInfo editInfo = (RecordEditInfo) tag;
-            startPickForRecord(editInfo, Preconditions.checkNotNull(editInfo.getPickIntent()));
-        }
+    public void deleteRecord(RecordEditInfo editInfo) {
+        mRecords.remove(editInfo);
+        ViewGroup root = getContentRoot();
+        root.removeAllViews();
+        rebuildChildViews();
     }
 
     @Override

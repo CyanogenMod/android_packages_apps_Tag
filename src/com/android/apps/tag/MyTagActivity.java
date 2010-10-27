@@ -32,8 +32,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -139,9 +137,6 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             case R.id.add_content_target:
                 showAddContentDialog();
                 break;
-
-            default:
-                super.onClick(target);
         }
     }
 
