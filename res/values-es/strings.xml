@@ -29,7 +29,7 @@
     <string name="cancel_help_text" msgid="365822201502077181">"Para no añadir esta etiqueta a tu colección, pulsa \"Listo\"."</string>
     <string name="action_text" msgid="577417996159152923">"Enviar SMS al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Llamar al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="turn_on_my_tag" msgid="6562647393888581594">"Activar \"Mis etiquetas\""</string>
+    <string name="turn_on_my_tag" msgid="6562647393888581594">"Activar mi etiqueta"</string>
     <string name="turn_on_my_tag_subtitle" msgid="1011044901986151563">"Mostrar el contenido de la etiqueta a otros dispositivos"</string>
     <string name="add_content" msgid="8406651662147887724">"Añadir más contenido…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Título"</string>
