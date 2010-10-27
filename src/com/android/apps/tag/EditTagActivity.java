@@ -36,7 +36,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -146,6 +145,7 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
 
     private void rebuildChildViews() {
         ViewGroup root = getContentRoot();
+        root.removeAllViews();
         for (RecordEditInfo editInfo : mRecords) {
             addViewForRecord(editInfo);
         }
@@ -202,24 +202,32 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     @Override
     public void deleteRecord(RecordEditInfo editInfo) {
         mRecords.remove(editInfo);
-        ViewGroup root = getContentRoot();
-        root.removeAllViews();
         rebuildChildViews();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((resultCode != RESULT_OK) || (data == null) || (mRecordWithOutstandingPick == null)) {
+        if ((resultCode != RESULT_OK) || (data == null)) {
+            mRecordWithOutstandingPick = null;
             return;
         }
+        if (mRecordWithOutstandingPick == null) {
+            return;
+        }
+
         // Handles results from another Activity that picked content to write to a tag.
         RecordEditInfo recordInfo = mRecordWithOutstandingPick;
-        recordInfo.handlePickResult(this, data);
+        try {
+            recordInfo.handlePickResult(this, data);
+        } catch (IllegalArgumentException ex) {
+            if (mRecords.contains(recordInfo)) {
+                deleteRecord(recordInfo);
+            }
+            return;
+        }
 
         if (mRecords.contains(recordInfo)) {
             // Editing an existing record. Just rebuild everything.
-            ViewGroup root = getContentRoot();
-            root.removeAllViews();
             rebuildChildViews();
 
         } else {

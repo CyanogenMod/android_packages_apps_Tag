@@ -76,6 +76,9 @@
     <!-- Title for image type for writing content to a tag -->
     <string name="photo">Photo</string>
 
+    <!-- Error message when a selected photo could not be loaded -->
+    <string name="bad_photo">Could not open image.</string>
+
     <!-- Title for URL type for writing content to a tag -->
     <string name="url">URL</string>
 

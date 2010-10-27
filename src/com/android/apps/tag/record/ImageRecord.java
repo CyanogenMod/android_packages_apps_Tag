@@ -28,6 +28,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -38,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -166,10 +168,20 @@ public class ImageRecord implements ParsedNdefRecord {
         public void handlePickResult(Context context, Intent data) {
             Cursor cursor = null;
             mCachedValue = null;
+
             try {
                 String[] projection = { MediaStore.Images.Media.DATA, OpenableColumns.SIZE };
                 cursor = context.getContentResolver().query(
                         data.getData(), projection, null, null, null);
+
+                if (cursor == null) {
+                    Toast.makeText(
+                            context,
+                            context.getResources().getString(R.string.bad_photo),
+                            Toast.LENGTH_LONG).show();
+                    throw new IllegalArgumentException("Selected image could not be loaded");
+                }
+
                 cursor.moveToFirst();
                 int size = cursor.getInt(1);
                 mCurrentPath = cursor.getString(0);
