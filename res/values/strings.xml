@@ -47,7 +47,7 @@
     <string name="button_done">Done</string>
 
     <!-- String describing that if the user doesn't want to save a tag they should touch the button labeled Cancel. The text for the cancel button comes from the system string button_done. -->
-    <string name="cancel_help_text">To skip adding this tag to your collection, press Done</string>
+    <string name="cancel_help_text">To skip adding this tag to your collection, touch Done</string>
 
     <!-- String displayed for an action to send a text message to a phone number -->
     <string name="action_text">Text <xliff:g id="phone_number">%s</xliff:g></string>
@@ -56,13 +56,13 @@
     <string name="action_call">Call <xliff:g id="phone_number">%s</xliff:g></string>
 
     <!-- Label for control which enables/disables the "my tag" feature. -->
-    <string name="turn_on_my_tag">Turn on my tag</string>
+    <string name="turn_on_my_tag">Share my tag</string>
 
     <!-- Description for the control which enables/disables the "my tag" feature. -->
-    <string name="turn_on_my_tag_subtitle">Display tag content to other devices</string>
+    <string name="turn_on_my_tag_subtitle">Allow others to read my tag </string>
 
     <!-- Label for control which adds content to the "my tag" feature. -->
-    <string name="add_content">Add other content&#8230;</string>
+    <string name="add_content">More&#8230;</string>
 
     <!-- Heading for the title of the content in the "my tag" feature. -->
     <string name="tag_title">Title</string>
@@ -86,13 +86,13 @@
     <string name="location">Location</string>
 
     <!-- Message for prompting on an empty tag -->
-    <string name="empty_tag_prompt">This tag is empty and writeable.</string>
+    <string name="empty_tag_prompt">This tag is empty.</string>
 
     <!-- Instructions for a prompt on an empty tag -->
-    <string name="empty_tag_instructions">To add content, select "Write".</string>
+    <string name="empty_tag_instructions">Touch <b>Write tag</b> to add content.</string>
 
     <!-- Affirmative button label for writing to an empty tag -->
-    <string name="write">Write</string>
+    <string name="write">Write tag</string>
 
     <!-- Negative button label for writing to an empty tag -->
     <string name="cancel">Cancel</string>
@@ -104,13 +104,13 @@
     <string name="import_vcard">Import vCard</string>
 
     <!-- String describing MIME content when it's shared with other application -->
-    <string name="mime_display_name">Data from NFC Tag</string>
+    <string name="mime_display_name">Data from NFC tag</string>
 
     <!-- Title of a dialog presented to the user when they launch the Tag app with the NFC hardware disabled. -->
     <string name="dialog_title_nfc_off">NFC turned off</string>
 
     <!-- Dialog text telling the user they must turn on the NFC hardware to be able to scan tags -->
-    <string name="dialog_text_nfc_off">You must turn on NFC to scan new Tags.</string>
+    <string name="dialog_text_nfc_off">You must turn on NFC to scan tags.</string>
 
     <!-- Button that takes the user to the settings panel so they can enable the NFC hardware -->
     <string name="button_settings">Settings</string>
