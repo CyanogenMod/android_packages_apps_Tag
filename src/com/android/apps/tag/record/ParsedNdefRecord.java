@@ -24,10 +24,11 @@ import android.view.ViewGroup;
 /**
  * TODO: come up with a better name.
  */
-public interface ParsedNdefRecord {
+public abstract class ParsedNdefRecord {
 
     /**
      * Returns a view to display this record.
      */
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent);
+    public abstract View getView(Activity activity, LayoutInflater inflater, ViewGroup parent,
+            int offset);
 }

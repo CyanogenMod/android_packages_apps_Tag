@@ -17,6 +17,7 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
+import com.google.common.collect.Lists;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -24,6 +25,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -60,9 +64,10 @@ public class RecordUtils {
             ViewGroup parent, OnClickListener listener, Intent intent, String description) {
         // Lookup which packages can handle this intent.
         PackageManager pm = activity.getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        int flags = PackageManager.GET_RESOLVED_FILTER | PackageManager.MATCH_DEFAULT_ONLY;
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, flags);
         int numActivities = activities.size();
-        if (numActivities == 0) {
+        if (numActivities == 0 || (numActivities == 1 && !activities.get(0).activityInfo.enabled)) {
             TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
             text.setText(description);
             return text;
@@ -76,13 +81,26 @@ public class RecordUtils {
             container.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
+            Collections.sort(activities, new Comparator<ResolveInfo>() {
+                @Override
+                public int compare(ResolveInfo l, ResolveInfo r) {
+                    return l.preferredOrder - r.preferredOrder;
+                }
+            });
+
             // Create an entry for each activity that can handle the URI
             for (ResolveInfo resolveInfo : activities) {
+                if (!resolveInfo.activityInfo.enabled) {
+                    continue;
+                }
+
                 if (container.getChildCount() > 0) {
                     inflater.inflate(R.layout.tag_divider, container);
                 }
+                // Clone the intent for each view so they can each have their own components setup
+                Intent clone = new Intent(intent);
                 container.addView(buildActivityView(activity, resolveInfo, pm, inflater, container,
-                        listener, intent, description));
+                        listener, clone, description));
             }
             return container;
         }
@@ -95,6 +113,8 @@ public class RecordUtils {
             LayoutInflater inflater, ViewGroup parent, OnClickListener listener, Intent intent,
             String defaultText) {
         ActivityInfo activityInfo = resolveInfo.activityInfo;
+
+        intent.setAction(resolveInfo.filter.getAction(0));
         intent.setComponent(new ComponentName(activityInfo.packageName, activityInfo.name));
 
         View item = inflater.inflate(R.layout.tag_uri, parent, false);

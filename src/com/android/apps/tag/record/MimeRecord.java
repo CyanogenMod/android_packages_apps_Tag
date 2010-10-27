@@ -33,7 +33,7 @@ import java.util.Arrays;
 /**
  * A {@link ParsedNdefRecord} corresponding to a MIME object.
  */
-public class MimeRecord implements ParsedNdefRecord {
+public class MimeRecord extends ParsedNdefRecord {
     private final String mType;
     private final byte[] mContent;
 
@@ -54,7 +54,7 @@ public class MimeRecord implements ParsedNdefRecord {
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
         text.setText(mType);
         return text;

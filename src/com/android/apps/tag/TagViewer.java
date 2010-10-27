@@ -22,7 +22,10 @@ import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -34,6 +37,7 @@ import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +51,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * An {@link Activity} which handles a broadcast of a new tag that the device just discovered.
@@ -75,10 +80,7 @@ public class TagViewer extends Activity implements OnClickListener {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_DIM_BEHIND
         );
 
         setContentView(R.layout.tag_viewer);
@@ -99,19 +101,50 @@ public class TagViewer extends Activity implements OnClickListener {
         resolveIntent(getIntent());
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        if (mTagUri == null) {
+            // Someone how the user was fast enough to navigate away from the activity
+            // before the service was able to save the tag and call back onto this
+            // activity with the pending intent. Since we don't know what do display here
+            // just finish the activity.
+            finish();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        PendingIntent pending = getPendingIntent();
+        pending.cancel();
+    }
+
+    private PendingIntent getPendingIntent() {
+        Intent callback = new Intent();
+        callback.setClass(this, TagViewer.class);
+        callback.setAction(Intent.ACTION_VIEW);
+        callback.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
+
+        return PendingIntent.getActivity(this, 0, callback, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+
     void resolveIntent(Intent intent) {
         // Parse the intent
         String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_TAG_DISCOVERED.equals(action)) {
-            // Get the messages from the tag
-            //TODO check if the tag is writable and offer to write it?
+            // When a tag is discovered we send it to the service to be save. We
+            // include a PendingIntent for the service to call back onto. This
+            // will cause this activity to be restarted with onNewIntent(). At
+            // that time we read it from the database and view it.
+
             NdefTag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            NdefMessage[] msgs = tag.getNdefMessages();
-            if (msgs == null || msgs.length == 0) {
-                Log.e(TAG, "No NDEF messages");
-                finish();
-                return;
-            }
+
+            PendingIntent pending = getPendingIntent();
+
+            TagService.saveTag(this, tag, false, pending);
 
             // Setup the views
             setTitle(R.string.title_scanned_tag);
@@ -136,11 +169,6 @@ public class TagViewer extends Activity implements OnClickListener {
                 Log.w(TAG, "Sound creation failed for tag discovery");
             }
 
-            // Mark tag that were just scanned for saving
-            mTag = tag;
-
-            // Build the views for the tag
-            buildTagViews(msgs);
         } else if (Intent.ACTION_VIEW.equals(action)) {
             // Setup the views
             setTitle(R.string.title_existing_tag);
@@ -174,21 +202,19 @@ public class TagViewer extends Activity implements OnClickListener {
         ParsedNdefMessage parsedMsg = NdefMessageParser.parse(msgs[0]);
 
         // Build views for all of the sub records
-        for (ParsedNdefRecord record : parsedMsg.getRecords()) {
-            content.addView(record.getView(this, inflater, content));
+        List<ParsedNdefRecord> records = parsedMsg.getRecords();
+        final int size = records.size();
+
+        for (int i = 0 ; i < size ; i++) {
+            ParsedNdefRecord record = records.get(i);
+            content.addView(record.getView(this, inflater, content, i));
             inflater.inflate(R.layout.tag_divider, content, true);
         }
     }
 
     @Override
     public void onNewIntent(Intent intent) {
-        // If we get a new scan while looking at a tag just save off the old tag...
-        if (mTag != null) {
-            TagService.saveTag(this, mTag, mStar.isChecked());
-            mTag = null;
-        }
-
-        // ... and show the new one.
+        setIntent(intent);
         resolveIntent(intent);
     }
 
@@ -215,15 +241,6 @@ public class TagViewer extends Activity implements OnClickListener {
             if (mTagUri != null) {
                 TagService.setStar(this, mTagUri, mStar.isChecked());
             }
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mTag != null) {
-            TagService.saveTag(this, mTag, mStar.isChecked());
-            mTag = null;
         }
     }
 

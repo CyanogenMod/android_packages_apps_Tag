@@ -47,6 +47,7 @@
 
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTop"
         >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_TAG_DISCOVERED"/>
@@ -68,7 +69,6 @@
             android:authorities="com.android.apps.tag"
             android:syncable="false"
             android:multiprocess="false"
-            android:exported="false"
         />
 
     </application>

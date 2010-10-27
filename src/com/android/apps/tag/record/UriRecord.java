@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * A parsed record containing a Uri.
  */
-public class UriRecord implements ParsedNdefRecord, OnClickListener {
+public class UriRecord extends ParsedNdefRecord implements OnClickListener {
     private static final String TAG = "UriRecord";
 
     public static final String RECORD_TYPE = "UriRecord";
@@ -140,7 +140,7 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
         return RecordUtils.getViewsForIntent(activity, inflater, parent, this, getIntentForUri(),
                 getPrettyUriString(activity));
     }
@@ -205,7 +205,8 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
     /** Parse and absolute URI record */
     private static UriRecord parseAbsolute(NdefRecord record) {
         byte[] payload = record.getPayload();
-        return new UriRecord(Uri.parse(new String(payload, Charset.forName("UTF-8"))));
+        Uri uri = Uri.parse(new String(payload, Charset.forName("UTF-8")));
+        return new UriRecord(uri);
     }
 
     /** Parse an well known URI record */
@@ -226,7 +227,9 @@ public class UriRecord implements ParsedNdefRecord, OnClickListener {
         byte[] fullUri = Bytes.concat(
                 prefix.getBytes(Charset.forName("UTF-8")),
                 Arrays.copyOfRange(payload, 1, payload.length));
-        return new UriRecord(Uri.parse(new String(fullUri, Charset.forName("UTF-8"))));
+
+        Uri uri = Uri.parse(new String(fullUri, Charset.forName("UTF-8")));
+        return new UriRecord(uri);
     }
 
     public static boolean isUri(NdefRecord record) {

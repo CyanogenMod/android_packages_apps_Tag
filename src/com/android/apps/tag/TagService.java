@@ -16,22 +16,18 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.provider.TagContract;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
-import com.android.apps.tag.provider.TagContract.NdefTags;
 
 import android.app.IntentService;
-import android.content.ContentProviderOperation;
+import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.OperationApplicationException;
 import android.net.Uri;
+import android.nfc.NdefMessage;
 import android.nfc.NdefTag;
-import android.os.RemoteException;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 public class TagService extends IntentService {
     private static final String TAG = "TagService";
@@ -41,6 +37,9 @@ public class TagService extends IntentService {
     private static final String EXTRA_STAR_URI = "set_star";
     private static final String EXTRA_UNSTAR_URI = "remove_star";
     private static final String EXTRA_STARRED = "starred";
+    private static final String EXTRA_PENDING_INTENT = "pending";
+
+    private static final boolean DEBUG = true;
 
     public TagService() {
         super("SaveTagService");
@@ -49,17 +48,26 @@ public class TagService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
         if (intent.hasExtra(EXTRA_SAVE_TAG)) {
+
             NdefTag tag = (NdefTag) intent.getParcelableExtra(EXTRA_SAVE_TAG);
-            boolean starred = intent.getBooleanExtra(EXTRA_STARRED, false);
-            ArrayList<ContentProviderOperation> ops = NdefTags.toContentProviderOperations(this,
-                    tag, starred);
-            try {
-                getContentResolver().applyBatch(TagContract.AUTHORITY, ops);
-            } catch (OperationApplicationException e) {
-                Log.e(TAG, "Failed to save tag", e);
-            } catch (RemoteException e) {
-                Log.e(TAG, "Failed to save tag", e);
+            NdefMessage msg = tag.getNdefMessages()[0];
+
+            ContentValues values = NdefMessages.toValues(this, msg, false, System.currentTimeMillis());
+            Uri uri = getContentResolver().insert(NdefMessages.CONTENT_URI, values);
+
+            if (intent.hasExtra(EXTRA_PENDING_INTENT)) {
+                Intent result = new Intent();
+                result.setData(uri);
+
+                PendingIntent pending = (PendingIntent) intent.getParcelableExtra(EXTRA_PENDING_INTENT);
+
+                try {
+                    pending.send(this, 0, result);
+                } catch (CanceledException e) {
+                    if (DEBUG) Log.d(TAG, "Pending intent was canceled.");
+                }
             }
+
             return;
         }
 
@@ -84,10 +92,11 @@ public class TagService extends IntentService {
         }
     }
 
-    public static void saveTag(Context context, NdefTag tag, boolean starred) {
+    public static void saveTag(Context context, NdefTag tag, boolean starred, PendingIntent pending) {
         Intent intent = new Intent(context, TagService.class);
         intent.putExtra(TagService.EXTRA_SAVE_TAG, tag);
         intent.putExtra(TagService.EXTRA_STARRED, starred);
+        intent.putExtra(TagService.EXTRA_PENDING_INTENT, pending);
         context.startService(intent);
     }
 

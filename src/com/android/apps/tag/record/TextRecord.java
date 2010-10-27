@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * An NFC Text Record
  */
-public class TextRecord implements ParsedNdefRecord {
+public class TextRecord extends ParsedNdefRecord {
 
     /** ISO/IANA language code */
     private final String mLanguageCode;
@@ -48,7 +48,7 @@ public class TextRecord implements ParsedNdefRecord {
     }
 
     @Override
-    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent) {
+    public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset) {
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
         text.setText(mText);
         return text;
