@@ -23,6 +23,7 @@ import com.android.apps.tag.record.TextRecord;
 import com.google.common.collect.Lists;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -65,27 +66,39 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
     public void onStart() {
         super.onStart();
 
-        // Populate tag editor from stored tag info.
         NdefMessage localMessage = NfcAdapter.getDefaultAdapter().getLocalNdefMessage();
-        if (localMessage == null) {
+
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            if (localMessage != null) {
+                // TODO: prompt user for confirmation about wiping their old tag.
+            }
+
+            String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
+            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+
+            mEnabled.setChecked(true);
+            mTitleView.setText((title == null) ? "" : title);
+            mTextView.setText((text == null) ? "" : text);
+
+        } else if (localMessage == null) {
             mEnabled.setChecked(false);
             return;
+
+        } else {
+            // Locally stored message.
+            ParsedNdefMessage parsed = NdefMessageParser.parse(localMessage);
+            List<ParsedNdefRecord> records = parsed.getRecords();
+
+            // There is always a "Title" and a "Text" record for My Tag.
+            if (records.size() < 2) {
+                Log.w(LOG_TAG, "Local record not in expected format");
+                return;
+            }
+            mEnabled.setChecked(true);
+            mTitleView.setText(((TextRecord) records.get(0)).getText());
+            mTextView.setText(((TextRecord) records.get(1)).getText());
         }
 
-        mEnabled.setChecked(true);
-        ParsedNdefMessage parsed = NdefMessageParser.parse(localMessage);
-
-        // There is always a "Title" and a "Text" record for the local message, if it exists.
-        List<ParsedNdefRecord> records = parsed.getRecords();
-        if (records.size() < 2) {
-            Log.w(LOG_TAG, "Local record not in expected format");
-            return;
-        }
-        TextRecord titleRecord = (TextRecord) records.get(0);
-        TextRecord textRecord = (TextRecord) records.get(1);
-
-        mTitleView.setText(titleRecord.getText());
-        mTextView.setText(textRecord.getText());
     }
 
     /**
