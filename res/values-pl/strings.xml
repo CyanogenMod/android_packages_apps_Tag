@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_name (5128188288358721369) -->
+    <skip />
+    <!-- no translation found for title_scanned_tag (4347835407095551450) -->
+    <skip />
+    <!-- no translation found for title_existing_tag (5656560272594190244) -->
+    <skip />
+    <!-- no translation found for tab_tags (3254131516215269385) -->
+    <skip />
+    <!-- no translation found for tab_starred (3892615665321783044) -->
+    <skip />
+    <!-- no translation found for tab_my_tag (4194581094362833242) -->
+    <skip />
+    <!-- no translation found for tag_unknown (2897956823877728783) -->
+    <skip />
+    <!-- no translation found for tag_empty (3726529819932095782) -->
+    <skip />
+    <!-- no translation found for button_delete (8636971153075546776) -->
+    <skip />
+    <!-- no translation found for button_done (7048822758098308158) -->
+    <skip />
+    <!-- no translation found for cancel_help_text (2582335582642459522) -->
+    <skip />
+    <!-- no translation found for action_text (577417996159152923) -->
+    <skip />
+    <!-- no translation found for action_call (6226253647953184035) -->
+    <skip />
+    <!-- no translation found for turn_on_my_tag (6584695906051991524) -->
+    <skip />
+    <!-- no translation found for turn_on_my_tag_subtitle (4174686056239752759) -->
+    <skip />
+    <!-- no translation found for add_content (6592975981339055673) -->
+    <skip />
+    <!-- no translation found for tag_title (4734199420853998617) -->
+    <skip />
+    <!-- no translation found for tag_text (522896767632155048) -->
+    <skip />
+    <!-- no translation found for select_type (1845302736320827995) -->
+    <skip />
+    <!-- no translation found for photo (986413518082114481) -->
+    <skip />
+    <!-- no translation found for bad_photo (1601260684495341633) -->
+    <skip />
+    <string name="url" msgid="5939765162489949437">"Adres URL"</string>
+    <!-- no translation found for contact (8810195884019228695) -->
+    <skip />
+    <!-- no translation found for location (2476366526591580807) -->
+    <skip />
+    <!-- no translation found for empty_tag_prompt (4206394383309956030) -->
+    <skip />
+    <!-- no translation found for empty_tag_instructions (9156733538909958916) -->
+    <skip />
+    <!-- no translation found for write (4957259770248890625) -->
+    <skip />
+    <!-- no translation found for cancel (2168193471147260328) -->
+    <skip />
+    <!-- no translation found for menu_help (2340550693525288105) -->
+    <skip />
+    <string name="import_vcard" msgid="4645060265415019350">"Importuj kartę vCard"</string>
+    <!-- no translation found for mime_display_name (5926357152623764485) -->
+    <skip />
+    <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
+    <skip />
+    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
+    <skip />
+    <!-- no translation found for button_settings (6909066985958159920) -->
+    <skip />
+    <!-- no translation found for empty_list (1306390399412856676) -->
+    <skip />
+    <!-- no translation found for empty_list_starred (7185947321271594216) -->
+    <skip />
+    <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+</resources>

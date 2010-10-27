@@ -26,25 +26,39 @@
     <string name="tag_empty" msgid="3726529819932095782">"Etiqueta vacía"</string>
     <string name="button_delete" msgid="8636971153075546776">"Eliminar"</string>
     <string name="button_done" msgid="7048822758098308158">"Finalizado"</string>
-    <string name="cancel_help_text" msgid="365822201502077181">"Para no agregar la etiqueta a tu colección en este momento, presiona Finalizado."</string>
+    <!-- outdated translation 365822201502077181 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Para no agregar la etiqueta a tu colección en este momento, presiona Finalizado."</string>
     <string name="action_text" msgid="577417996159152923">"Texto <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Llamar a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="turn_on_my_tag" msgid="6562647393888581594">"Activar mi etiqueta"</string>
-    <string name="turn_on_my_tag_subtitle" msgid="1011044901986151563">"Mostrar el contenido de la etiqueta a otros dispositivos"</string>
-    <string name="add_content" msgid="8406651662147887724">"Agregar otro contenido…"</string>
+    <!-- outdated translation 6562647393888581594 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Activar mi etiqueta"</string>
+    <!-- outdated translation 1011044901986151563 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Mostrar el contenido de la etiqueta a otros dispositivos"</string>
+    <!-- outdated translation 8406651662147887724 -->     <string name="add_content" msgid="6592975981339055673">"Agregar otro contenido…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Título"</string>
     <string name="tag_text" msgid="522896767632155048">"Enviar texto"</string>
     <string name="select_type" msgid="1845302736320827995">"Selecciona el tipo de etiqueta que agregarás."</string>
     <string name="photo" msgid="986413518082114481">"Foto"</string>
-    <!-- no translation found for url (5939765162489949437) -->
+    <!-- no translation found for bad_photo (1601260684495341633) -->
     <skip />
+    <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Contacto"</string>
     <string name="location" msgid="2476366526591580807">"Ubicación"</string>
-    <string name="empty_tag_prompt" msgid="223147094383092767">"Esta etiqueta está vacía y está disponible para escritura."</string>
-    <string name="empty_tag_instructions" msgid="7637637289034694058">"Para agregar contenido, selecciona Escribir."</string>
-    <string name="write" msgid="6603572710467839029">"Escribir"</string>
+    <!-- outdated translation 223147094383092767 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Esta etiqueta está vacía y está disponible para escritura."</string>
+    <!-- outdated translation 7637637289034694058 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Para agregar contenido, selecciona Escribir."</string>
+    <!-- outdated translation 6603572710467839029 -->     <string name="write" msgid="4957259770248890625">"Escribir"</string>
     <string name="cancel" msgid="2168193471147260328">"Cancelar"</string>
     <string name="menu_help" msgid="2340550693525288105">"Ayuda"</string>
-    <!-- no translation found for import_vcard (4645060265415019350) -->
+    <string name="import_vcard" msgid="4645060265415019350">"Importar la vCard"</string>
+    <!-- no translation found for mime_display_name (5926357152623764485) -->
+    <skip />
+    <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
+    <skip />
+    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
+    <skip />
+    <!-- no translation found for button_settings (6909066985958159920) -->
+    <skip />
+    <!-- no translation found for empty_list (1306390399412856676) -->
+    <skip />
+    <!-- no translation found for empty_list_starred (7185947321271594216) -->
+    <skip />
+    <!-- no translation found for button_more_info (574247138099633767) -->
     <skip />
 </resources>
