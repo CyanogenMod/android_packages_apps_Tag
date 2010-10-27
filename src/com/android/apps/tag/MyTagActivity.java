@@ -20,6 +20,7 @@ import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.TextRecord;
+import com.android.apps.tag.record.UriRecord;
 import com.google.common.collect.Lists;
 
 import android.app.Activity;
@@ -33,6 +34,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -73,12 +77,9 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
                 // TODO: prompt user for confirmation about wiping their old tag.
             }
 
-            String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
-            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-
-            mEnabled.setChecked(true);
-            mTitleView.setText((title == null) ? "" : title);
-            mTextView.setText((text == null) ? "" : text);
+            if (buildFromIntent(getIntent())) {
+                return;
+            }
 
         } else if (localMessage == null) {
             mEnabled.setChecked(false);
@@ -99,6 +100,41 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             mTextView.setText(((TextRecord) records.get(1)).getText());
         }
 
+    }
+
+    /**
+     * Populates the editor from extras in a given {@link Intent}
+     * @param intent the {@link Intent} to parse.
+     * @return whether or not the {@link Intent} could be handled.
+     */
+    private boolean buildFromIntent(final Intent intent) {
+        String type = intent.getType();
+
+        if ("text/plain".equals(type)) {
+            String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
+            mTitleView.setText((title == null) ? "" : title);
+
+            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+
+            try {
+                URL parsed = new URL(text);
+
+                // Valid URL.
+                mTextView.setText("");
+                mRecords.add(new UriRecord.UriRecordEditInfo(text));
+                rebuildChildViews();
+
+            } catch (MalformedURLException ex) {
+                // Ignore. Just treat as plain text.
+                mTextView.setText((text == null) ? "" : text);
+            }
+
+            mEnabled.setChecked(true);
+            onSave();
+            return true;
+        }
+        // TODO: handle vcards and images.
+        return false;
     }
 
     /**
