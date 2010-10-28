@@ -16,7 +16,10 @@
 
 package com.android.apps.tag.message;
 
+import com.android.apps.tag.R;
 import com.android.apps.tag.record.ParsedNdefRecord;
+import com.android.apps.tag.record.SmartPoster;
+import com.android.apps.tag.record.UriRecord;
 import com.google.common.collect.ImmutableList;
 
 import android.content.Context;
@@ -27,7 +30,7 @@ import java.util.Locale;
 /**
  * A parsed version of an {@link android.nfc.NdefMessage}
  */
-public abstract class ParsedNdefMessage {
+public class ParsedNdefMessage {
 
     private List<ParsedNdefRecord> mRecords;
 
@@ -46,9 +49,34 @@ public abstract class ParsedNdefMessage {
      * Returns the snippet information associated with the NdefMessage
      * most appropriate for the given {@code locale}.
      */
-    public abstract String getSnippet(Context context, Locale locale);
+    public String getSnippet(Context context, Locale locale) {
+        if (mRecords.isEmpty()) {
+            return context.getString(R.string.tag_empty);
+        }
 
-    // TODO: Determine if this is the best place for holding whether
-    // the user has starred this parsed message.
-    public abstract boolean isStarred();
+        ParsedNdefRecord record = mRecords.get(0);
+
+        if (record instanceof UriRecord) {
+            // Be a good citizen of the Smart Poster spec.
+
+            int smartPosterRecord = -1;
+
+            final int size = mRecords.size();
+            for (int i = 1 ; i < size ; i++) {
+
+                ParsedNdefRecord r = mRecords.get(i);
+
+                if (r instanceof SmartPoster) {
+                    smartPosterRecord = i;
+                    break;
+                }
+            }
+
+            if (smartPosterRecord != -1) {
+                record = mRecords.get(smartPosterRecord);
+            }
+        }
+
+        return record.getSnippet(context, locale);
+    }
 }

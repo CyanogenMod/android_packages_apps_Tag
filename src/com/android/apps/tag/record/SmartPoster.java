@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 
 import android.app.Activity;
+import android.content.Context;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -34,6 +35,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
@@ -172,6 +174,16 @@ public class SmartPoster extends ParsedNdefRecord {
             return mUriRecord.getView(activity, inflater, parent, offset);
         }
     }
+
+    @Override
+    public String getSnippet(Context context, Locale locale) {
+        if (mTitleRecord != null) {
+            return mTitleRecord.getText();
+        }
+
+        return mUriRecord.getPrettyUriString(context);
+    }
+
 
     /**
      * Returns the first element of {@code elements} which is an instance

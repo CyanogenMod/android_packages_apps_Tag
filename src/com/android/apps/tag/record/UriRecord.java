@@ -17,6 +17,8 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
+import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
+import com.android.apps.tag.record.UriRecord.UriRecordEditInfo;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -48,6 +50,7 @@ import android.widget.TextView;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A parsed record containing a Uri.
@@ -148,6 +151,11 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
     @Override
     public RecordEditInfo getEditInfo(Activity host) {
         return new UriRecordEditInfo(mUri.toString());
+    }
+
+    @Override
+    public String getSnippet(Context context, Locale locale) {
+        return getPrettyUriString(context);
     }
 
     @Override
