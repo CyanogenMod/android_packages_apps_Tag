@@ -52,6 +52,12 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
     private EditText mTextView;
     private CheckBox mEnabled;
 
+    /**
+     * Whether or not data was already parsed from an {@link Intent}. This happens when the user
+     * shares data via the My tag feature.
+     */
+    private boolean mParsedIntent = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +78,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
         NdefMessage localMessage = NfcAdapter.getDefaultAdapter().getLocalNdefMessage();
 
-        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        if (Intent.ACTION_SEND.equals(getIntent().getAction()) && !mParsedIntent) {
             if (localMessage != null) {
                 // TODO: prompt user for confirmation about wiping their old tag.
             }
@@ -80,6 +86,8 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             if (buildFromIntent(getIntent())) {
                 return;
             }
+
+            mParsedIntent = true;
 
         } else if (localMessage == null) {
             mEnabled.setChecked(false);
@@ -98,8 +106,9 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             mEnabled.setChecked(true);
             mTitleView.setText(((TextRecord) records.get(0)).getText());
             mTextView.setText(((TextRecord) records.get(1)).getText());
-        }
 
+            // TODO: rebuild the records!
+        }
     }
 
     /**
