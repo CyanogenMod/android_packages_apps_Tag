@@ -22,10 +22,12 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.TextRecord;
 import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.VCardRecord;
 import com.google.common.collect.Lists;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -146,8 +148,18 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             mEnabled.setChecked(true);
             onSave();
             return true;
+
+        } else if ("text/x-vcard".equals(type)) {
+            Uri stream = (Uri) getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
+            if (stream != null) {
+                RecordEditInfo editInfo = VCardRecord.editInfoForUri(stream);
+                if (editInfo != null) {
+                    mRecords.add(editInfo);
+                    rebuildChildViews();
+                }
+            }
         }
-        // TODO: handle vcards and images.
+        // TODO: handle images.
         return false;
     }
 

@@ -209,6 +209,17 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         }
     }
 
+    public static VCardRecordEditInfo editInfoForUri(Uri vcardUri) {
+        if (vcardUri.toString().startsWith(
+                ContactsContract.Contacts.CONTENT_VCARD_URI.toString())) {
+            String lookupKey = vcardUri.getLastPathSegment();
+            Uri lookupUri = Uri.withAppendedPath(
+                    ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+            return new VCardRecord.VCardRecordEditInfo(lookupUri);
+        }
+        return null;
+    }
+
     private static class VCardRecordEditInfo extends RecordEditInfo {
         /**
          * The lookup {@link Uri} if the data is to be pulled from the contact provider.
