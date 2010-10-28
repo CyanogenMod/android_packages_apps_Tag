@@ -146,6 +146,11 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
     }
 
     @Override
+    public RecordEditInfo getEditInfo(Activity host) {
+        return new UriRecordEditInfo(mUri.toString());
+    }
+
+    @Override
     public void onClick(View view) {
         RecordUtils.ClickInfo info = (RecordUtils.ClickInfo) view.getTag();
         try {

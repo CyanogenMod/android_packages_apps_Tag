@@ -19,6 +19,7 @@ package com.android.apps.tag;
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.record.ParsedNdefRecord;
+import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.TextRecord;
 import com.android.apps.tag.record.UriRecord;
 import com.google.common.collect.Lists;
@@ -70,12 +71,11 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
         mTitleView = (EditText) findViewById(R.id.input_tag_title);
         mTextView = (EditText) findViewById(R.id.input_tag_text);
         mEnabled = (CheckBox) findViewById(R.id.toggle_enabled_checkbox);
+
+        populateEditor();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
+    private void populateEditor() {
         NdefMessage localMessage = NfcAdapter.getDefaultAdapter().getLocalNdefMessage();
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction()) && !mParsedIntent) {
@@ -107,7 +107,14 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             mTitleView.setText(((TextRecord) records.get(0)).getText());
             mTextView.setText(((TextRecord) records.get(1)).getText());
 
-            // TODO: rebuild the records!
+            mRecords.clear();
+            for (int i = 2, len = records.size(); i < len; i++) {
+                RecordEditInfo editInfo = records.get(i).getEditInfo(this);
+                if (editInfo != null) {
+                    addRecord(editInfo);
+                }
+            }
+            rebuildChildViews();
         }
     }
 

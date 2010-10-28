@@ -31,4 +31,12 @@ public abstract class ParsedNdefRecord {
      */
     public abstract View getView(Activity activity, LayoutInflater inflater, ViewGroup parent,
             int offset);
+
+    // TODO: make abstract.
+    /**
+     * Returns a {@link RecordEditInfo} for editing this record.
+     */
+    public RecordEditInfo getEditInfo(Activity activity) {
+        return null;
+    }
 }
