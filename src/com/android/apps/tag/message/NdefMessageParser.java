@@ -40,27 +40,7 @@ public class NdefMessageParser {
 
     /** Parse an NdefMessage */
     public static ParsedNdefMessage parse(NdefMessage message) {
-        List<ParsedNdefRecord> elements = getRecords(message);
-
-        if (elements.isEmpty()) {
-            return new EmptyMessage();
-        }
-
-        ParsedNdefRecord first = elements.get(0);
-
-        if (elements.size() == 1) {
-            if (first instanceof SmartPoster) {
-                return new SmartPosterMessage((SmartPoster) first, elements);
-            }
-            if (first instanceof TextRecord) {
-                return new TextMessage((TextRecord) first, elements);
-            }
-            if (first instanceof UriRecord) {
-                return new UriMessage((UriRecord) first, elements);
-            }
-        }
-
-        return new UnknownMessage(elements);
+        return new ParsedNdefMessage(getRecords(message));
     }
 
     public static List<ParsedNdefRecord> getRecords(NdefMessage message) {

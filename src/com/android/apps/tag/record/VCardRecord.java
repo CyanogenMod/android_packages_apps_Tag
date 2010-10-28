@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * VCard Ndef Record object
@@ -74,6 +75,11 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         return RecordUtils.getViewsForIntent(activity, inflater, parent, this, intent,
                 activity.getString(R.string.import_vcard));
+    }
+
+    @Override
+    public String getSnippet(Context context, Locale locale) {
+        return "text/x-vCard";
     }
 
     /**

@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.primitives.Bytes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.nfc.NdefRecord;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,11 @@ public class TextRecord extends ParsedNdefRecord {
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
         text.setText(mText);
         return text;
+    }
+
+    @Override
+    public String getSnippet(Context context, Locale locale) {
+        return mText;
     }
 
     public String getText() {

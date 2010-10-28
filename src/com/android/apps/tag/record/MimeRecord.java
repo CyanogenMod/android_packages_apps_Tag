@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
 import android.app.Activity;
+import android.content.Context;
 import android.nfc.NdefRecord;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * A {@link ParsedNdefRecord} corresponding to a MIME object.
@@ -58,6 +60,11 @@ public class MimeRecord extends ParsedNdefRecord {
         TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
         text.setText(mType);
         return text;
+    }
+
+    @Override
+    public String getSnippet(Context context, Locale locale) {
+        return mType;
     }
 
     public static MimeRecord parse(NdefRecord record) {

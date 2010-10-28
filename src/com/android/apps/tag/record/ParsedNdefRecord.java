@@ -16,10 +16,15 @@
 
 package com.android.apps.tag.record;
 
+import com.android.apps.tag.R;
+
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Locale;
 
 /**
  * TODO: come up with a better name.
@@ -38,5 +43,9 @@ public abstract class ParsedNdefRecord {
      */
     public RecordEditInfo getEditInfo(Activity activity) {
         return null;
+    }
+
+    public String getSnippet(Context context, Locale locale) {
+        return context.getString(R.string.tag_unknown);
     }
 }
