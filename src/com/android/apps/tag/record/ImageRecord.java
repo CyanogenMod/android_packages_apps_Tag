@@ -28,7 +28,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -64,6 +63,18 @@ public class ImageRecord extends ParsedNdefRecord {
         return image;
     }
 
+    @Override
+    public RecordEditInfo getEditInfo(Activity host) {
+        return new ImageRecordEditInfo(mBitmap);
+    }
+
+    private static Intent getPickImageIntent() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        return intent;
+    }
+
     /**
      * Returns a view in a list of record types for adding new records to a message.
      */
@@ -72,10 +83,7 @@ public class ImageRecord extends ParsedNdefRecord {
                 R.layout.tag_add_record_list_item, parent, false);
 
         // Determine which Activity can retrieve images.
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-
+        Intent intent = getPickImageIntent();
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
         if (activities.isEmpty()) {
@@ -86,7 +94,7 @@ public class ImageRecord extends ParsedNdefRecord {
         ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
         ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.photo));
 
-        root.setTag(new ImageRecordEditInfo(intent));
+        root.setTag(new ImageRecordEditInfo());
         return root;
     }
 
@@ -120,27 +128,49 @@ public class ImageRecord extends ParsedNdefRecord {
     }
 
     private static class ImageRecordEditInfo extends RecordEditInfo {
-        private final Intent mIntent;
+        /**
+         * The path on the device where we can load the image. If this is set, the value will be
+         * lazily loaded from the path.
+         */
         private String mCurrentPath;
+
+        /**
+         * The actual current value of the image for the record.
+         */
         private Bitmap mCachedValue;
 
+        /**
+         * Pixel size to crop loaded images to.
+         */
         public static final int MAX_IMAGE_SIZE = 128;
 
-        public ImageRecordEditInfo(Intent intent) {
+        public ImageRecordEditInfo() {
             super(RECORD_TYPE);
-            mIntent = intent;
             mCurrentPath = "";
+            mCachedValue = null;
+        }
+
+        public ImageRecordEditInfo(String path) {
+            super(RECORD_TYPE);
+            mCurrentPath = path;
+            mCachedValue = null;
+        }
+
+        public ImageRecordEditInfo(Bitmap value) {
+            super(RECORD_TYPE);
+            mCurrentPath = "";
+            mCachedValue = value;
         }
 
         protected ImageRecordEditInfo(Parcel parcel) {
             super(parcel);
-            mIntent = parcel.readParcelable(null);
             mCurrentPath = parcel.readString();
+            mCachedValue = parcel.readParcelable(null);
         }
 
         @Override
         public Intent getPickIntent() {
-            return mIntent;
+            return getPickImageIntent();
         }
 
         @Override
@@ -209,8 +239,8 @@ public class ImageRecord extends ParsedNdefRecord {
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeParcelable(mIntent, flags);
             out.writeString(mCurrentPath);
+            out.writeParcelable(mCachedValue, flags);
         }
 
         @SuppressWarnings("unused")
@@ -235,7 +265,7 @@ public class ImageRecord extends ParsedNdefRecord {
         @Override
         public void onClick(View target) {
             if (this == target.getTag()) {
-                mCallbacks.startPickForRecord(this, mIntent);
+                mCallbacks.startPickForRecord(this, getPickIntent());
             } else {
                 super.onClick(target);
             }

@@ -60,7 +60,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
 
     private final byte[] mVCard;
 
-    private VCardRecord( byte[] content) {
+    private VCardRecord(byte[] content) {
         mVCard = content;
     }
 
