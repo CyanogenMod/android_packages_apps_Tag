@@ -17,6 +17,13 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
+import com.android.vcard.VCardConfig;
+import com.android.vcard.VCardEntry;
+import com.android.vcard.VCardEntryConstructor;
+import com.android.vcard.VCardEntryHandler;
+import com.android.vcard.VCardParser;
+import com.android.vcard.VCardParser_V21;
+import com.android.vcard.exception.VCardException;
 import com.google.common.base.Preconditions;
 
 import android.app.Activity;
@@ -28,6 +35,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NdefRecord;
@@ -43,6 +52,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -72,6 +82,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         uri = Uri.withAppendedPath(uri, Integer.toString(offset));
         uri = Uri.withAppendedPath(uri, "mime");
 
+        // TODO: parse content and display something nicer.
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         return RecordUtils.getViewsForIntent(activity, inflater, parent, this, intent,
                 activity.getString(R.string.import_vcard));
@@ -82,6 +93,12 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         return "text/x-vCard";
     }
 
+    private static Intent getPickContactIntent() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        return intent;
+    }
+
     /**
      * Returns a view in a list of record types for adding new records to a message.
      */
@@ -89,9 +106,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         ViewGroup root = (ViewGroup) inflater.inflate(
                 R.layout.tag_add_record_list_item, parent, false);
 
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-
+        Intent intent = getPickContactIntent();
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
         if (activities.isEmpty()) {
@@ -102,8 +117,13 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
         ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.contact));
 
-        root.setTag(new VCardRecordEditInfo(intent));
+        root.setTag(new VCardRecordEditInfo());
         return root;
+    }
+
+    @Override
+    public RecordEditInfo getEditInfo(Activity host) {
+        return new VCardRecordEditInfo(mVCard);
     }
 
     public static VCardRecord parse(NdefRecord record) {
@@ -140,39 +160,96 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
     }
 
     private static class VCardRecordEditInfo extends RecordEditInfo {
-        private final Intent mIntent;
+        /**
+         * The lookup {@link Uri} if the data is to be pulled from the contact provider.
+         * Can be null if {@link #mValue} is filled in by other means externally.
+         * @see ContactsContract
+         */
         private Uri mLookupUri;
+
+        /**
+         * The raw VCard bytes.
+         */
+        private byte[] mValue;
 
         private WeakReference<View> mActiveView = null;
 
         private String mCachedName = null;
         private Drawable mCachedPhoto = null;
-        private byte[] mCachedValue = null;
 
+        /**
+         * Data
+         */
         private static final class CacheData {
             public String mName;
             public Drawable mPhoto;
             public byte[] mVcard;
         }
 
-        public VCardRecordEditInfo(Intent intent) {
+        public VCardRecordEditInfo() {
             super(RECORD_TYPE);
-            mIntent = intent;
+        }
+
+        public VCardRecordEditInfo(Uri lookupUri) {
+            super(RECORD_TYPE);
+            mLookupUri = lookupUri;
+            mValue = null;
+        }
+
+        public VCardRecordEditInfo(byte[] value) {
+            super(RECORD_TYPE);
+            mLookupUri = null;
+            mValue = Preconditions.checkNotNull(value);
         }
 
         protected VCardRecordEditInfo(Parcel parcel) {
-            super(parcel);
-            mIntent = parcel.readParcelable(null);
+            super(RECORD_TYPE);
             mLookupUri = parcel.readParcelable(null);
+            int valueLength = parcel.readInt();
+            if (valueLength > 0) {
+                mValue = new byte[valueLength];
+                parcel.readByteArray(mValue);
+            }
         }
 
         @Override
         public Intent getPickIntent() {
-            return mIntent;
+            return getPickContactIntent();
         }
 
-        private void fetchValues(final Context context) {
-            if (mCachedValue != null) {
+        private void extractValuesFromBytes(final Context context) {
+            byte[] bytes = Preconditions.checkNotNull(mValue);
+
+            final int type = VCardConfig.VCARD_TYPE_UNKNOWN;
+            final VCardEntryConstructor constructor = new VCardEntryConstructor(type);
+            constructor.addEntryHandler(new VCardEntryHandler() {
+                @Override public void onStart() {}
+                @Override public void onEnd() {}
+
+                @Override
+                public void onEntryCreated(VCardEntry entry) {
+                    mCachedName = entry.getDisplayName();
+                    List<VCardEntry.PhotoData> photoList = entry.getPhotoList();
+                    if (!photoList.isEmpty()) {
+                        byte[] rawData = photoList.get(0).photoBytes;
+                        mCachedPhoto = new BitmapDrawable(
+                                context.getResources(),
+                                BitmapFactory.decodeByteArray(rawData, 0, rawData.length));
+                    }
+                    bindView();
+                }
+            });
+
+            VCardParser parser = new VCardParser_V21(type);
+            try {
+                parser.parse(new ByteArrayInputStream(bytes), constructor);
+            } catch (IOException e) {
+            } catch (VCardException e) {
+            }
+        }
+
+        private void fetchValuesFromProvider(final Context context) {
+            if (mValue != null) {
                 bindView();
                 return;
             }
@@ -248,7 +325,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
                     }
 
                     mCachedName = data.mName;
-                    mCachedValue = data.mVcard;
+                    mValue = data.mVcard;
                     mCachedPhoto = data.mPhoto;
                     bindView();
                 }
@@ -257,13 +334,13 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
 
         @Override
         public NdefRecord getValue() {
-            return (mCachedValue == null) ? null : VCardRecord.newVCardRecord(mCachedValue);
+            return (mValue == null) ? null : VCardRecord.newVCardRecord(mValue);
         }
 
         @Override
         public void handlePickResult(Context context, Intent data) {
             mLookupUri = data.getData();
-            mCachedValue = null;
+            mValue = null;
             mCachedName = null;
             mCachedPhoto = null;
         }
@@ -297,15 +374,20 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
             ((ImageView) result.findViewById(R.id.photo)).setImageDrawable(
                     activity.getResources().getDrawable(R.drawable.default_contact_photo));
 
-            fetchValues(activity);
+            if (mLookupUri != null) {
+                fetchValuesFromProvider(activity);
+            } else if (mValue != null) {
+                extractValuesFromBytes(activity);
+            }
             return result;
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeParcelable(mIntent, flags);
             out.writeParcelable(mLookupUri, flags);
+            out.writeInt(mValue == null ? 0 : mValue.length);
+            out.writeByteArray(mValue);
         }
 
         @SuppressWarnings("unused")
@@ -330,7 +412,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         @Override
         public void onClick(View target) {
             if (this == target.getTag()) {
-                mCallbacks.startPickForRecord(this, mIntent);
+                mCallbacks.startPickForRecord(this, getPickIntent());
             } else {
                 super.onClick(target);
             }
