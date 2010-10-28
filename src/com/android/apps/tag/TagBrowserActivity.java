@@ -28,6 +28,8 @@ import android.content.res.Resources;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 
 /**
@@ -116,5 +118,23 @@ public class TagBrowserActivity extends TabActivity implements DialogInterface.O
             startActivity(intent);
         }
         dialog.dismiss();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help:
+                HelpUtils.openHelp(this);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

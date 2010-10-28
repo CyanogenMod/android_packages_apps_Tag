@@ -25,10 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Browser;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -38,8 +36,6 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.Locale;
 
 /**
  * An {@link Activity} that displays a flat list of tags that can be "opened".
@@ -96,21 +92,9 @@ public class TagList extends ListActivity implements OnClickListener {
         }
     }
 
-    private static String replaceLocale(String str) {
-        // Substitute locale if present in string
-        if (str.contains("%locale%")) {
-            Locale locale = Locale.getDefault();
-            str = str.replace("%locale%", locale.getLanguage());
-        }
-        return str;
-    }
-
     @Override
     public void onClick(View view) {
-        Uri uri = Uri.parse(replaceLocale(getString(R.string.more_info_url)));
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
-        startActivity(intent);
+        HelpUtils.openHelp(this);
     }
 
     interface TagQuery {
