@@ -53,12 +53,7 @@ public class TagProvider extends SQLiteContentProvider implements TagProviderPip
     private static final int NDEF_MESSAGES = 1000;
     private static final int NDEF_MESSAGES_ID = 1001;
 
-    private static final int NDEF_RECORDS = 2000;
-    private static final int NDEF_RECORDS_ID = 2001;
     private static final int NDEF_MESSAGES_ID_MIME = 2002;
-
-    private static final int NDEF_TAGS = 3000;
-    private static final int NDEF_TAGS_ID = 3001;
 
     private static final UriMatcher MATCHER;
 

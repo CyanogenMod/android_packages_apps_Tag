@@ -159,8 +159,9 @@ public class TagCanon extends ListActivity {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         TagDescription description = mAdapter.getItem(position);
-        Intent intent = new Intent(NfcAdapter.ACTION_NDEF_TAG_DISCOVERED);
+        Intent intent = new Intent(NfcAdapter.ACTION_TAG_DISCOVERED);
         intent.putExtra(NfcAdapter.EXTRA_TAG, description.tag);
+        intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, description.tag.getNdefMessages());
         startActivity(intent);
     }
 }

@@ -23,9 +23,7 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -33,11 +31,12 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -134,17 +133,27 @@ public class TagViewer extends Activity implements OnClickListener {
     void resolveIntent(Intent intent) {
         // Parse the intent
         String action = intent.getAction();
-        if (NfcAdapter.ACTION_NDEF_TAG_DISCOVERED.equals(action)) {
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
             // When a tag is discovered we send it to the service to be save. We
             // include a PendingIntent for the service to call back onto. This
             // will cause this activity to be restarted with onNewIntent(). At
             // that time we read it from the database and view it.
-
-            NdefTag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-            PendingIntent pending = getPendingIntent();
-
-            TagService.saveTag(this, tag, false, pending);
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] msgs;
+            if (rawMsgs != null) {
+                // stupid java, need to cast one-by-one
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i=0; i<rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
+                }
+            } else {
+                // Unknown tag type
+                byte[] empty = new byte[] {};
+                NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
+                NdefMessage msg = new NdefMessage(new NdefRecord[] { record });
+                msgs = new NdefMessage[] { msg };
+            }
+            TagService.saveMessages(this, msgs, false, getPendingIntent());
 
             // Setup the views
             setTitle(R.string.title_scanned_tag);

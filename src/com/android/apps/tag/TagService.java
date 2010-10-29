@@ -26,13 +26,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NdefMessage;
-import android.nfc.NdefTag;
+import android.os.Parcelable;
 import android.util.Log;
 
 public class TagService extends IntentService {
     private static final String TAG = "TagService";
 
-    private static final String EXTRA_SAVE_TAG = "tag";
+    private static final String EXTRA_SAVE_MSGS = "msgs";
     private static final String EXTRA_DELETE_URI = "delete";
     private static final String EXTRA_STAR_URI = "set_star";
     private static final String EXTRA_UNSTAR_URI = "remove_star";
@@ -47,10 +47,9 @@ public class TagService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        if (intent.hasExtra(EXTRA_SAVE_TAG)) {
-
-            NdefTag tag = (NdefTag) intent.getParcelableExtra(EXTRA_SAVE_TAG);
-            NdefMessage msg = tag.getNdefMessages()[0];
+        if (intent.hasExtra(EXTRA_SAVE_MSGS)) {
+            Parcelable[] msgs = intent.getParcelableArrayExtra(EXTRA_SAVE_MSGS);
+            NdefMessage msg = (NdefMessage) msgs[0];
 
             ContentValues values = NdefMessages.toValues(this, msg, false, System.currentTimeMillis());
             Uri uri = getContentResolver().insert(NdefMessages.CONTENT_URI, values);
@@ -92,9 +91,10 @@ public class TagService extends IntentService {
         }
     }
 
-    public static void saveTag(Context context, NdefTag tag, boolean starred, PendingIntent pending) {
+    public static void saveMessages(Context context, NdefMessage[] msgs, boolean starred,
+            PendingIntent pending) {
         Intent intent = new Intent(context, TagService.class);
-        intent.putExtra(TagService.EXTRA_SAVE_TAG, tag);
+        intent.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
         intent.putExtra(TagService.EXTRA_STARRED, starred);
         intent.putExtra(TagService.EXTRA_PENDING_INTENT, pending);
         context.startService(intent);
