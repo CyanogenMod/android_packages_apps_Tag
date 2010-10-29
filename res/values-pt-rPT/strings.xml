@@ -36,17 +36,17 @@
     <skip />
     <!-- no translation found for button_done (7048822758098308158) -->
     <skip />
-    <!-- no translation found for cancel_help_text (365822201502077181) -->
+    <!-- no translation found for cancel_help_text (2582335582642459522) -->
     <skip />
     <!-- no translation found for action_text (577417996159152923) -->
     <skip />
     <!-- no translation found for action_call (6226253647953184035) -->
     <skip />
-    <!-- no translation found for turn_on_my_tag (6562647393888581594) -->
+    <!-- no translation found for turn_on_my_tag (6584695906051991524) -->
     <skip />
-    <!-- no translation found for turn_on_my_tag_subtitle (1011044901986151563) -->
+    <!-- no translation found for turn_on_my_tag_subtitle (4174686056239752759) -->
     <skip />
-    <!-- no translation found for add_content (8406651662147887724) -->
+    <!-- no translation found for add_content (6592975981339055673) -->
     <skip />
     <!-- no translation found for tag_title (4734199420853998617) -->
     <skip />
@@ -56,27 +56,29 @@
     <skip />
     <!-- no translation found for photo (986413518082114481) -->
     <skip />
+    <!-- no translation found for bad_photo (1601260684495341633) -->
+    <skip />
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <!-- no translation found for contact (8810195884019228695) -->
     <skip />
     <!-- no translation found for location (2476366526591580807) -->
     <skip />
-    <!-- no translation found for empty_tag_prompt (223147094383092767) -->
+    <!-- no translation found for empty_tag_prompt (4206394383309956030) -->
     <skip />
-    <!-- no translation found for empty_tag_instructions (7637637289034694058) -->
+    <!-- no translation found for empty_tag_instructions (9156733538909958916) -->
     <skip />
-    <!-- no translation found for write (6603572710467839029) -->
+    <!-- no translation found for write (4957259770248890625) -->
     <skip />
     <!-- no translation found for cancel (2168193471147260328) -->
     <skip />
     <!-- no translation found for menu_help (2340550693525288105) -->
     <skip />
     <string name="import_vcard" msgid="4645060265415019350">"Importar vCard"</string>
-    <!-- no translation found for mime_display_name (4166598540304385325) -->
+    <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
     <skip />
-    <!-- no translation found for dialog_text_nfc_off (8349356775994598054) -->
+    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
     <skip />
     <!-- no translation found for button_settings (6909066985958159920) -->
     <skip />
