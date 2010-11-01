@@ -38,6 +38,7 @@ import android.widget.TabHost;
 public class TagBrowserActivity extends TabActivity implements DialogInterface.OnClickListener {
 
     private static final int DIALOG_NFC_OFF = 1;
+    private static final String PREF_KEY_SHOW_INTRO = "showintro";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,13 @@ public class TagBrowserActivity extends TabActivity implements DialogInterface.O
                 .setIndicator(getText(R.string.tab_my_tag),
                         res.getDrawable(R.drawable.ic_tab_my_tag))
                 .setContent(new Intent().setClass(this, MyTagActivity.class)));
+
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        if (!preferences.getBoolean(PREF_KEY_SHOW_INTRO, false)) {
+            preferences.edit().putBoolean(PREF_KEY_SHOW_INTRO, true).apply();
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
