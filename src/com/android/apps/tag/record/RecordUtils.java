@@ -81,13 +81,6 @@ public class RecordUtils {
             container.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-            Collections.sort(activities, new Comparator<ResolveInfo>() {
-                @Override
-                public int compare(ResolveInfo l, ResolveInfo r) {
-                    return l.preferredOrder - r.preferredOrder;
-                }
-            });
-
             // Create an entry for each activity that can handle the URI
             for (ResolveInfo resolveInfo : activities) {
                 if (!resolveInfo.activityInfo.enabled) {
