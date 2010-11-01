@@ -23,7 +23,10 @@ import com.android.vcard.VCardEntryConstructor;
 import com.android.vcard.VCardEntryHandler;
 import com.android.vcard.VCardParser;
 import com.android.vcard.VCardParser_V21;
+import com.android.vcard.VCardParser_V30;
 import com.android.vcard.exception.VCardException;
+import com.android.vcard.exception.VCardVersionException;
+import com.google.android.collect.Lists;
 import com.google.common.base.Preconditions;
 
 import android.app.Activity;
@@ -44,6 +47,7 @@ import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +62,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,13 +89,58 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
 
         // TODO: parse content and display something nicer.
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        return RecordUtils.getViewsForIntent(activity, inflater, parent, this, intent,
-                activity.getString(R.string.import_vcard));
+
+        CharSequence template = activity.getResources().getText(R.string.import_vcard);
+        String description = TextUtils.expandTemplate(template, getDisplayName()).toString();
+
+        return RecordUtils.getViewsForIntent(activity, inflater, parent, this, intent, description);
     }
 
     @Override
     public String getSnippet(Context context, Locale locale) {
-        return "text/x-vCard";
+        CharSequence template = context.getResources().getText(R.string.vcard_title);
+        return TextUtils.expandTemplate(template, getDisplayName()).toString();
+    }
+
+    public String getDisplayName() {
+        try {
+            ArrayList<VCardEntry> entries = getVCardEntries();
+            if (!entries.isEmpty()) {
+                return entries.get(0).getDisplayName();
+            }
+        } catch (Exception e) {
+        }
+
+        return "vCard";
+    }
+
+    private ArrayList<VCardEntry> getVCardEntries() throws IOException, VCardException {
+        final ArrayList<VCardEntry> entries = Lists.newArrayList();
+
+        final int type = VCardConfig.VCARD_TYPE_UNKNOWN;
+        final VCardEntryConstructor constructor = new VCardEntryConstructor(type);
+        constructor.addEntryHandler(new VCardEntryHandler() {
+            @Override public void onStart() {}
+            @Override public void onEnd() {}
+
+            @Override
+            public void onEntryCreated(VCardEntry entry) {
+                entries.add(entry);
+            }
+        });
+
+        VCardParser parser = new VCardParser_V21(type);
+        try {
+            parser.parse(new ByteArrayInputStream(mVCard), constructor);
+        } catch (VCardVersionException e) {
+            try {
+                parser = new VCardParser_V30(type);
+                parser.parse(new ByteArrayInputStream(mVCard), constructor);
+            } finally {
+            }
+        }
+
+        return entries;
     }
 
     private static Intent getPickContactIntent() {

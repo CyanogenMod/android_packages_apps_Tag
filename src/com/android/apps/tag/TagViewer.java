@@ -59,6 +59,7 @@ public class TagViewer extends Activity implements OnClickListener {
     static final String TAG = "SaveTag";
     static final String EXTRA_TAG_DB_ID = "db_id";
     static final String EXTRA_MESSAGE = "msg";
+    static final String EXTRA_KEEP_TITLE = "keepTitle";
 
     /** This activity will finish itself in this amount of time if the user doesn't do anything. */
     static final int ACTIVITY_TIMEOUT_MS = 5 * 1000;
@@ -125,10 +126,10 @@ public class TagViewer extends Activity implements OnClickListener {
         callback.setClass(this, TagViewer.class);
         callback.setAction(Intent.ACTION_VIEW);
         callback.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
+        callback.putExtra(EXTRA_KEEP_TITLE, true);
 
         return PendingIntent.getActivity(this, 0, callback, PendingIntent.FLAG_CANCEL_CURRENT);
     }
-
 
     void resolveIntent(Intent intent) {
         // Parse the intent
@@ -180,7 +181,10 @@ public class TagViewer extends Activity implements OnClickListener {
 
         } else if (Intent.ACTION_VIEW.equals(action)) {
             // Setup the views
-            setTitle(R.string.title_existing_tag);
+            if (!intent.getBooleanExtra(EXTRA_KEEP_TITLE, false)) {
+                setTitle(R.string.title_existing_tag);
+            }
+
             mStar.setVisibility(View.VISIBLE);
             mStar.setEnabled(false); // it's reenabled when the async load completes
             mDate.setVisibility(View.VISIBLE);
