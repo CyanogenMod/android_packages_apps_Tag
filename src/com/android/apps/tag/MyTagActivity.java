@@ -51,7 +51,6 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
     private static final String LOG_TAG = "TagEditor";
 
-    private EditText mTitleView;
     private EditText mTextView;
     private CheckBox mEnabled;
 
@@ -70,7 +69,6 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
         findViewById(R.id.toggle_enabled_target).setOnClickListener(this);
         findViewById(R.id.add_content_target).setOnClickListener(this);
 
-        mTitleView = (EditText) findViewById(R.id.input_tag_title);
         mTextView = (EditText) findViewById(R.id.input_tag_text);
         mEnabled = (CheckBox) findViewById(R.id.toggle_enabled_checkbox);
 
@@ -100,17 +98,16 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
             ParsedNdefMessage parsed = NdefMessageParser.parse(localMessage);
             List<ParsedNdefRecord> records = parsed.getRecords();
 
-            // There is always a "Title" and a "Text" record for My Tag.
-            if (records.size() < 2) {
+            // There is always a "Text" record for a My Tag.
+            if (records.size() < 1) {
                 Log.w(LOG_TAG, "Local record not in expected format");
                 return;
             }
             mEnabled.setChecked(true);
-            mTitleView.setText(((TextRecord) records.get(0)).getText());
-            mTextView.setText(((TextRecord) records.get(1)).getText());
+            mTextView.setText(((TextRecord) records.get(0)).getText());
 
             mRecords.clear();
-            for (int i = 2, len = records.size(); i < len; i++) {
+            for (int i = 1, len = records.size(); i < len; i++) {
                 RecordEditInfo editInfo = records.get(i).getEditInfo(this);
                 if (editInfo != null) {
                     addRecord(editInfo);
@@ -130,10 +127,9 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
 
         if ("text/plain".equals(type)) {
             String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
-            mTitleView.setText((title == null) ? "" : title);
+            mTextView.setText((title == null) ? "" : title);
 
             String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-
             try {
                 URL parsed = new URL(text);
 
@@ -159,18 +155,16 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
      * Persists content to store.
      */
     private void onSave() {
-        String title = mTitleView.getText().toString();
         String text = mTextView.getText().toString();
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter();
 
-        if ((title.isEmpty() && text.isEmpty()) || !mEnabled.isChecked()) {
+        if (!mEnabled.isChecked()) {
             nfc.setLocalNdefMessage(null);
             return;
         }
 
         Locale locale = getResources().getConfiguration().locale;
         ArrayList<NdefRecord> values = Lists.newArrayList(
-                TextRecord.newTextRecord(title, locale),
                 TextRecord.newTextRecord(text, locale)
         );
 
