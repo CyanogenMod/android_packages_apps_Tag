@@ -135,7 +135,7 @@ public class TagViewer extends Activity implements OnClickListener {
         // Parse the intent
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-            // When a tag is discovered we send it to the service to be save. We
+            // When a tag is discovered we send it to the service to be saved. We
             // include a PendingIntent for the service to call back onto. This
             // will cause this activity to be restarted with onNewIntent(). At
             // that time we read it from the database and view it.
@@ -183,11 +183,11 @@ public class TagViewer extends Activity implements OnClickListener {
             // Setup the views
             if (!intent.getBooleanExtra(EXTRA_KEEP_TITLE, false)) {
                 setTitle(R.string.title_existing_tag);
+                mDate.setVisibility(View.VISIBLE);
             }
 
             mStar.setVisibility(View.VISIBLE);
             mStar.setEnabled(false); // it's reenabled when the async load completes
-            mDate.setVisibility(View.VISIBLE);
 
             // Read the tag from the database asynchronously
             mTagUri = intent.getData();
