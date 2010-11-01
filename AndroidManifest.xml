@@ -66,6 +66,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="AboutActivity"
+            android:label=""
+            android:theme="@style/AboutTheme"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+        />
+
         <service android:name="TagService" />
 
         <provider android:name=".provider.TagProvider"
