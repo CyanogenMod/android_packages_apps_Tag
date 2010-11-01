@@ -161,4 +161,7 @@ Networks).</string>
     <!-- Text blurb for more information an introductory flow. [CHAR LIMIT=120]-->
     <string name="intro_text_more2">For more information, press Menu and touch Help on any Tags screen.</string>
 
+    <!-- Popup text for confirming the deletion of a tag -->
+    <string name="tag_deleted">Tag deleted</string>
+
 </resources>
