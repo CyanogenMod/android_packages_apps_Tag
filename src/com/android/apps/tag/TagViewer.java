@@ -48,6 +48,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -248,6 +249,8 @@ public class TagViewer extends Activity implements OnClickListener {
                 TagService.delete(this, mTagUri);
                 finish();
             }
+            Toast.makeText(this, getResources().getString(R.string.tag_deleted), Toast.LENGTH_SHORT)
+                    .show();
         } else if (view == mDoneButton) {
             finish();
         } else if (view == mStar) {
