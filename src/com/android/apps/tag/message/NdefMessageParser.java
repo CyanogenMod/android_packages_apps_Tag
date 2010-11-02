@@ -21,6 +21,7 @@ import com.android.apps.tag.record.MimeRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.SmartPoster;
 import com.android.apps.tag.record.TextRecord;
+import com.android.apps.tag.record.UnknownRecord;
 import com.android.apps.tag.record.UriRecord;
 import com.android.apps.tag.record.VCardRecord;
 
@@ -62,6 +63,8 @@ public class NdefMessageParser {
                 elements.add(VCardRecord.parse(record));
             } else if (MimeRecord.isMime(record)) {
                 elements.add(MimeRecord.parse(record));
+            } else {
+                elements.add(new UnknownRecord());
             }
         }
         return elements;
