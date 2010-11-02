@@ -38,6 +38,8 @@ public class TagService extends IntentService {
     private static final String EXTRA_UNSTAR_URI = "remove_star";
     private static final String EXTRA_STARRED = "starred";
     private static final String EXTRA_PENDING_INTENT = "pending";
+    private static final String EXTRA_SAVE_IN_MY_TAGS = "my_tags";
+    private static final String EXTRA_REPLACE_ID = "replace";
 
     private static final boolean DEBUG = true;
 
@@ -51,19 +53,32 @@ public class TagService extends IntentService {
             Parcelable[] msgs = intent.getParcelableArrayExtra(EXTRA_SAVE_MSGS);
             NdefMessage msg = (NdefMessage) msgs[0];
 
-            ContentValues values = NdefMessages.toValues(this, msg, false, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(NdefMessages.CONTENT_URI, values);
+            ContentValues values = NdefMessages.toValues(
+                    this, msg,
+                    intent.getBooleanExtra(EXTRA_STARRED, false),
+                    intent.getBooleanExtra(EXTRA_SAVE_IN_MY_TAGS, false),
+                    System.currentTimeMillis());
 
-            if (intent.hasExtra(EXTRA_PENDING_INTENT)) {
-                Intent result = new Intent();
-                result.setData(uri);
+            if (intent.hasExtra(EXTRA_REPLACE_ID)) {
+                long id = intent.getLongExtra(EXTRA_REPLACE_ID, 0);
+                String where = NdefMessages._ID + "=" + id;
+                getContentResolver().update(NdefMessages.CONTENT_URI, values, where, null);
+            } else {
+                Uri uri = getContentResolver().insert(NdefMessages.CONTENT_URI, values);
 
-                PendingIntent pending = (PendingIntent) intent.getParcelableExtra(EXTRA_PENDING_INTENT);
+                if (intent.hasExtra(EXTRA_PENDING_INTENT)) {
+                    Intent result = new Intent();
+                    result.setData(uri);
 
-                try {
-                    pending.send(this, 0, result);
-                } catch (CanceledException e) {
-                    if (DEBUG) Log.d(TAG, "Pending intent was canceled.");
+                    PendingIntent pending = (PendingIntent) intent.getParcelableExtra(
+                            EXTRA_PENDING_INTENT);
+                    if (pending != null) {
+                        try {
+                            pending.send(this, 0, result);
+                        } catch (CanceledException e) {
+                            if (DEBUG) Log.d(TAG, "Pending intent was canceled.");
+                        }
+                    }
                 }
             }
 
@@ -97,6 +112,21 @@ public class TagService extends IntentService {
         intent.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
         intent.putExtra(TagService.EXTRA_STARRED, starred);
         intent.putExtra(TagService.EXTRA_PENDING_INTENT, pending);
+        context.startService(intent);
+    }
+
+    public static void saveMyMessages(Context context, NdefMessage[] msgs) {
+        Intent intent = new Intent(context, TagService.class);
+        intent.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
+        intent.putExtra(TagService.EXTRA_SAVE_IN_MY_TAGS, true);
+        context.startService(intent);
+    }
+
+    public static void updateMyMessage(Context context, long id, NdefMessage msg) {
+        Intent intent = new Intent(context, TagService.class);
+        intent.putExtra(TagService.EXTRA_SAVE_MSGS, new NdefMessage[] { msg });
+        intent.putExtra(TagService.EXTRA_SAVE_IN_MY_TAGS, true);
+        intent.putExtra(TagService.EXTRA_REPLACE_ID, id);
         context.startService(intent);
     }
 
