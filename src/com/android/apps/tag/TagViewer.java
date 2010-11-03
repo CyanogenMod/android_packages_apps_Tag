@@ -179,7 +179,7 @@ public class TagViewer extends Activity implements OnClickListener {
             // that time we read it from the database and view it.
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msgs;
-            if (rawMsgs != null) {
+            if (rawMsgs != null && rawMsgs.length > 0) {
                 // stupid java, need to cast one-by-one
                 msgs = new NdefMessage[rawMsgs.length];
                 for (int i=0; i<rawMsgs.length; i++) {
