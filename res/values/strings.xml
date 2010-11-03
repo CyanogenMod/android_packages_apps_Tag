@@ -46,6 +46,12 @@
     <!-- Button label indicating that the user wants to delete a tag -->
     <string name="button_done">Done</string>
 
+    <!-- Button label indicating that the user wants to save a tag -->
+    <string name="button_save">Save</string>
+
+    <!-- Button label indicating that the user wants to cancel editing a tag -->
+    <string name="button_cancel">Cancel</string>
+
     <!-- String describing that if the user doesn't want to save a tag they should touch the button labeled Cancel. The text for the cancel button comes from the system string button_done. -->
     <string name="cancel_help_text">To skip adding this tag to your collection, touch Done</string>
 
@@ -163,5 +169,17 @@ Networks).</string>
 
     <!-- Popup text for confirming the deletion of a tag -->
     <string name="tag_deleted">Tag deleted</string>
+
+    <!-- Anchor text for touch target for creating a new My tag. [CHAR LIMIT=50] -->
+    <string name="add_tag">Add new tag</string>
+
+    <!-- Anchor text for touch target for selecting a tag to share as My tag. [CHAR LIMIT=50] -->
+    <string name="choose_my_tag">Choose a tag to share</string>
+
+    <!-- Active tag header for My tag [CHAR LIMIT=50] -->
+    <string name="active_tag">Active tag</string>
+
+    <!-- Header for list of tags that can be set as My tag. [CHAR LIMIT=50] -->
+    <string name="manage_my_tags">Manage my tags</string>
 
 </resources>
