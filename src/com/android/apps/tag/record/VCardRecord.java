@@ -291,7 +291,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
                 public void onEntryCreated(VCardEntry entry) {
                     mCachedName = entry.getDisplayName();
                     List<VCardEntry.PhotoData> photoList = entry.getPhotoList();
-                    if (!photoList.isEmpty()) {
+                    if (photoList != null && !photoList.isEmpty()) {
                         byte[] rawData = photoList.get(0).photoBytes;
                         mCachedPhoto = new BitmapDrawable(
                                 context.getResources(),
