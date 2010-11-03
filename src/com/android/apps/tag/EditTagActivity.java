@@ -16,14 +16,10 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.message.NdefMessageParser;
-import com.android.apps.tag.message.ParsedNdefMessage;
-import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
-import com.android.apps.tag.record.TextRecord;
 import com.android.apps.tag.record.UriRecord;
 import com.android.apps.tag.record.VCardRecord;
 import com.google.common.base.Preconditions;
@@ -33,29 +29,14 @@ import com.google.common.collect.Lists;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -65,13 +46,10 @@ import java.util.Set;
  * {@link ParsedNdefRecord} types. Each type of {@link ParsedNdefRecord} can build views to
  * pick/select a new piece of content, or edit an existing content for the {@link NdefMessage}.
  */
-public class EditTagActivity extends Activity implements OnClickListener, EditCallbacks {
-
-    private static final String LOG_TAG = "Tags";
+public abstract class EditTagActivity extends Activity implements OnClickListener, EditCallbacks {
 
     private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
     protected static final int DIALOG_ID_ADD_CONTENT = 0;
-    public static final String EXTRA_RESULT_MSG = "msg";
 
     private static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
         ImageRecord.RECORD_TYPE,
@@ -94,34 +72,23 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
      */
     private RecordEditInfo mRecordWithOutstandingPick;
 
-    /**
-     * Whether or not data was already parsed from an {@link Intent}. This happens when the user
-     * shares data via the My tag feature.
-     */
-    private boolean mParsedIntent = false;
-
-    private EditText mTextView;
-
     private LayoutInflater mInflater;
 
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        setContentView(R.layout.edit_tag_activity);
 
         if (savedState != null) {
             mRecordWithOutstandingPick = savedState.getParcelable(BUNDLE_KEY_OUTSTANDING_PICK);
         }
         mInflater = LayoutInflater.from(this);
+    }
 
-        findViewById(R.id.add_content_target).setOnClickListener(this);
-        findViewById(R.id.save).setOnClickListener(this);
-        findViewById(R.id.cancel).setOnClickListener(this);
-
-        mTextView = (EditText) findViewById(R.id.input_tag_text);
-        mContentRoot = (ViewGroup) findViewById(R.id.content_parent);
-
-        resolveIntent();
+    protected ViewGroup getContentRoot() {
+        if (mContentRoot == null) {
+            mContentRoot = (ViewGroup) findViewById(R.id.content_parent);
+        }
+        return mContentRoot;
     }
 
     /**
@@ -170,14 +137,14 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
      * Adds a child editor view for a record.
      */
     public void addViewForRecord(RecordEditInfo editInfo) {
-        ViewGroup root = mContentRoot;
+        ViewGroup root = getContentRoot();
         View editView = editInfo.getEditView(this, mInflater, root, this);
         root.addView(mInflater.inflate(R.layout.tag_divider, root, false));
         root.addView(editView);
     }
 
     protected void rebuildChildViews() {
-        ViewGroup root = mContentRoot;
+        ViewGroup root = getContentRoot();
         root.removeAllViews();
         for (RecordEditInfo editInfo : mRecords) {
             addViewForRecord(editInfo);
@@ -278,193 +245,6 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
         if (mRecordWithOutstandingPick != null) {
             outState.putParcelable(BUNDLE_KEY_OUTSTANDING_PICK, mRecordWithOutstandingPick);
-        }
-    }
-
-    interface GetTagQuery {
-        final static String[] PROJECTION = new String[] {
-                NdefMessages.BYTES
-        };
-
-        static final int COLUMN_BYTES = 0;
-    }
-
-    /**
-     * Loads a tag from the database, parses it, and builds the views.
-     */
-    final class LoadTagTask extends AsyncTask<Uri, Void, Cursor> {
-        @Override
-        public Cursor doInBackground(Uri... args) {
-            Cursor cursor = getContentResolver().query(args[0], GetTagQuery.PROJECTION,
-                    null, null, null);
-
-            // Ensure the cursor loads its window.
-            if (cursor != null) {
-                cursor.getCount();
-            }
-            return cursor;
-        }
-
-        @Override
-        public void onPostExecute(Cursor cursor) {
-            NdefMessage msg = null;
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    msg = new NdefMessage(cursor.getBlob(GetTagQuery.COLUMN_BYTES));
-                    if (msg != null) {
-                        populateFromMessage(msg);
-                    } else {
-                        // TODO: do something more graceful.
-                        finish();
-                    }
-                }
-            } catch (FormatException e) {
-                Log.e(LOG_TAG, "Unable to parse tag for editing.", e);
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-        }
-    }
-
-    private void resolveIntent() {
-        Intent intent = getIntent();
-
-        if (Intent.ACTION_SEND.equals(intent.getAction()) && !mParsedIntent) {
-            if (buildFromSendIntent(intent)) {
-                return;
-            }
-
-            mParsedIntent = true;
-            return;
-
-        }
-
-        Uri uri = intent.getData();
-        if (uri != null) {
-            // Edit existing tag.
-            new LoadTagTask().execute(uri);
-        }
-        // else, new tag - do nothing.
-    }
-
-    private void populateFromMessage(NdefMessage refMessage) {
-        // Locally stored message.
-        ParsedNdefMessage parsed = NdefMessageParser.parse(refMessage);
-        List<ParsedNdefRecord> records = parsed.getRecords();
-
-        // TODO: loosen this restriction. Just check the type of the first record.
-        // There is always a "Text" record for a My Tag.
-        if (records.size() < 1) {
-            Log.w(LOG_TAG, "Message not in expected format");
-            return;
-        }
-        mTextView.setText(((TextRecord) records.get(0)).getText());
-
-        mRecords.clear();
-        for (int i = 1, len = records.size(); i < len; i++) {
-            RecordEditInfo editInfo = records.get(i).getEditInfo(this);
-            if (editInfo != null) {
-                addRecord(editInfo);
-            }
-        }
-        rebuildChildViews();
-    }
-
-    /**
-     * Populates the editor from extras in a given {@link Intent}
-     * @param intent the {@link Intent} to parse.
-     * @return whether or not the {@link Intent} could be handled.
-     */
-    private boolean buildFromSendIntent(final Intent intent) {
-        String type = intent.getType();
-
-        if ("text/plain".equals(type)) {
-            String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
-            mTextView.setText((title == null) ? "" : title);
-
-            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-            try {
-                URL parsed = new URL(text);
-
-                // Valid URL.
-                mTextView.setText("");
-                mRecords.add(new UriRecord.UriRecordEditInfo(text));
-                rebuildChildViews();
-                return true;
-
-            } catch (MalformedURLException ex) {
-                // Ignore. Just treat as plain text.
-                mTextView.setText((text == null) ? "" : text);
-            }
-
-        } else if ("text/x-vcard".equals(type)) {
-            Uri stream = (Uri) getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
-            if (stream != null) {
-                RecordEditInfo editInfo = VCardRecord.editInfoForUri(stream);
-                if (editInfo != null) {
-                    mRecords.add(editInfo);
-                    rebuildChildViews();
-                    return true;
-                }
-            }
-        }
-
-        // TODO: handle images.
-
-        return false;
-    }
-
-    /**
-     * Saves the content of the tag.
-     */
-    private void saveAndFinish() {
-        String text = mTextView.getText().toString();
-        Locale locale = getResources().getConfiguration().locale;
-        ArrayList<NdefRecord> values = Lists.newArrayList(
-                TextRecord.newTextRecord(text, locale)
-        );
-
-        values.addAll(getValues());
-
-        NdefMessage msg = new NdefMessage(values.toArray(new NdefRecord[values.size()]));
-        Intent result = new Intent();
-        result.putExtra(EXTRA_RESULT_MSG, msg);
-        setResult(RESULT_OK, result);
-        finish();
-    }
-
-    @Override
-    public void onClick(View target) {
-        switch (target.getId()) {
-            case R.id.add_content_target:
-                showAddContentDialog();
-                break;
-            case R.id.save:
-                saveAndFinish();
-                break;
-            case R.id.cancel:
-                finish();
-                break;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.help:
-                HelpUtils.openHelp(this);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

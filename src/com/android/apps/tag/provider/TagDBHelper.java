@@ -29,7 +29,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TagDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "tags.db";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 12;
 
     public static final String TABLE_NAME_NDEF_MESSAGES = "ndef_msgs";
 
@@ -50,8 +50,7 @@ public class TagDBHelper extends SQLiteOpenHelper {
                 NdefMessages.DATE + " INTEGER NOT NULL, " +
                 NdefMessages.TITLE + " TEXT NOT NULL DEFAULT ''," +
                 NdefMessages.BYTES + " BLOB NOT NULL, " +
-                NdefMessages.STARRED + " INTEGER NOT NULL DEFAULT 0," +  // boolean
-                NdefMessages.IS_MY_TAG + " INTEGER NOT NULL DEFAULT 0" + // boolean
+                NdefMessages.STARRED + " INTEGER NOT NULL DEFAULT 0" +  // boolean
                 ");");
     }
 
