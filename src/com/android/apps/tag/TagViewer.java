@@ -23,6 +23,7 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -37,6 +38,8 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,7 +66,7 @@ public class TagViewer extends Activity implements OnClickListener {
     static final String EXTRA_KEEP_TITLE = "keepTitle";
 
     /** This activity will finish itself in this amount of time if the user doesn't do anything. */
-    static final int ACTIVITY_TIMEOUT_MS = 5 * 1000;
+    static final int ACTIVITY_TIMEOUT_MS = 7 * 1000;
 
     Uri mTagUri;
     ImageView mIcon;
@@ -79,10 +82,7 @@ public class TagViewer extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-        );
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         setContentView(R.layout.tag_viewer);
 
@@ -136,7 +136,16 @@ public class TagViewer extends Activity implements OnClickListener {
         // Parse the intent
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-            // When a tag is discovered we send it to the service to be saved. We
+            // A tag was just scanned so poke the user activity wake lock to keep
+            // the screen on a bit longer in the event that the activity has
+            // hidden the lock screen.
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
+            // This lock cannot be manually release in onStop() since that may cause a lock
+            // under run exception to be thrown when the timeout hits.
+            wakeLock.acquire(ACTIVITY_TIMEOUT_MS);
+
+            // When a tag is discovered we send it to the service to be save. We
             // include a PendingIntent for the service to call back onto. This
             // will cause this activity to be restarted with onNewIntent(). At
             // that time we read it from the database and view it.
