@@ -17,6 +17,7 @@
 package com.android.apps.tag;
 
 import com.android.apps.tag.provider.TagContract.NdefMessages;
+import com.android.apps.tag.provider.TagProvider;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -117,11 +118,13 @@ public class TagList extends ListActivity implements OnClickListener {
     final class TagLoaderTask extends AsyncTask<Void, Void, Cursor> {
         @Override
         public Cursor doInBackground(Void... args) {
-            String selection = mShowStarredOnly ? NdefMessages.STARRED + "=1" : null;
+            String starred = mShowStarredOnly ? NdefMessages.STARRED + "=1" : null;
+            String notMyTag = NdefMessages.IS_MY_TAG + "!=1";
+
             Cursor cursor = getContentResolver().query(
                     NdefMessages.CONTENT_URI,
                     TagQuery.PROJECTION,
-                    selection,
+                    TagProvider.concatenateWhere(starred, notMyTag),
                     null, NdefMessages.DATE + " DESC");
 
             // Ensure the cursor executes and fills its window
