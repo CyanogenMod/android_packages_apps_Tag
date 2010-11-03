@@ -210,7 +210,7 @@ public class TagViewer extends Activity implements OnClickListener {
                         file.getStartOffset(),
                         file.getLength());
                 file.close();
-                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
                 player.prepare();
                 player.start();
             } catch (IOException ex) {
