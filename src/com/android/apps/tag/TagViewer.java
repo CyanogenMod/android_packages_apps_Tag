@@ -23,8 +23,10 @@ import com.android.apps.tag.record.ParsedNdefRecord;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -78,6 +80,19 @@ public class TagViewer extends Activity implements OnClickListener {
     NdefTag mTag = null;
     LinearLayout mTagContent;
 
+    BroadcastReceiver mReceiver;
+
+    private class ScreenOffReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+                if (!isFinishing()) {
+                    finish();
+                }
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +135,11 @@ public class TagViewer extends Activity implements OnClickListener {
 
         PendingIntent pending = getPendingIntent();
         pending.cancel();
+
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
     }
 
     private PendingIntent getPendingIntent() {
@@ -141,9 +161,17 @@ public class TagViewer extends Activity implements OnClickListener {
             // hidden the lock screen.
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
-            // This lock cannot be manually release in onStop() since that may cause a lock
-            // under run exception to be thrown when the timeout hits.
+            // This lock CANNOT be manually released in onStop() since that may
+            // cause a lock under run exception to be thrown when the timeout
+            // hits.
             wakeLock.acquire(ACTIVITY_TIMEOUT_MS);
+
+            if (mReceiver == null) {
+                mReceiver = new ScreenOffReceiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(Intent.ACTION_SCREEN_OFF);
+                registerReceiver(mReceiver, filter);
+            }
 
             // When a tag is discovered we send it to the service to be save. We
             // include a PendingIntent for the service to call back onto. This
