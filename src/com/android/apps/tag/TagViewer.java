@@ -66,6 +66,8 @@ public class TagViewer extends Activity implements OnClickListener {
     static final String EXTRA_MESSAGE = "msg";
     static final String EXTRA_KEEP_TITLE = "keepTitle";
 
+    static final boolean SHOW_OVER_LOCK_SCREEN = false;
+
     /** This activity will finish itself in this amount of time if the user doesn't do anything. */
     static final int ACTIVITY_TIMEOUT_MS = 7 * 1000;
 
@@ -95,7 +97,9 @@ public class TagViewer extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        if (SHOW_OVER_LOCK_SCREEN) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        }
 
         setContentView(R.layout.tag_viewer);
 
@@ -154,21 +158,23 @@ public class TagViewer extends Activity implements OnClickListener {
         // Parse the intent
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-            // A tag was just scanned so poke the user activity wake lock to keep
-            // the screen on a bit longer in the event that the activity has
-            // hidden the lock screen.
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
-            // This lock CANNOT be manually released in onStop() since that may
-            // cause a lock under run exception to be thrown when the timeout
-            // hits.
-            wakeLock.acquire(ACTIVITY_TIMEOUT_MS);
+            if (SHOW_OVER_LOCK_SCREEN) {
+                // A tag was just scanned so poke the user activity wake lock to keep
+                // the screen on a bit longer in the event that the activity has
+                // hidden the lock screen.
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
+                // This lock CANNOT be manually released in onStop() since that may
+                // cause a lock under run exception to be thrown when the timeout
+                // hits.
+                wakeLock.acquire(ACTIVITY_TIMEOUT_MS);
 
-            if (mReceiver == null) {
-                mReceiver = new ScreenOffReceiver();
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(Intent.ACTION_SCREEN_OFF);
-                registerReceiver(mReceiver, filter);
+                if (mReceiver == null) {
+                    mReceiver = new ScreenOffReceiver();
+                    IntentFilter filter = new IntentFilter();
+                    filter.addAction(Intent.ACTION_SCREEN_OFF);
+                    registerReceiver(mReceiver, filter);
+                }
             }
 
             // When a tag is discovered we send it to the service to be save. We
