@@ -27,7 +27,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -54,7 +53,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -205,21 +203,15 @@ public class TagViewer extends Activity implements OnClickListener {
             mStar.setEnabled(true);
 
             // Play notification.
-            try {
-                MediaPlayer player = new MediaPlayer();
-                AssetFileDescriptor file = getResources().openRawResourceFd(
-                        R.raw.discovered_tag_notification);
-                player.setDataSource(
-                        file.getFileDescriptor(),
-                        file.getStartOffset(),
-                        file.getLength());
-                file.close();
-                player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
-                player.prepare();
-                player.start();
-            } catch (IOException ex) {
-                Log.w(TAG, "Sound creation failed for tag discovery");
-            }
+            MediaPlayer player = MediaPlayer.create(this, R.raw.discovered_tag_notification);
+            player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+            player.start();
 
         } else if (Intent.ACTION_VIEW.equals(action)) {
             // Setup the views
