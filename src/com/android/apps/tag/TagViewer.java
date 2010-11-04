@@ -77,7 +77,6 @@ public class TagViewer extends Activity implements OnClickListener {
     CheckBox mStar;
     Button mDeleteButton;
     Button mDoneButton;
-    NdefTag mTag = null;
     LinearLayout mTagContent;
 
     BroadcastReceiver mReceiver;
@@ -278,8 +277,6 @@ public class TagViewer extends Activity implements OnClickListener {
     public void onClick(View view) {
         if (view == mDeleteButton) {
             if (mTagUri == null) {
-                // The tag hasn't been saved yet, so indicate it shouldn't be saved
-                mTag = null;
                 finish();
             } else {
                 // The tag came from the database, start a service to delete it
