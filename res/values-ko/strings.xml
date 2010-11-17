@@ -36,6 +36,10 @@
     <skip />
     <!-- no translation found for button_done (7048822758098308158) -->
     <skip />
+    <!-- no translation found for button_save (1396693475082322626) -->
+    <skip />
+    <!-- no translation found for button_cancel (8094182910311905776) -->
+    <skip />
     <!-- no translation found for cancel_help_text (2582335582642459522) -->
     <skip />
     <!-- no translation found for action_text (577417996159152923) -->
@@ -73,7 +77,7 @@
     <skip />
     <!-- no translation found for menu_help (2340550693525288105) -->
     <skip />
-    <string name="import_vcard" msgid="4645060265415019350">"vCard 가져오기"</string>
+    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"vCard 가져오기"</string>
     <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
@@ -87,5 +91,30 @@
     <!-- no translation found for empty_list_starred (7185947321271594216) -->
     <skip />
     <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+    <!-- no translation found for vcard_title (7122634780732426007) -->
+    <skip />
+    <!-- no translation found for next (8672447228208567606) -->
+    <skip />
+    <!-- no translation found for back (7389918385345281227) -->
+    <skip />
+    <!-- no translation found for close (5521003720382005075) -->
+    <skip />
+    <!-- no translation found for intro_title (2798106838231744219) -->
+    <skip />
+    <string name="intro_text_about" msgid="1366913102380816468">"NFC(Near Field Communication) 태그 구성 및 공유를 위한 태그입니다."</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"전화를 켜서 태그 바로 옆에 놓아 태그를 스캔할 수 있습니다."</string>
+    <string name="intro_text_contents" msgid="1973327615218723220">"NFC 태그는 텍스트와 URL, 사진, 기타 정보를 포함할 수 있습니다."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"태그를 스캔하거나 공유하려면 \'설정\'의 \'무선 및 네트워크\'에서 NFC를 사용하도록 설정해야 합니다."</string>
+    <string name="intro_text_more2" msgid="28835616891750572">"자세한 내용을 보려면 \'메뉴\'를 누르고 태그 화면에서 \'도움말\'을 터치하세요."</string>
+    <!-- no translation found for tag_deleted (5411251725532471624) -->
+    <skip />
+    <!-- no translation found for add_tag (703494598879855113) -->
+    <skip />
+    <!-- no translation found for choose_my_tag (4208730132705026130) -->
+    <skip />
+    <!-- no translation found for active_tag (7417732109196094058) -->
+    <skip />
+    <!-- no translation found for manage_my_tags (3616349610711109286) -->
     <skip />
 </resources>

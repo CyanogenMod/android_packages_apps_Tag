@@ -26,6 +26,10 @@
     <string name="tag_empty" msgid="3726529819932095782">"Tag vide"</string>
     <string name="button_delete" msgid="8636971153075546776">"Supprimer"</string>
     <string name="button_done" msgid="7048822758098308158">"OK"</string>
+    <!-- no translation found for button_save (1396693475082322626) -->
+    <skip />
+    <!-- no translation found for button_cancel (8094182910311905776) -->
+    <skip />
     <!-- outdated translation 365822201502077181 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Si vous ne souhaitez pas ajouter ce tag à votre collection, appuyez sur \"OK\"."</string>
     <string name="action_text" msgid="577417996159152923">"Envoyer un SMS à <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Appeler <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
@@ -46,7 +50,7 @@
     <!-- outdated translation 6603572710467839029 -->     <string name="write" msgid="4957259770248890625">"Rédiger"</string>
     <string name="cancel" msgid="2168193471147260328">"Annuler"</string>
     <string name="menu_help" msgid="2340550693525288105">"Aide"</string>
-    <string name="import_vcard" msgid="4645060265415019350">"Importer vCard"</string>
+    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"Importer vCard"</string>
     <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
@@ -60,5 +64,30 @@
     <!-- no translation found for empty_list_starred (7185947321271594216) -->
     <skip />
     <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+    <!-- no translation found for vcard_title (7122634780732426007) -->
+    <skip />
+    <!-- no translation found for next (8672447228208567606) -->
+    <skip />
+    <!-- no translation found for back (7389918385345281227) -->
+    <skip />
+    <!-- no translation found for close (5521003720382005075) -->
+    <skip />
+    <!-- no translation found for intro_title (2798106838231744219) -->
+    <skip />
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags vous permet d\'organiser et de partager des tags de communication NFC (communication en champ proche)."</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"Pour scanner un tag, il suffit d\'allumer votre téléphone et de le rapprocher du tag."</string>
+    <string name="intro_text_contents" msgid="1973327615218723220">"Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Pour scanner ou partager des tags, vous devez activer la fonctionnalité NFC (Sans fil et réseaux &gt; Paramètres)."</string>
+    <string name="intro_text_more2" msgid="28835616891750572">"Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n\'importe quelle page de l\'application Tags."</string>
+    <!-- no translation found for tag_deleted (5411251725532471624) -->
+    <skip />
+    <!-- no translation found for add_tag (703494598879855113) -->
+    <skip />
+    <!-- no translation found for choose_my_tag (4208730132705026130) -->
+    <skip />
+    <!-- no translation found for active_tag (7417732109196094058) -->
+    <skip />
+    <!-- no translation found for manage_my_tags (3616349610711109286) -->
     <skip />
 </resources>
