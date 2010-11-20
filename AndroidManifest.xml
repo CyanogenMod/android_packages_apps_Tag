@@ -61,15 +61,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain" />
-                <data android:mimeType="text/x-vcard" />
-            </intent-filter>
-        </activity>
-
         <activity android:name="AboutActivity"
             android:label=""
             android:theme="@style/AboutTheme"

@@ -152,7 +152,7 @@
     <string name="intro_title">About Tags</string>
 
     <!-- Text blurb for describing the app in an introductory flow. [CHAR LIMIT=160] -->
-    <string name="intro_text_about">Tags is for organizing and sharing Near Field Communication (NFC) tags.</string>
+    <string name="intro_text_about">Tags is for organizing Near Field Communication (NFC) tags.</string>
 
     <!-- Text blurb for describing usage of the app in an introductory flow. [CHAR LIMIT=120]-->
     <string name="intro_text_usage">You scan a tag by turning on your phone and placing it right next to a tag.</string>
@@ -161,7 +161,7 @@
     <string name="intro_text_contents">NFC tags can contain text, URLs, pictures, and other kinds of information.</string>
 
     <!-- Text blurb for more information an introductory flow. [CHAR LIMIT=120]-->
-    <string name="intro_text_more">To scan or share tags, you must have NFC turned on (in Settings, under Wireless &amp;
+    <string name="intro_text_more">To scan tags, you must have NFC turned on (in Settings, under Wireless &amp;
 Networks).</string>
 
     <!-- Text blurb for more information an introductory flow. [CHAR LIMIT=120]-->
