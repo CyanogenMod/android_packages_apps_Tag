@@ -102,19 +102,15 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="1366913102380816468">"Tags is voor het organiseren en delen van NFC-tags (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="2850842578893895610">"Tags is voor het organiseren van NFC-tags (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"U kunt een tag scannen door uw telefoon aan te zetten en deze naast de tag te plaatsen."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-tags kunnen tekst, URL\'s, foto\'s en andere typen gegevens bevatten."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Als u tags wilt scannen of delen, moet NFC zijn ingeschakeld (via \'Instellingen\', onder \'Draadloos en netwerken\')."</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"Als u tags wilt scannen, moet NFC zijn ingeschakeld (via \'Instellingen\', onder \'Draadloos en netwerken\')."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Druk voor meer informatie op \'Menu\' en raak \'Help\' aan op een willekeurig Tags-scherm."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
-    <!-- no translation found for add_tag (703494598879855113) -->
-    <skip />
-    <!-- no translation found for choose_my_tag (4208730132705026130) -->
-    <skip />
-    <!-- no translation found for active_tag (7417732109196094058) -->
-    <skip />
-    <!-- no translation found for manage_my_tags (3616349610711109286) -->
-    <skip />
+    <string name="add_tag" msgid="703494598879855113">"Nieuwe tag toevoegen"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Een tag selecteren om te delen"</string>
+    <string name="active_tag" msgid="7417732109196094058">"Actieve tag"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"Mijn tags beheren"</string>
 </resources>

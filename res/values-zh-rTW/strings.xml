@@ -102,19 +102,15 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="1366913102380816468">"「標記」可用來組織和分享近距離無線通訊 (NFC) 標記。"</string>
+    <string name="intro_text_about" msgid="2850842578893895610">"「標記」可用來組織近距離無線通訊 (NFC) 標記。"</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"您可以開啟手機，並放置在某個標記旁，即可掃描該標記。"</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC 標籤可包含文字、網址、圖片，以及其他各種資訊。"</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"如要掃描或分享標籤，您必須開啟 NFC (在 [設定] 中的 [無線與網路] 之下)。"</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"如要掃描標記，您必須 (在 [設定] 的 [無線與網路] 之下) 啟用 NFC。"</string>
     <string name="intro_text_more2" msgid="28835616891750572">"如要進一步瞭解，請按選單鍵，然後在任何「標記」螢幕上輕觸 [說明]。"</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
-    <!-- no translation found for add_tag (703494598879855113) -->
-    <skip />
-    <!-- no translation found for choose_my_tag (4208730132705026130) -->
-    <skip />
-    <!-- no translation found for active_tag (7417732109196094058) -->
-    <skip />
-    <!-- no translation found for manage_my_tags (3616349610711109286) -->
-    <skip />
+    <string name="add_tag" msgid="703494598879855113">"新增標記"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"選擇要分享的標記"</string>
+    <string name="active_tag" msgid="7417732109196094058">"主動標記"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"管理我的標記"</string>
 </resources>

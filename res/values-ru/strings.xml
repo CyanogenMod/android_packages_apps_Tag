@@ -102,19 +102,15 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="1366913102380816468">"Теги служат для организации и отправки тегов радиосвязи ближнего действия (NFC)."</string>
+    <string name="intro_text_about" msgid="2850842578893895610">"Теги предназначены для упорядочивания тегов NFC."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Сканирование тега выполняется путем включения телефона и размещения его в непосредственной близости от тега."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Теги NFC могут содержать текст, гиперссылки, изображения, а также информацию других видов."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Для сканирования и отправки тегов необходимо включить NFC (\"Настройки\", раздел \"Беспроводная связь и сети\")."</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"Чтобы просканировать теги, необходимо включить NFC (в разделе \"Настройки\" &gt; \"Беспроводные сети\")."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Для получения более подробной информации нажмите \"Меню\" и выберите справку на любом экране \"Теги\"."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
-    <!-- no translation found for add_tag (703494598879855113) -->
-    <skip />
-    <!-- no translation found for choose_my_tag (4208730132705026130) -->
-    <skip />
-    <!-- no translation found for active_tag (7417732109196094058) -->
-    <skip />
-    <!-- no translation found for manage_my_tags (3616349610711109286) -->
-    <skip />
+    <string name="add_tag" msgid="703494598879855113">"Добавить новый тег"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Выберите тег для предоставления общего доступа"</string>
+    <string name="active_tag" msgid="7417732109196094058">"Активный тег"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"Управление тегами"</string>
 </resources>

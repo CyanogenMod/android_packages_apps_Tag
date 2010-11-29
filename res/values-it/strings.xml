@@ -102,19 +102,15 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="1366913102380816468">"Tag consente di organizzare e condividere i tag NFC (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="2850842578893895610">"L\'applicazione Tag consente di organizzare i tag NFC (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Puoi esaminare un tag accendendo il telefono e posizionandolo accanto a un tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"I tag NFC possono contenere testo, URL, foto e altri tipi di informazioni."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Per esaminare o condividere tag, NFC deve essere attivata (in Impostazioni, nella sezione Wireless e reti)."</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"Per esaminare i tag, devi attivare NFC (nella sezione Wireless e reti)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Per ulteriori informazioni, premi Menu e tocca Guida in qualsiasi schermata di Tag."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
-    <!-- no translation found for add_tag (703494598879855113) -->
-    <skip />
-    <!-- no translation found for choose_my_tag (4208730132705026130) -->
-    <skip />
-    <!-- no translation found for active_tag (7417732109196094058) -->
-    <skip />
-    <!-- no translation found for manage_my_tags (3616349610711109286) -->
-    <skip />
+    <string name="add_tag" msgid="703494598879855113">"Aggiungi nuovo tag"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Scegli un tag da condividere"</string>
+    <string name="active_tag" msgid="7417732109196094058">"Attiva tag"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"Gestisci i miei tag"</string>
 </resources>
