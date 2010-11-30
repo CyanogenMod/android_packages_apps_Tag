@@ -73,7 +73,7 @@
     <skip />
     <!-- no translation found for menu_help (2340550693525288105) -->
     <skip />
-    <string name="import_vcard" msgid="4645060265415019350">"Importer vCard"</string>
+    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"Importer vCard"</string>
     <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
@@ -87,5 +87,22 @@
     <!-- no translation found for empty_list_starred (7185947321271594216) -->
     <skip />
     <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+    <!-- no translation found for vcard_title (7122634780732426007) -->
+    <skip />
+    <!-- no translation found for next (8672447228208567606) -->
+    <skip />
+    <!-- no translation found for back (7389918385345281227) -->
+    <skip />
+    <!-- no translation found for close (5521003720382005075) -->
+    <skip />
+    <!-- no translation found for intro_title (2798106838231744219) -->
+    <skip />
+    <string name="intro_text_about" msgid="2850842578893895610">"Tags bruges til organisering af NFC-tags (Near Field Communication)."</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"Du scanner et tag ved at tænde din telefon og placere den lige ved siden af et tag."</string>
+    <string name="intro_text_contents" msgid="1973327615218723220">"NFC-tags kan indeholde tekst, webadresser, billeder og andre former for oplysninger."</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"Scan tags ved at aktivere NFC (i Indstillinger under Trådløst og netværk)."</string>
+    <string name="intro_text_more2" msgid="28835616891750572">"Tryk på Menu og Hjælp på skærmen Tags for at få flere oplysninger."</string>
+    <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
 </resources>

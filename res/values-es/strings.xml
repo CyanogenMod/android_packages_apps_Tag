@@ -46,7 +46,7 @@
     <!-- outdated translation 6603572710467839029 -->     <string name="write" msgid="4957259770248890625">"Escribir"</string>
     <string name="cancel" msgid="2168193471147260328">"Cancelar"</string>
     <string name="menu_help" msgid="2340550693525288105">"Ayuda"</string>
-    <string name="import_vcard" msgid="4645060265415019350">"Importar vCard"</string>
+    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"Importar vCard"</string>
     <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
@@ -60,5 +60,22 @@
     <!-- no translation found for empty_list_starred (7185947321271594216) -->
     <skip />
     <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+    <!-- no translation found for vcard_title (7122634780732426007) -->
+    <skip />
+    <!-- no translation found for next (8672447228208567606) -->
+    <skip />
+    <!-- no translation found for back (7389918385345281227) -->
+    <skip />
+    <!-- no translation found for close (5521003720382005075) -->
+    <skip />
+    <!-- no translation found for intro_title (2798106838231744219) -->
+    <skip />
+    <string name="intro_text_about" msgid="2850842578893895610">"Tags se utiliza para organizar y compartir etiquetas de Comunicación de campo cercano (NFC)."</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"Para escanear una etiqueta, activa el teléfono y sitúalo junto a la etiqueta."</string>
+    <string name="intro_text_contents" msgid="1973327615218723220">"Las etiquetas NFC pueden contener texto, direcciones URL, imágenes y otros tipos de información."</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"Para escanear etiquetas, debes tener activada la opción NFC (en Ajustes, dentro de Conexiones inalámbricas y redes)."</string>
+    <string name="intro_text_more2" msgid="28835616891750572">"Para obtener más información, pulsa la tecla de menú y toca Ayuda en cualquier pantalla de la aplicación Tags."</string>
+    <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
 </resources>

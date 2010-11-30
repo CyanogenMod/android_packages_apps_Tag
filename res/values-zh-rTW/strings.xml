@@ -73,7 +73,7 @@
     <skip />
     <!-- no translation found for menu_help (2340550693525288105) -->
     <skip />
-    <string name="import_vcard" msgid="4645060265415019350">"匯入 vCard"</string>
+    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"匯入 vCard"</string>
     <!-- no translation found for mime_display_name (5926357152623764485) -->
     <skip />
     <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
@@ -87,5 +87,22 @@
     <!-- no translation found for empty_list_starred (7185947321271594216) -->
     <skip />
     <!-- no translation found for button_more_info (574247138099633767) -->
+    <skip />
+    <!-- no translation found for vcard_title (7122634780732426007) -->
+    <skip />
+    <!-- no translation found for next (8672447228208567606) -->
+    <skip />
+    <!-- no translation found for back (7389918385345281227) -->
+    <skip />
+    <!-- no translation found for close (5521003720382005075) -->
+    <skip />
+    <!-- no translation found for intro_title (2798106838231744219) -->
+    <skip />
+    <string name="intro_text_about" msgid="2850842578893895610">"「標記」可用來組織近距離無線通訊 (NFC) 標記。"</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"您可以開啟手機，並放置在某個標記旁，即可掃描該標記。"</string>
+    <string name="intro_text_contents" msgid="1973327615218723220">"NFC 標籤可包含文字、網址、圖片，以及其他各種資訊。"</string>
+    <string name="intro_text_more" msgid="3224415419156211034">"如要掃描標記，您必須 (在 [設定] 的 [無線與網路] 之下) 啟用 NFC。"</string>
+    <string name="intro_text_more2" msgid="28835616891750572">"如要進一步瞭解，請按選單鍵，然後在任何「標記」螢幕上輕觸 [說明]。"</string>
+    <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
 </resources>
