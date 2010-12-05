@@ -422,22 +422,6 @@ public class VCardUtils {
         return containsOnlyPrintableAscii(Arrays.asList(values));
     }
 
-    public static boolean isPrintableAscii(final char c) {
-        final int asciiFirst = 0x20;
-        final int asciiLast = 0x7E;  // included
-        return (asciiFirst <= c && c <= asciiLast) || c == '\r' || c == '\n';
-    }
-
-    public static boolean isPrintableAsciiOnly(final CharSequence str) {
-        final int len = str.length();
-        for (int i = 0; i < len; i++) {
-            if (!isPrintableAscii(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static boolean containsOnlyPrintableAscii(final Collection<String> values) {
         if (values == null) {
             return true;
@@ -446,7 +430,7 @@ public class VCardUtils {
             if (TextUtils.isEmpty(value)) {
                 continue;
             }
-            if (!isPrintableAsciiOnly(value)) {
+            if (!TextUtils.isPrintableAsciiOnly(value)) {
                 return false;
             }
         }
