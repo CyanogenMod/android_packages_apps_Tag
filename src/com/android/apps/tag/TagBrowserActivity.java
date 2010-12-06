@@ -60,6 +60,11 @@ public class TagBrowserActivity extends TabActivity implements DialogInterface.O
                 .setContent(new Intent().setClass(this, TagList.class)
                         .putExtra(TagList.EXTRA_SHOW_STARRED_ONLY, true)));
 
+        tabHost.addTab(tabHost.newTabSpec("mytag")
+                .setIndicator(getText(R.string.tab_my_tag),
+                        res.getDrawable(R.drawable.ic_tab_my_tag))
+                .setContent(new Intent().setClass(this, MyTagActivity.class)));
+
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         if (!preferences.getBoolean(PREF_KEY_SHOW_INTRO, false)) {
             preferences.edit().putBoolean(PREF_KEY_SHOW_INTRO, true).apply();

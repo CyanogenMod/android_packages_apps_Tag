@@ -28,9 +28,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.nfc.NdefTag;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -107,15 +105,12 @@ public class TagCanon extends ListActivity {
 
     static final class TagDescription {
         public String title;
-        public NdefTag tag;
+        NdefMessage[] msgs;
 
         public TagDescription(String title, byte[] bytes) {
             this.title = title;
             try {
-                NdefMessage[] msgs = new NdefMessage[] { new NdefMessage(bytes) };
-                this.tag = NdefTag.createMockNdefTag(UID, new String[] { Tag.TARGET_ISO_14443_4 },
-                        null, null, new String[] { NdefTag.TARGET_TYPE_4 },
-                        new NdefMessage[][] { msgs });
+                msgs = new NdefMessage[] { new NdefMessage(bytes) };
             } catch (Exception e) {
                 throw new RuntimeException("Failed to create tag description", e);
             }
@@ -123,13 +118,7 @@ public class TagCanon extends ListActivity {
 
         public TagDescription(String title, NdefMessage[] msgs) {
             this.title = title;
-            try {
-                this.tag = NdefTag.createMockNdefTag(UID, new String[] { Tag.TARGET_ISO_14443_4 },
-                        null, null, new String[] { NdefTag.TARGET_TYPE_4 },
-                        new NdefMessage[][] { msgs });
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to create tag description", e);
-            }
+            this.msgs = msgs;
         }
 
         @Override
@@ -160,8 +149,7 @@ public class TagCanon extends ListActivity {
     public void onListItemClick(ListView l, View v, int position, long id) {
         TagDescription description = mAdapter.getItem(position);
         Intent intent = new Intent(NfcAdapter.ACTION_TAG_DISCOVERED);
-        intent.putExtra(NfcAdapter.EXTRA_TAG, description.tag);
-        intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, description.tag.getNdefMessages());
+        intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, description.msgs);
         startActivity(intent);
     }
 }
