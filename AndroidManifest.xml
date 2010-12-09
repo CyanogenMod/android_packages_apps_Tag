@@ -43,6 +43,8 @@
 
         <activity android:name="TagList" />
 
+        <activity android:name="MyTagList" />
+
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTop"
@@ -67,7 +69,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="MyTagActivity" android:label="@string/tab_my_tag">
+        <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>

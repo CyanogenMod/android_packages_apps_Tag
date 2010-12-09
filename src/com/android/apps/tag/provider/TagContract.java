@@ -61,7 +61,7 @@ public class TagContract {
         public static final String BYTES = "bytes";
         public static final String DATE = "date";
         public static final String STARRED = "starred";
-
+        public static final String IS_MY_TAG = "mytag";
 
         public static class MIME implements OpenableColumns {
             public static final String CONTENT_DIRECTORY_MIME = "mime";
@@ -72,12 +72,14 @@ public class TagContract {
         /**
          * Converts an NdefMessage to ContentValues that can be insrted into this table.
          */
-        public static ContentValues toValues(Context context, NdefMessage msg, boolean isStarred, long date) {
+        public static ContentValues toValues(Context context, NdefMessage msg, boolean isStarred,
+                boolean isMyTag, long date) {
             ParsedNdefMessage parsedMsg = NdefMessageParser.parse(msg);
             ContentValues values = new ContentValues();
             values.put(BYTES, msg.toByteArray());
             values.put(DATE, date);
             values.put(STARRED, isStarred ? 1 : 0);
+            values.put(IS_MY_TAG, isMyTag ? 1 : 0);
             values.put(TITLE, parsedMsg.getSnippet(context, Locale.getDefault()));
             return values;
         }
