@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"As etiquetas servem para organizar etiquetas NFC (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"As etiquetas servem para organizar e partilhar etiquetas NFC (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"É possível analisar uma etiqueta ligando o telefone e colocando-o junto à etiqueta."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"As etiquetas NFC podem incluir texto, URL, imagens e outros tipos de informação."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Para procurar etiquetas, tem de ter a opção NFC activada (em Definições, Redes sem fios)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Para analisar ou partilhar etiquetas, deve ter o NFC activado (em Definições, sob Redes sem fios)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Para obter mais informações, prima Menu e toque em Ajuda em qualquer ecrã de Etiquetas."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

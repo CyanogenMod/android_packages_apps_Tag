@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Štítky slouží k uspořádání štítků NFC (komunikace na velmi krátkou vzdálenost)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Štítky slouží k uspořádání a sdílení štítků NFC (komunikace na velmi krátkou vzdálenost)"</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Chcete-li načíst štítek, zapněte telefon a položte ho těsně vedle štítku."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Štítky NFC mohou obsahovat text, adresy URL, obrázky a další druhy informací."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Při hledání štítků musíte mít zapnutou komunikaci NFC (Nastavení &gt; Bezdrátová připojení a sítě)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Při hledání či sdílení štítků musíte mít zapnutou komunikaci NFC (Nastavení &gt; Bezdrátová připojení a sítě)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Další informace naleznete, stisknete-li tlačítko Menu a dotknete se možnosti Nápověda na kterékoli obrazovce Štítků."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
