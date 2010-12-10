@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"NFC(Near Field Communication) 태그 구성에 사용되는 태그입니다."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"NFC(Near Field Communication) 태그 구성 및 공유를 위한 태그입니다."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"전화를 켜서 태그 바로 옆에 놓아 태그를 스캔할 수 있습니다."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC 태그는 텍스트와 URL, 사진, 기타 정보를 포함할 수 있습니다."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"태그를 검색하려면 \'설정\'의 무선 &amp; 네트워크에서 NFC를 사용하도록 설정해야 합니다."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"태그를 스캔하거나 공유하려면 \'설정\'의 \'무선 및 네트워크\'에서 NFC를 사용하도록 설정해야 합니다."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"자세한 내용을 보려면 \'메뉴\'를 누르고 태그 화면에서 \'도움말\'을 터치하세요."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Mit Tags werden NFC-Tags (Near Field Communication) organisiert."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags dient zur Organisation und Freigabe von Near Field Communication-Tags (NFC)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Schalten Sie zum Scannen eines Tags Ihr Telefon ein und legen Sie es direkt neben ein Tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-Tags können Text, URLs, Bilder und andere Informationen enthalten."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Zum Scannen von Tags muss NFC in den Einstellungen unter \"Drahtlos &amp; Netzwerke\" aktiviert werden."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Zum Scannen und Freigeben von Tags müssen Sie NFC (über \"Einstellungen\" > \"Drahtlos &amp; Netzwerke\") aktivieren."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Über \"Menü\" &gt; \"Hilfe\" erhalten Sie auf allen Tags-Bildschirmen weitere Informationen."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

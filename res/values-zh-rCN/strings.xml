@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"“标记”可用于整理近距离通信 (NFC) 标记。"</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"“标记”可用于整理和分享近距离通信 (NFC) 标记。"</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"您只需打开手机并将其放置在某个标记旁边，即可扫描该标记。"</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC 标记可以包含文本、网址、图片和其他类型的信息。"</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"要扫描标记，您必须打开 NFC（在“无线和网络”下的“设置”中）。"</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"要扫描或分享标记，您必须打开 NFC（在“无线和网络”下的“设置”中）。"</string>
     <string name="intro_text_more2" msgid="28835616891750572">"要了解详细信息，请按“菜单”，然后在任意“标记”屏幕上触摸“帮助”即可。"</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

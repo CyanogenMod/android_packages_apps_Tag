@@ -102,10 +102,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Taggar används för att organisera NFC-taggar (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Etiketter används för att organisera och dela NFC-etiketter (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Du kan skanna en etikett genom att starta telefonen och placera den bredvid etiketten."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-etiketter kan innehålla text, webbadresser, bilder och annan information."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"För att kunna skanna taggar måste du ha NFC aktiverat (i Inställningar under Trådlöst och nätverk)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"För att kunna skanna och dela etiketter måste du ha NFC aktiverat (i Inställningar under Trådlöst och Nätverk)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Tryck på Meny och peka på Hjälp på någon etikettskärm om du vill ha mer informationen."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
