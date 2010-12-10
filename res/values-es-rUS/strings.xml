@@ -71,10 +71,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"La opción Etiquetas se dedica a organizar las etiquetas Transmisión de datos en proximidad (NFC)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"La función que cumplen las etiquetas es la de organizar y compartir etiquetas de Transmisión de datos en proximidad (NFC)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Puedes explorar una etiqueta encendiendo tu teléfono y ubicándolo bien al lado de una etiqueta."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Las etiquetas de NFC pueden incluir texto, URL, imágenes y otros tipos de información."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Para examinar las etiquetas, NFC debe estar prendida (en Configuración, Inalámbrico y redes)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Para explorar o compartir etiquetas, la NFC debe estar encendida (en Configuración, en Redes &amp; inalámbricas)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Para mayor información, presiona Menú y toca Ayuda en cualquier pantalla de etiquetas."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

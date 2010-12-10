@@ -98,10 +98,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Etiketler, Yakın Alan İletişimi (NFC) etiketlerinin düzenlenmesi içindir."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Etiketler, Yakın Alan İletişimi (NFC) etiketlerini düzenlemek ve paylaşmak içindir."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Bir etiketi, telefonunuzu açıp etiketin hemen yanına yerleştirerek tarayabilirsiniz."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC etiketleri metin, URL, resim veya diğer bilgi türlerini içerebilir."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Etiketleri taramak için NFC özelliğini açmanız gerekir (Kablosuz ve Ağlar altında Ayarlar\'da)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Etiketleri taramak veya paylaşmak için cihazınızın NFC\'si açık olmalıdır (Ayarlar\'da, Kablosuz Ağlar\'ın altında)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Daha fazla bilgi için Menü\'ye basın ve herhangi bir Etiketler ekranında Yardım\'a dokunun."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

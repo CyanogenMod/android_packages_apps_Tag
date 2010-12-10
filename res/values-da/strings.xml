@@ -98,10 +98,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Tags bruges til organisering af NFC-tags (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags bruges til organisering og deling af tags til NFC (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Du scanner et tag ved at tænde din telefon og placere den lige ved siden af et tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-tags kan indeholde tekst, webadresser, billeder og andre former for oplysninger."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Scan tags ved at aktivere NFC (i Indstillinger under Trådløst og netværk)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Du kan scanne eller dele tags ved at aktivere NFC (i Indstillinger under Trådløs og netværk)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Tryk på Menu og Hjælp på skærmen Tags for at få flere oplysninger."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

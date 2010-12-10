@@ -71,10 +71,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Tags vous permet d\'organiser des tags de communication NFC (communication en champ proche)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags vous permet d\'organiser et de partager des tags de communication NFC (communication en champ proche)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Pour scanner un tag, il suffit d\'allumer votre téléphone et de le rapprocher du tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Pour scanner des tags, vous devez activer la fonctionnalité NFC (Paramètres &gt; Sans fil et réseaux)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Pour scanner ou partager des tags, vous devez activer la fonctionnalité NFC (Sans fil et réseaux &gt; Paramètres)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n\'importe quelle page de l\'application Tags."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />

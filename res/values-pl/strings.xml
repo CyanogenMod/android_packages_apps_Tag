@@ -98,10 +98,10 @@
     <skip />
     <!-- no translation found for intro_title (2798106838231744219) -->
     <skip />
-    <string name="intro_text_about" msgid="2850842578893895610">"Aplikacja Tagi służy do porządkowania tagów komunikacji NFC (Near Field Communication)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Aplikacja Tagi służy do porządkowania i udostępniania tagów komunikacji NFC (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Aby zeskanować tag, włącz telefon i umieść go bezpośrednio obok tagu."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Tagi komunikacji NFC mogą zawierać tekst, adresy URL, zdjęcia i inne rodzaje informacji."</string>
-    <string name="intro_text_more" msgid="3224415419156211034">"Aby skanować tagi, należy włączyć komunikację NFC (sekcja Sieci zwykłe i bezprzewodowe w Ustawieniach)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Aby skanować i udostępniać tagi, należy włączyć komunikację NFC (sekcja Sieci zwykłe i bezprzewodowe w Ustawieniach)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Aby uzyskać więcej informacji, wybierz kolejno opcje Menu i Pomoc na dowolnym ekranie aplikacji Tagi."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
