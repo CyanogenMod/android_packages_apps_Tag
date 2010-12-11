@@ -78,7 +78,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
     }
 
     private void populateEditor() {
-        NdefMessage localMessage = NfcAdapter.getDefaultAdapter().getLocalNdefMessage();
+        NdefMessage localMessage = NfcAdapter.getDefaultAdapter(this).getLocalNdefMessage();
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction()) && !mParsedIntent) {
             if (localMessage != null) {
@@ -168,7 +168,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
      */
     private void onSave() {
         String text = mTextView.getText().toString();
-        NfcAdapter nfc = NfcAdapter.getDefaultAdapter();
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
 
         if (!mEnabled.isChecked()) {
             nfc.setLocalNdefMessage(null);
@@ -203,7 +203,7 @@ public class MyTagActivity extends EditTagActivity implements OnClickListener {
                 if (enabled) {
                     onSave();
                 } else {
-                    NfcAdapter.getDefaultAdapter().setLocalNdefMessage(null);
+                    NfcAdapter.getDefaultAdapter(this).setLocalNdefMessage(null);
                 }
                 break;
 
