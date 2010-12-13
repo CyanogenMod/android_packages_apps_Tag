@@ -86,7 +86,7 @@ public class TagBrowserActivity extends TabActivity implements DialogInterface.O
     public void onResume() {
         super.onResume();
         // Check to see if NFC is on
-        NfcAdapter nfc = NfcAdapter.getDefaultAdapter();
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc == null || !nfc.isEnabled()) {
             showDialog(DIALOG_NFC_OFF);
         }
