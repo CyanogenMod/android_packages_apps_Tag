@@ -155,7 +155,8 @@ public class TagViewer extends Activity implements OnClickListener {
     void resolveIntent(Intent intent) {
         // Parse the intent
         String action = intent.getAction();
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
+                || NfcAdapter.ACTION_TECHNOLOGY_DISCOVERED.equals(action)) {
             if (SHOW_OVER_LOCK_SCREEN) {
                 // A tag was just scanned so poke the user activity wake lock to keep
                 // the screen on a bit longer in the event that the activity has
