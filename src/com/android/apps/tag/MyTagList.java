@@ -112,7 +112,7 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
 
         mActiveTagId = getPreferences(Context.MODE_PRIVATE).getLong(PREF_KEY_ACTIVE_TAG, -1);
 
-        // Setup the list
+        // Setup the list.
         mAdapter = new TagAdapter(this);
         mList = (ListView) findViewById(android.R.id.list);
         mList.setAdapter(mAdapter);

@@ -38,7 +38,6 @@ import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +47,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.net.MalformedURLException;
@@ -338,7 +336,6 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
             mParsedIntent = true;
             return;
-
         }
 
         Uri uri = intent.getData();
@@ -427,12 +424,23 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
         );
 
         values.addAll(getValues());
-
         NdefMessage msg = new NdefMessage(values.toArray(new NdefRecord[values.size()]));
-        Intent result = new Intent();
-        result.putExtra(EXTRA_RESULT_MSG, msg);
-        setResult(RESULT_OK, result);
-        finish();
+
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            // If opening directly from a different application via ACTION_SEND, save the tag and
+            // open the MyTagList so they can enable it.
+            TagService.saveMyMessages(this, new NdefMessage[] { msg });
+
+            Intent openMyTags = new Intent(this, MyTagList.class);
+            startActivity(openMyTags);
+            finish();
+
+        } else {
+            Intent result = new Intent();
+            result.putExtra(EXTRA_RESULT_MSG, msg);
+            setResult(RESULT_OK, result);
+            finish();
+        }
     }
 
     @Override
