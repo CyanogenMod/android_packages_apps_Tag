@@ -27,14 +27,20 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -63,6 +69,7 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
 
     private static final String BUNDLE_KEY_TAG_ID_IN_EDIT = "tag-edit";
     private static final String PREF_KEY_ACTIVE_TAG = "active-my-tag";
+    static final String PREF_KEY_TAG_TO_WRITE = "tag-to-write";
 
     private View mSelectActiveTagAnchor;
     private View mActiveTagDetails;
@@ -76,6 +83,8 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
 
     private WeakReference<SelectActiveTagDialog> mSelectActiveTagDialog;
     private long mTagIdInEdit = -1;
+
+    private boolean mWriteSupport = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,11 +114,17 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
         mList = (ListView) findViewById(android.R.id.list);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(this);
-        registerForContextMenu(mList);
         findViewById(R.id.add_tag).setOnClickListener(this);
 
         // Kick off an async task to load the tags.
         new TagLoaderTask().execute((Void[]) null);
+
+        // If we're not on a user build offer a back door for writing tags.
+        // The UX is horrible so we don't want to ship it but need it for testing.
+        if (!Build.TYPE.equalsIgnoreCase("user")) {
+            mWriteSupport = true;
+            registerForContextMenu(mList);
+        }
     }
 
     @Override
@@ -130,6 +145,28 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
             mAdapter.changeCursor(null);
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        if (mWriteSupport) {
+            menu.add(0, 1, 0, "Write to next tag scanned");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "bad menuInfo", e);
+            return false;
+        }
+
+        SharedPreferences prefs = getSharedPreferences("tags.pref", Context.MODE_PRIVATE);
+        prefs.edit().putLong(PREF_KEY_TAG_TO_WRITE, info.id).apply();
+        return true;
     }
 
     @Override
