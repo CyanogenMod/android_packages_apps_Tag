@@ -18,7 +18,6 @@ package com.android.apps.tag;
 
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
-import com.android.apps.tag.provider.TagContract;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.ParsedNdefRecord;
 
@@ -30,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -60,6 +60,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -223,15 +224,31 @@ public class TagViewer extends Activity implements OnClickListener {
             mStar.setEnabled(true);
 
             // Play notification.
-            MediaPlayer player = MediaPlayer.create(this, R.raw.discovered_tag_notification);
-            player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
+            try {
+                AssetFileDescriptor afd = getResources().openRawResourceFd(
+                        R.raw.discovered_tag_notification);
+                if (afd != null) {
+                    MediaPlayer player = new MediaPlayer();
+                    player.setDataSource(
+                            afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    afd.close();
+                    player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+                    player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+                    });
+                    player.prepare();
+                    player.start();
                 }
-            });
-            player.start();
+            } catch (IOException ex) {
+                Log.d(TAG, "Unable to play sound for tag discovery", ex);
+            } catch (IllegalArgumentException ex) {
+                Log.d(TAG, "Unable to play sound for tag discovery", ex);
+            } catch (SecurityException ex) {
+                Log.d(TAG, "Unable to play sound for tag discovery", ex);
+            }
 
         } else if (Intent.ACTION_VIEW.equals(action)) {
             // Setup the views
