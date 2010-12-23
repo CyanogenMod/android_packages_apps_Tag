@@ -182,4 +182,14 @@ Networks).</string>
     <!-- Header for list of tags that can be set as My tag. [CHAR LIMIT=50] -->
     <string name="manage_my_tags">Manage my tags</string>
 
+    <!-- Menu item indicating that the user wants to delete a tag. [CHAR LIMIT=50] -->
+    <string name="menu_delete">Delete tag</string>
+
+    <!-- Menu item indicating that the user wants to edit a tag. [CHAR LIMIT=50] -->
+    <string name="menu_edit">Edit tag</string>
+
+    <!-- Menu item indicating that the user wants to set a tag
+         as the active tag to share as the device's tag. [CHAR LIMIT=50] -->
+    <string name="menu_set_as_active">Set as active tag</string>
+
 </resources>
