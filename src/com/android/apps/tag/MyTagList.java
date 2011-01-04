@@ -116,6 +116,11 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
         mList.setOnItemClickListener(this);
         findViewById(R.id.add_tag).setOnClickListener(this);
 
+        // Don't setup the empty view until after the first load
+        // so the empty text doesn't flash when first loading the
+        // activity.
+        mList.setEmptyView(null);
+
         // Kick off an async task to load the tags.
         new TagLoaderTask().execute((Void[]) null);
 
@@ -202,10 +207,6 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
     final class TagLoaderTask extends AsyncTask<Void, Void, Cursor> {
         @Override
         public Cursor doInBackground(Void... args) {
-            // Don't setup the empty view until after the first load
-            // so the empty text doesn't flash when first loading the
-            // activity.
-            mList.setEmptyView(null);
             Cursor cursor = getContentResolver().query(
                     NdefMessages.CONTENT_URI,
                     TagQuery.PROJECTION,
