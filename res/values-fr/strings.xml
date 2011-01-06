@@ -26,6 +26,10 @@
     <string name="tag_empty" msgid="3726529819932095782">"Tag vide"</string>
     <string name="button_delete" msgid="8636971153075546776">"Supprimer"</string>
     <string name="button_done" msgid="7048822758098308158">"OK"</string>
+    <!-- no translation found for button_save (1396693475082322626) -->
+    <skip />
+    <!-- no translation found for button_cancel (8094182910311905776) -->
+    <skip />
     <!-- outdated translation 365822201502077181 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Si vous ne souhaitez pas ajouter ce tag à votre collection, appuyez sur \"OK\"."</string>
     <string name="action_text" msgid="577417996159152923">"Envoyer un SMS à <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Appeler <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
@@ -78,4 +82,8 @@
     <string name="intro_text_more2" msgid="28835616891750572">"Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n\'importe quelle page de l\'application Tags."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
+    <string name="add_tag" msgid="703494598879855113">"Ajouter un tag"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Sélectionner un tag à partager"</string>
+    <string name="active_tag" msgid="7417732109196094058">"Tag actif"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"Gérer mes tags"</string>
 </resources>
