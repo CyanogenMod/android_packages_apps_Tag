@@ -36,6 +36,10 @@
     <skip />
     <!-- no translation found for button_done (7048822758098308158) -->
     <skip />
+    <!-- no translation found for button_save (1396693475082322626) -->
+    <skip />
+    <!-- no translation found for button_cancel (8094182910311905776) -->
+    <skip />
     <!-- no translation found for cancel_help_text (2582335582642459522) -->
     <skip />
     <!-- no translation found for action_text (577417996159152923) -->
@@ -105,4 +109,8 @@
     <string name="intro_text_more2" msgid="28835616891750572">"자세한 내용을 보려면 \'메뉴\'를 누르고 태그 화면에서 \'도움말\'을 터치하세요."</string>
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
+    <string name="add_tag" msgid="703494598879855113">"새 태그 추가"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"공유할 태그 선택"</string>
+    <string name="active_tag" msgid="7417732109196094058">"활성 태그"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"내 태그 관리"</string>
 </resources>
