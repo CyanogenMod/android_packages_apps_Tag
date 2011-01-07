@@ -31,11 +31,15 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -245,6 +249,203 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
 
         if (mRecordWithOutstandingPick != null) {
             outState.putParcelable(BUNDLE_KEY_OUTSTANDING_PICK, mRecordWithOutstandingPick);
+        }
+    }
+
+    interface GetTagQuery {
+        final static String[] PROJECTION = new String[] {
+                NdefMessages.BYTES
+        };
+
+        static final int COLUMN_BYTES = 0;
+    }
+
+    /**
+     * Loads a tag from the database, parses it, and builds the views.
+     */
+    final class LoadTagTask extends AsyncTask<Uri, Void, Cursor> {
+        @Override
+        public Cursor doInBackground(Uri... args) {
+            Cursor cursor = getContentResolver().query(args[0], GetTagQuery.PROJECTION,
+                    null, null, null);
+
+            // Ensure the cursor loads its window.
+            if (cursor != null) {
+                cursor.getCount();
+            }
+            return cursor;
+        }
+
+        @Override
+        public void onPostExecute(Cursor cursor) {
+            NdefMessage msg = null;
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    msg = new NdefMessage(cursor.getBlob(GetTagQuery.COLUMN_BYTES));
+                    if (msg != null) {
+                        populateFromMessage(msg);
+                    } else {
+                        // TODO: do something more graceful.
+                        finish();
+                    }
+                }
+            } catch (FormatException e) {
+                Log.e(LOG_TAG, "Unable to parse tag for editing.", e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+    }
+
+    private void resolveIntent() {
+        Intent intent = getIntent();
+
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && !mParsedIntent) {
+            if (buildFromSendIntent(intent)) {
+                return;
+            }
+
+            mParsedIntent = true;
+            return;
+        }
+
+        Uri uri = intent.getData();
+        if (uri != null) {
+            // Edit existing tag.
+            new LoadTagTask().execute(uri);
+        }
+        // else, new tag - do nothing.
+    }
+
+    private void populateFromMessage(NdefMessage refMessage) {
+        // Locally stored message.
+        ParsedNdefMessage parsed = NdefMessageParser.parse(refMessage);
+        List<ParsedNdefRecord> records = parsed.getRecords();
+
+        // TODO: loosen this restriction. Just check the type of the first record.
+        // There is always a "Text" record for a My Tag.
+        if (records.size() < 1) {
+            Log.w(LOG_TAG, "Message not in expected format");
+            return;
+        }
+        mTextView.setText(((TextRecord) records.get(0)).getText());
+
+        mRecords.clear();
+        for (int i = 1, len = records.size(); i < len; i++) {
+            RecordEditInfo editInfo = records.get(i).getEditInfo(this);
+            if (editInfo != null) {
+                addRecord(editInfo);
+            }
+        }
+        rebuildChildViews();
+    }
+
+    /**
+     * Populates the editor from extras in a given {@link Intent}
+     * @param intent the {@link Intent} to parse.
+     * @return whether or not the {@link Intent} could be handled.
+     */
+    private boolean buildFromSendIntent(final Intent intent) {
+        String type = intent.getType();
+
+        if ("text/plain".equals(type)) {
+            String title = getIntent().getStringExtra(Intent.EXTRA_SUBJECT);
+            mTextView.setText((title == null) ? "" : title);
+
+            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+            try {
+                URL parsed = new URL(text);
+
+                // Valid URL.
+                mTextView.setText("");
+                mRecords.add(new UriRecord.UriRecordEditInfo(text));
+                rebuildChildViews();
+                return true;
+
+            } catch (MalformedURLException ex) {
+                // Ignore. Just treat as plain text.
+                mTextView.setText((text == null) ? "" : text);
+            }
+
+        } else if ("text/x-vcard".equals(type)) {
+            Uri stream = (Uri) getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
+            if (stream != null) {
+                RecordEditInfo editInfo = VCardRecord.editInfoForUri(stream);
+                if (editInfo != null) {
+                    mRecords.add(editInfo);
+                    rebuildChildViews();
+                    return true;
+                }
+            }
+        }
+
+        // TODO: handle images.
+
+        return false;
+    }
+
+    /**
+     * Saves the content of the tag.
+     */
+    private void saveAndFinish() {
+        String text = mTextView.getText().toString();
+        Locale locale = getResources().getConfiguration().locale;
+        ArrayList<NdefRecord> values = Lists.newArrayList(
+                TextRecord.newTextRecord(text, locale)
+        );
+
+        values.addAll(getValues());
+        NdefMessage msg = new NdefMessage(values.toArray(new NdefRecord[values.size()]));
+
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            // If opening directly from a different application via ACTION_SEND, save the tag and
+            // open the MyTagList so they can enable it.
+            TagService.saveMyMessages(this, new NdefMessage[] { msg });
+
+            Intent openMyTags = new Intent(this, MyTagList.class);
+            startActivity(openMyTags);
+            finish();
+
+        } else {
+            Intent result = new Intent();
+            result.putExtra(EXTRA_RESULT_MSG, msg);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+    }
+
+    @Override
+    public void onClick(View target) {
+        switch (target.getId()) {
+            case R.id.add_content_target:
+                showAddContentDialog();
+                break;
+            case R.id.save:
+                saveAndFinish();
+                break;
+            case R.id.cancel:
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help:
+                HelpUtils.openHelp(this);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
