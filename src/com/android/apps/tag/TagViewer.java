@@ -284,7 +284,7 @@ public class TagViewer extends Activity implements OnClickListener {
             cursor.close();
             NdefMessage msg = new NdefMessage(bytes);
 
-            Ndef ndef = (Ndef) tag.getTechnology(adapter, TagTechnology.NDEF);
+            Ndef ndef = (Ndef) adapter.getTechnology(tag, TagTechnology.NDEF);
             if (ndef != null) {
                 ndef.connect();
                 if (!ndef.isWritable()) {
@@ -297,7 +297,7 @@ public class TagViewer extends Activity implements OnClickListener {
                         .show();
                 return true;
             } else {
-                NdefFormatable format = (NdefFormatable) tag.getTechnology(adapter,
+                NdefFormatable format = (NdefFormatable) adapter.getTechnology(tag,
                         TagTechnology.NDEF_FORMATABLE);
                 if (format != null) {
                     format.connect();
