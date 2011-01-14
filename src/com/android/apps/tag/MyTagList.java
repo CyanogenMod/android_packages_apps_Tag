@@ -16,8 +16,14 @@
 
 package com.android.apps.tag;
 
+import com.android.apps.tag.TagContentSelector.SelectContentCallbacks;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
+import com.android.apps.tag.record.ImageRecord;
+import com.android.apps.tag.record.RecordEditInfo;
+import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.VCardRecord;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import android.app.Activity;
@@ -40,7 +46,6 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,21 +63,26 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Displays the list of tags that can be set as "My tag", and allows the user to select the
  * active tag that the device shares.
  */
-public class MyTagList extends Activity implements OnItemClickListener, View.OnClickListener {
+public class MyTagList
+        extends Activity
+        implements OnItemClickListener, View.OnClickListener, SelectContentCallbacks {
 
     static final String TAG = "TagList";
 
     private static final int REQUEST_EDIT = 0;
     private static final int DIALOG_ID_SELECT_ACTIVE_TAG = 0;
+    private static final int DIALOG_ID_ADD_NEW_TAG = 1;
 
     private static final String BUNDLE_KEY_TAG_ID_IN_EDIT = "tag-edit";
     private static final String PREF_KEY_ACTIVE_TAG = "active-my-tag";
     static final String PREF_KEY_TAG_TO_WRITE = "tag-to-write";
+
 
     private View mSelectActiveTagAnchor;
     private View mActiveTagDetails;
@@ -313,15 +323,28 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
                 break;
 
             case R.id.add_tag:
-                // TODO: use implicit intents.
-                Intent intent = new Intent(this, EditTagActivity.class);
-                startActivityForResult(intent, REQUEST_EDIT);
+                showDialog(DIALOG_ID_ADD_NEW_TAG);
                 break;
 
             case R.id.active_tag:
                 showDialog(DIALOG_ID_SELECT_ACTIVE_TAG);
                 break;
         }
+    }
+
+    @Override
+    public Set<String> getSupportedTypes() {
+        return ImmutableSet.of(
+                VCardRecord.RECORD_TYPE,
+                UriRecord.RECORD_TYPE
+        );
+    }
+
+    @Override
+    public void onSelectContent(RecordEditInfo info) {
+        Intent intent = new Intent(this, EditTagActivity.class);
+        intent.putExtra(EditTagActivity.EXTRA_NEW_RECORD_INFO, info);
+        startActivityForResult(intent, REQUEST_EDIT);
     }
 
     @Override
@@ -408,6 +431,8 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
             mSelectActiveTagDialog = new WeakReference<SelectActiveTagDialog>(
                     new SelectActiveTagDialog(this, mAdapter.getCursor()));
             return mSelectActiveTagDialog.get();
+        } else if (id == DIALOG_ID_ADD_NEW_TAG) {
+            return new TagContentSelector(this, this);
         }
         return super.onCreateDialog(id, args);
     }

@@ -264,7 +264,7 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         }
 
         protected VCardRecordEditInfo(Parcel parcel) {
-            super(RECORD_TYPE);
+            super(parcel);
             mLookupUri = parcel.readParcelable(null);
             int valueLength = parcel.readInt();
             if (valueLength > 0) {

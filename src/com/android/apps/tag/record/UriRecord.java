@@ -292,7 +292,8 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
         }
 
         protected UriRecordEditInfo(Parcel parcel) {
-            this(parcel.readString());
+            super(parcel);
+            mCurrentValue = parcel.readString();
         }
 
         @Override
@@ -302,6 +303,7 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
 
         @Override
         public void handlePickResult(Context context, Intent data) {
+            // Not supported.
         }
 
         @Override
