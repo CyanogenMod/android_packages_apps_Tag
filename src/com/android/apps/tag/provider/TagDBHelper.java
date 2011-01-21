@@ -29,7 +29,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TagDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "tags.db";
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 16;
 
     public static final String TABLE_NAME_NDEF_MESSAGES = "ndef_msgs";
 
