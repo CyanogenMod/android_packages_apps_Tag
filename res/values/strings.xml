@@ -195,4 +195,12 @@ Networks).</string>
          as the active tag to share as the device's tag. [CHAR LIMIT=50] -->
     <string name="menu_set_as_active">Set as active tag</string>
 
+    <!-- Error message displayed when attempting to enable sharing of a "My tag"
+         with no tag selected. [CHAR LIMIT=80] -->
+    <string name="no_tag_selected">You do not have a tag selected to share.</string>
+
+    <!-- Error message displayed when attempting to select an active tag when
+         none have been created. [CHAR LIMIT=80] -->
+    <string name="no_tags_created">You have no tags created.</string>
+
 </resources>

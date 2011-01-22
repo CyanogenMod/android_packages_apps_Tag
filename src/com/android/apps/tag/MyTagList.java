@@ -18,7 +18,6 @@ package com.android.apps.tag;
 
 import com.android.apps.tag.TagContentSelector.SelectContentCallbacks;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
-import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.UriRecord;
 import com.android.apps.tag.record.VCardRecord;
@@ -32,10 +31,12 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
+import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -55,6 +56,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -71,7 +73,8 @@ import java.util.Set;
  */
 public class MyTagList
         extends Activity
-        implements OnItemClickListener, View.OnClickListener, SelectContentCallbacks {
+        implements OnItemClickListener, View.OnClickListener,
+                   SelectContentCallbacks, TagService.SaveCallbacks {
 
     static final String TAG = "TagList";
 
@@ -91,8 +94,8 @@ public class MyTagList
 
     private TagAdapter mAdapter;
     private long mActiveTagId;
+    private Uri mTagBeingSaved;
     private NdefMessage mActiveTag;
-    private boolean mInitialLoadComplete = false;
 
     private WeakReference<SelectActiveTagDialog> mSelectActiveTagDialog;
     private long mTagIdInEdit = -1;
@@ -144,6 +147,12 @@ public class MyTagList
             mWriteSupport = true;
             registerForContextMenu(mList);
         }
+
+        if (getIntent().hasExtra(EditTagActivity.EXTRA_RESULT_MSG)) {
+            NdefMessage msg = (NdefMessage) Preconditions.checkNotNull(
+                    getIntent().getParcelableExtra(EditTagActivity.EXTRA_RESULT_MSG));
+            saveNewMessage(msg);
+        }
     }
 
     @Override
@@ -165,7 +174,6 @@ public class MyTagList
         }
         super.onDestroy();
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -224,22 +232,18 @@ public class MyTagList
 
             if (cursor == null || cursor.getCount() == 0) {
                 setEmptyView();
-            } else if (mActiveTagId != -1) {
-                mAdapter.changeCursor(cursor);
-
+            } else {
                 // Find the active tag.
-                cursor.moveToPosition(-1);
-                while (cursor.moveToNext()) {
-                    if (mActiveTagId == cursor.getLong(TagQuery.COLUMN_ID)) {
-                        selectActiveTag(cursor.getPosition());
+                if (mTagBeingSaved != null) {
+                    selectTagBeingSaved(mTagBeingSaved);
 
-                        // If there was an existing shared tag, we update the contents, since
-                        // the active tag contents may have been changed. This also forces the
-                        // active tag to be in sync with what the NfcAdapter.
-                        if (NfcAdapter.getDefaultAdapter().getLocalNdefMessage() != null) {
-                            enableSharing();
+                } else if (mActiveTagId != -1) {
+                    cursor.moveToPosition(-1);
+                    while (cursor.moveToNext()) {
+                        if (mActiveTagId == cursor.getLong(TagQuery.COLUMN_ID)) {
+                            selectActiveTag(cursor.getPosition());
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -259,6 +263,7 @@ public class MyTagList
     static final class ViewHolder {
         public CharArrayBuffer titleBuffer;
         public TextView mainLine;
+        public ImageView activeIcon;
     }
 
     /**
@@ -279,6 +284,9 @@ public class MyTagList
             CharArrayBuffer buf = holder.titleBuffer;
             cursor.copyStringToBuffer(TagQuery.COLUMN_TITLE, buf);
             holder.mainLine.setText(buf.data, 0, buf.sizeCopied);
+
+            boolean isActive = cursor.getLong(TagQuery.COLUMN_ID) == mActiveTagId;
+            holder.activeIcon.setVisibility(isActive ? View.VISIBLE : View.GONE);
         }
 
         @Override
@@ -289,6 +297,7 @@ public class MyTagList
             ViewHolder holder = new ViewHolder();
             holder.titleBuffer = new CharArrayBuffer(64);
             holder.mainLine = (TextView) view.findViewById(R.id.title);
+            holder.activeIcon = (ImageView) view.findViewById(R.id.active_tag_icon);
             view.findViewById(R.id.date).setVisibility(View.GONE);
             view.setTag(holder);
 
@@ -309,13 +318,12 @@ public class MyTagList
                 boolean enabled = !mEnabled.isChecked();
                 if (enabled) {
                     if (mActiveTag != null) {
-                        enableSharing();
+                        enableSharingAndStoreTag();
                         return;
                     }
-                    // TODO: just disable the checkbox when no tag is set
                     Toast.makeText(
                             this,
-                            "You must select a tag to share first.",
+                            getResources().getString(R.string.no_tag_selected),
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -327,6 +335,27 @@ public class MyTagList
                 break;
 
             case R.id.active_tag:
+                if (mAdapter.getCursor() == null || mAdapter.getCursor().isClosed()) {
+                    // Hopefully shouldn't happen.
+                    return;
+                }
+
+                if (mAdapter.getCursor().getCount() == 0) {
+                    OnClickListener onAdd = new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == AlertDialog.BUTTON_POSITIVE) {
+                                showDialog(DIALOG_ID_ADD_NEW_TAG);
+                            }
+                        }
+                    };
+                    new AlertDialog.Builder(this)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(R.string.add_tag, onAdd)
+                            .setMessage(R.string.no_tags_created)
+                            .show();
+                    return;
+                }
                 showDialog(DIALOG_ID_SELECT_ACTIVE_TAG);
                 break;
         }
@@ -420,9 +449,23 @@ public class MyTagList
             if (mTagIdInEdit != -1) {
                 TagService.updateMyMessage(this, mTagIdInEdit, msg);
             } else {
-                TagService.saveMyMessages(this, new NdefMessage[] { msg });
+                saveNewMessage(msg);
             }
         }
+    }
+
+    private void saveNewMessage(NdefMessage msg) {
+        TagService.saveMyMessage(this, msg, this);
+    }
+
+    @Override
+    public void onSaveComplete(Uri newMsgUri) {
+        if (isFinishing()) {
+            // Callback came asynchronously and was after we finished - ignore.
+            return;
+        }
+        mTagBeingSaved = newMsgUri;
+        selectTagBeingSaved(newMsgUri);
     }
 
     @Override
@@ -441,8 +484,8 @@ public class MyTagList
      * Selects the tag to be used as the "My tag" shared tag.
      *
      * This does not necessarily persist the selection to the {@code NfcAdapter}. That must be done
-     * via {@link #enableSharing}. However, it will call {@link #disableSharing} if the tag
-     * is invalid.
+     * via {@link #enableSharingAndStoreTag()}. However, it will call {@link #disableSharing()}
+     * if the tag is invalid.
      */
     private void selectActiveTag(int position) {
         Cursor cursor = mAdapter.getCursor();
@@ -458,8 +501,15 @@ public class MyTagList
                         .putLong(PREF_KEY_ACTIVE_TAG, mActiveTagId)
                         .apply();
 
-                // Notify NFC adapter of the My tag contents.
                 updateActiveTagView(cursor.getString(TagQuery.COLUMN_TITLE));
+                mAdapter.notifyDataSetChanged();
+
+                // If there was an existing shared tag, we update the contents, since
+                // the active tag contents may have been changed. This also forces the
+                // active tag to be in sync with what the NfcAdapter.
+                if (NfcAdapter.getDefaultAdapter(this).getLocalNdefMessage() != null) {
+                    enableSharingAndStoreTag();
+                }
 
             } catch (FormatException e) {
                 // TODO: handle.
@@ -469,16 +519,42 @@ public class MyTagList
             updateActiveTagView(null);
             disableSharing();
         }
+        mTagBeingSaved = null;
     }
 
-    private void enableSharing() {
+    /**
+     * Selects the tag to be used as the "My tag" shared tag, if the specified URI is found.
+     * If the URI is not found, the next load will attempt to look for a matching tag to select.
+     *
+     * Commonly used for new tags that was just added to the database, and may not yet be
+     * reflected in the {@code Cursor}.
+     */
+    private void selectTagBeingSaved(Uri uri) {
+        Cursor cursor = mAdapter.getCursor();
+        if (cursor == null) {
+            return;
+        }
+        cursor.moveToPosition(-1);
+        while (cursor.moveToNext()) {
+            Uri tagUri = ContentUris.withAppendedId(
+                    NdefMessages.CONTENT_URI,
+                    cursor.getLong(TagQuery.COLUMN_ID));
+            if (tagUri.equals(uri)) {
+                selectActiveTag(cursor.getPosition());
+                return;
+            }
+        }
+    }
+
+    private void enableSharingAndStoreTag() {
         mEnabled.setChecked(true);
-        NfcAdapter.getDefaultAdapter().setLocalNdefMessage(Preconditions.checkNotNull(mActiveTag));
+        NfcAdapter.getDefaultAdapter(this).setLocalNdefMessage(
+                Preconditions.checkNotNull(mActiveTag));
     }
 
     private void disableSharing() {
         mEnabled.setChecked(false);
-        NfcAdapter.getDefaultAdapter().setLocalNdefMessage(null);
+        NfcAdapter.getDefaultAdapter(this).setLocalNdefMessage(null);
     }
 
     private void updateActiveTagView(String title) {
@@ -559,9 +635,8 @@ public class MyTagList
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectActiveTag(position);
-            enableSharing();
+            enableSharingAndStoreTag();
             cancel();
         }
     }
-
 }
