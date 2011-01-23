@@ -394,7 +394,7 @@ public class MyTagList
         mTagIdLongPressed = id;
 
         if (mWriteSupport) {
-            menu.add(0, 1, 0, "Write to next tag scanned");
+            menu.add(0, 1, 0, "Write to tag");
         }
     }
 
@@ -433,8 +433,9 @@ public class MyTagList
                     break;
                 }
 
-                SharedPreferences prefs = getSharedPreferences("tags.pref", Context.MODE_PRIVATE);
-                prefs.edit().putLong(PREF_KEY_TAG_TO_WRITE, info.id).apply();
+                Intent intent = new Intent(this, WriteTagActivity.class);
+                intent.putExtra("id", info.id);
+                startActivity(intent);
                 return true;
         }
         return false;

@@ -90,6 +90,11 @@
             android:screenOrientation="portrait"
         />
 
+        <activity android:name="WriteTagActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+        />
+
         <service android:name="TagService" />
 
         <provider android:name=".provider.TagProvider"
