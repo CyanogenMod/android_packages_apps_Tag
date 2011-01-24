@@ -39,9 +39,8 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.technology.Ndef;
-import android.nfc.technology.NdefFormatable;
-import android.nfc.technology.TagTechnology;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -272,7 +271,6 @@ public class TagViewer extends Activity implements OnClickListener {
 
     private boolean writeTag(Tag tag, long id) {
         try {
-            NfcAdapter adapter = NfcAdapter.getDefaultAdapter(this);
             Cursor cursor = getContentResolver().query(
                     ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id),
                     new String[] { NdefMessages.BYTES }, null, null, null);
@@ -284,7 +282,7 @@ public class TagViewer extends Activity implements OnClickListener {
             cursor.close();
             NdefMessage msg = new NdefMessage(bytes);
 
-            Ndef ndef = (Ndef) adapter.getTechnology(tag, TagTechnology.NDEF);
+            Ndef ndef = Ndef.get(tag);
             if (ndef != null) {
                 ndef.connect();
                 if (!ndef.isWritable()) {
@@ -297,8 +295,7 @@ public class TagViewer extends Activity implements OnClickListener {
                         .show();
                 return true;
             } else {
-                NdefFormatable format = (NdefFormatable) adapter.getTechnology(tag,
-                        TagTechnology.NDEF_FORMATABLE);
+                NdefFormatable format = NdefFormatable.get(tag);
                 if (format != null) {
                     format.connect();
                     format.format(msg);
