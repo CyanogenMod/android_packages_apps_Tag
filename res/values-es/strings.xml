@@ -33,7 +33,7 @@
     <!-- outdated translation 365822201502077181 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Para no añadir esta etiqueta a tu colección, pulsa \"Listo\"."</string>
     <string name="action_text" msgid="577417996159152923">"Enviar SMS al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Llamar al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <!-- outdated translation 6562647393888581594 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Activar mi etiqueta"</string>
+    <string name="turn_on_my_tag" msgid="6584695906051991524">"Compartir mi etiqueta"</string>
     <!-- outdated translation 1011044901986151563 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Mostrar el contenido de la etiqueta a otros dispositivos"</string>
     <!-- outdated translation 8406651662147887724 -->     <string name="add_content" msgid="6592975981339055673">"Añadir más contenido…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Título"</string>
@@ -57,14 +57,10 @@
     <skip />
     <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
     <skip />
-    <!-- no translation found for button_settings (6909066985958159920) -->
-    <skip />
-    <!-- no translation found for empty_list (1306390399412856676) -->
-    <skip />
-    <!-- no translation found for empty_list_starred (7185947321271594216) -->
-    <skip />
-    <!-- no translation found for button_more_info (574247138099633767) -->
-    <skip />
+    <string name="button_settings" msgid="6909066985958159920">"Ajustes"</string>
+    <string name="empty_list" msgid="1306390399412856676">"No has escaneado ninguna etiqueta."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"No has destacado ninguna etiqueta."</string>
+    <string name="button_more_info" msgid="574247138099633767">"Más información"</string>
     <!-- no translation found for vcard_title (7122634780732426007) -->
     <skip />
     <!-- no translation found for next (8672447228208567606) -->
@@ -83,7 +79,7 @@
     <!-- no translation found for tag_deleted (5411251725532471624) -->
     <skip />
     <string name="add_tag" msgid="703494598879855113">"Añadir nueva etiqueta"</string>
-    <string name="choose_my_tag" msgid="4208730132705026130">"Elegir una etiqueta para compartir"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Elige una etiqueta para compartir"</string>
     <string name="active_tag" msgid="7417732109196094058">"Etiqueta activa"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Administrar mis etiquetas"</string>
 </resources>
