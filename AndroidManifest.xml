@@ -34,6 +34,7 @@
     >
         <activity android:name="TagBrowserActivity"
             android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -43,7 +44,10 @@
 
         <activity android:name="TagList" />
 
-        <activity android:name="MyTagList" />
+        <!-- TODO: lift the portrait restriction by re-working the list in the
+             layout. -->
+        <activity android:name="MyTagList"
+            android:screenOrientation="portrait" />
 
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"

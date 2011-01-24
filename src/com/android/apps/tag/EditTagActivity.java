@@ -60,7 +60,7 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
     private static final String LOG_TAG = "Tags";
 
-    protected static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
+    protected static final String BUNDLE_KEY_RECORD = "outstanding-pick";
     public static final String EXTRA_RESULT_MSG = "com.android.apps.tag.msg";
     public static final String EXTRA_NEW_RECORD_INFO = "com.android.apps.tag.new_record";
 
@@ -100,7 +100,12 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
         mContentRoot = (ViewGroup) findViewById(R.id.content_parent);
 
-        resolveIntent();
+        if (savedState != null) {
+            mRecord = savedState.getParcelable(BUNDLE_KEY_RECORD);
+            refresh();
+        } else {
+            resolveIntent();
+        }
     }
 
     /**
@@ -158,7 +163,7 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(BUNDLE_KEY_OUTSTANDING_PICK, mRecord);
+        outState.putParcelable(BUNDLE_KEY_RECORD, mRecord);
     }
 
     interface GetTagQuery {
