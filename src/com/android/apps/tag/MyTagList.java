@@ -40,10 +40,13 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
@@ -83,6 +86,7 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
 
     private WeakReference<SelectActiveTagDialog> mSelectActiveTagDialog;
     private long mTagIdInEdit = -1;
+    private long mTagIdLongPressed;
 
     private boolean mWriteSupport = false;
 
@@ -152,30 +156,16 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
         super.onDestroy();
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        if (mWriteSupport) {
-            menu.add(0, 1, 0, "Write to next tag scanned");
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info;
-        try {
-             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "bad menuInfo", e);
-            return false;
-        }
-
-        SharedPreferences prefs = getSharedPreferences("tags.pref", Context.MODE_PRIVATE);
-        prefs.edit().putLong(PREF_KEY_TAG_TO_WRITE, info.id).apply();
-        return true;
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        editTag(id);
+    }
+
+    /**
+     * Opens the tag editor for a particular tag.
+     */
+    private void editTag(long id) {
         // TODO: use implicit Intent?
         Intent intent = new Intent(this, EditTagActivity.class);
         intent.setData(ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id));
@@ -338,6 +328,70 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo info) {
+        Cursor cursor = mAdapter.getCursor();
+        if (cursor == null
+                || cursor.isClosed()
+                || !cursor.moveToPosition(((AdapterContextMenuInfo) info).position)) {
+            return;
+        }
+
+        long id = cursor.getLong(TagQuery.COLUMN_ID);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_tag_list_context_menu, menu);
+
+        // Prepare the menu for the item.
+        menu.findItem(R.id.set_as_active).setVisible(id != mActiveTagId);
+        mTagIdLongPressed = id;
+
+        if (mWriteSupport) {
+            menu.add(0, 1, 0, "Write to next tag scanned");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        long id = mTagIdLongPressed;
+        switch (item.getItemId()) {
+            case R.id.delete:
+                deleteTag(id);
+                return true;
+
+            case R.id.set_as_active:
+                Cursor cursor = mAdapter.getCursor();
+                if (cursor == null || cursor.isClosed()) {
+                    break;
+                }
+
+                for (int position = 0; cursor.moveToPosition(position); position++) {
+                    if (cursor.getLong(TagQuery.COLUMN_ID) == id) {
+                        selectActiveTag(position);
+                        return true;
+                    }
+                }
+                break;
+
+            case R.id.edit:
+                editTag(id);
+                return true;
+
+            case 1:
+                AdapterView.AdapterContextMenuInfo info;
+                try {
+                    info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                } catch (ClassCastException e) {
+                    Log.e(TAG, "bad menuInfo", e);
+                    break;
+                }
+
+                SharedPreferences prefs = getSharedPreferences("tags.pref", Context.MODE_PRIVATE);
+                prefs.edit().putLong(PREF_KEY_TAG_TO_WRITE, info.id).apply();
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
             NdefMessage msg = (NdefMessage) Preconditions.checkNotNull(
@@ -416,6 +470,16 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
         }
     }
 
+    /**
+     * Removes the tag from the "My tag" list.
+     */
+    private void deleteTag(long id) {
+        if (id == mActiveTagId) {
+            selectActiveTag(-1);
+        }
+        TagService.delete(this, ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id));
+    }
+
     class SelectActiveTagDialog extends AlertDialog
             implements DialogInterface.OnClickListener, OnItemClickListener {
 
@@ -426,7 +490,6 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
             super(context);
 
             setTitle(context.getResources().getString(R.string.choose_my_tag));
-            LayoutInflater inflater = LayoutInflater.from(context);
             ListView list = new ListView(MyTagList.this);
 
             mData = Lists.newArrayList();
@@ -478,4 +541,5 @@ public class MyTagList extends Activity implements OnItemClickListener, View.OnC
             cancel();
         }
     }
+
 }
