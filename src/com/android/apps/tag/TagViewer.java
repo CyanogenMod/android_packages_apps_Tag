@@ -183,18 +183,6 @@ public class TagViewer extends Activity implements OnClickListener {
                 }
             }
 
-            // Check to see if there's a tag queued up for writing.
-            SharedPreferences prefs = getSharedPreferences("tags.pref", Context.MODE_PRIVATE);
-            long tagToWrite = prefs.getLong(MyTagList.PREF_KEY_TAG_TO_WRITE, 0);
-            prefs.edit().putLong(MyTagList.PREF_KEY_TAG_TO_WRITE, 0).apply();
-            if (tagToWrite != 0) {
-                if (writeTag((Tag) intent.getParcelableExtra(NfcAdapter.EXTRA_TAG), tagToWrite)) {
-                    Toast.makeText(this, "Tag written", Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
-            }
-
             // When a tag is discovered we send it to the service to be save. We
             // include a PendingIntent for the service to call back onto. This
             // will cause this activity to be restarted with onNewIntent(). At
@@ -267,51 +255,6 @@ public class TagViewer extends Activity implements OnClickListener {
             finish();
             return;
         }
-    }
-
-    private boolean writeTag(Tag tag, long id) {
-        try {
-            Cursor cursor = getContentResolver().query(
-                    ContentUris.withAppendedId(NdefMessages.CONTENT_URI, id),
-                    new String[] { NdefMessages.BYTES }, null, null, null);
-            if (cursor == null || !cursor.moveToFirst()) {
-                return false;
-            }
-
-            byte[] bytes = cursor.getBlob(0);
-            cursor.close();
-            NdefMessage msg = new NdefMessage(bytes);
-
-            Ndef ndef = Ndef.get(tag);
-            if (ndef != null) {
-                ndef.connect();
-                if (!ndef.isWritable()) {
-                    Toast.makeText(this, "Tag is read-only, not writing", Toast.LENGTH_SHORT)
-                            .show();
-                    return false;
-                }
-                ndef.writeNdefMessage(msg);
-                Toast.makeText(this, "Wrote message to pre-formatted tag", Toast.LENGTH_SHORT)
-                        .show();
-                return true;
-            } else {
-                NdefFormatable format = NdefFormatable.get(tag);
-                if (format != null) {
-                    format.connect();
-                    format.format(msg);
-                    Toast.makeText(this, "Formatted tag and wrote message", Toast.LENGTH_SHORT)
-                            .show();
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to write tag", e);
-        }
-
-        Toast.makeText(this, "Failed to write tag", Toast.LENGTH_SHORT)
-                .show();
-
-        return false;
     }
 
     void buildTagViews(NdefMessage[] msgs) {
