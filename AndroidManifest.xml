@@ -62,9 +62,11 @@
             <!-- Offer to display anything with NDEF data -->
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
-                <data android:scheme="vnd.android.nfc" android:host="tag" android:pathPattern=".*\/6\/.*" />
-                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
+            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/filter_nfc"
+            />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
