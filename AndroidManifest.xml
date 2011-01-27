@@ -69,6 +69,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Make the activity show up as "My tag" when resolving intent -->
         <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>

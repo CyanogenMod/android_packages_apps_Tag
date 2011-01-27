@@ -20,21 +20,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:src="@drawable/ic_btn_round_minus"
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-    />
-
     <TextView
         android:id="@+id/title"
         android:text="@string/photo"
         style="@style/record_title"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/delete"
     />
 
     <ImageView

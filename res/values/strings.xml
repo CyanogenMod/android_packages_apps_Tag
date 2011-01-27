@@ -64,6 +64,9 @@
     <!-- Label for control which enables/disables the "my tag" feature. -->
     <string name="turn_on_my_tag">Share my tag</string>
 
+    <!-- Label for activity which edits a tag to share/write [CHAR LIMIT=60] -->
+    <string name="edit_tag">Edit tag</string>
+
     <!-- Description for the control which enables/disables the "my tag" feature. -->
     <string name="turn_on_my_tag_subtitle">Allow others to read my tag </string>
 

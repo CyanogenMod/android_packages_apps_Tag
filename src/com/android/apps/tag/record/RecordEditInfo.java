@@ -93,9 +93,7 @@ public abstract class RecordEditInfo implements Parcelable, View.OnClickListener
         result.setTag(this);
 
         View deleteButton = result.findViewById(R.id.delete);
-        if (deleteButton == null) {
-            throw new IllegalArgumentException("All record edit layouts must have a delete button");
-        } else {
+        if (deleteButton != null) {
             deleteButton.setOnClickListener(this);
         }
         mCallbacks = callbacks;
