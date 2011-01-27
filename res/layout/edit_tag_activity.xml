@@ -32,18 +32,21 @@ limitations under the License.
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+
+        android:orientation="horizontal"
+        style="@android:style/ButtonBar"
     >
         <Button
             android:id="@+id/save"
             android:text="@string/button_save"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/cancel"
             android:text="@string/button_cancel"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
