@@ -26,64 +26,60 @@
     <string name="tag_empty" msgid="3726529819932095782">"Tag vide"</string>
     <string name="button_delete" msgid="8636971153075546776">"Supprimer"</string>
     <string name="button_done" msgid="7048822758098308158">"OK"</string>
-    <!-- no translation found for button_save (1396693475082322626) -->
-    <skip />
-    <!-- no translation found for button_cancel (8094182910311905776) -->
-    <skip />
-    <!-- outdated translation 365822201502077181 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Si vous ne souhaitez pas ajouter ce tag à votre collection, appuyez sur \"OK\"."</string>
+    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"Enregistrer"</string>
+    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"Annuler"</string>
+    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Si vous ne souhaitez pas ajouter ce tag à votre collection, appuyez sur \"OK\"."</string>
     <string name="action_text" msgid="577417996159152923">"Envoyer un SMS à <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Appeler <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <!-- outdated translation 6562647393888581594 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Activer mon tag"</string>
-    <!-- outdated translation 1011044901986151563 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Afficher le contenu du tag sur d\'autres appareils"</string>
-    <!-- outdated translation 8406651662147887724 -->     <string name="add_content" msgid="6592975981339055673">"Ajouter d\'autres contenus..."</string>
+    <!-- outdated translation 8038177284374892711 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Partager mon tag"</string>
+    <!-- no translation found for edit_tag (3708659122033447892) -->
+    <skip />
+    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Permettre aux autres de lire mon tag"</string>
+    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"Plus…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Titre"</string>
     <string name="tag_text" msgid="522896767632155048">"Texte"</string>
     <string name="select_type" msgid="1845302736320827995">"Sélection d\'un type à ajouter"</string>
     <string name="photo" msgid="986413518082114481">"Photo"</string>
-    <!-- no translation found for bad_photo (1601260684495341633) -->
-    <skip />
+    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"Impossible d\'ouvrir l\'image."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Contact"</string>
     <string name="location" msgid="2476366526591580807">"Adresse"</string>
-    <!-- outdated translation 223147094383092767 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Ce tag est vide et modifiable."</string>
-    <!-- outdated translation 7637637289034694058 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Pour ajouter du contenu, sélectionnez \"Rédiger\"."</string>
-    <!-- outdated translation 6603572710467839029 -->     <string name="write" msgid="4957259770248890625">"Rédiger"</string>
+    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Ce tag est vide."</string>
+    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Appuyez sur "<b>"Définir un tag"</b>" pour ajouter du contenu."</string>
+    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"Rédiger un tag"</string>
     <string name="cancel" msgid="2168193471147260328">"Annuler"</string>
     <string name="menu_help" msgid="2340550693525288105">"Aide"</string>
-    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"Importer vCard"</string>
-    <!-- no translation found for mime_display_name (5926357152623764485) -->
-    <skip />
-    <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
-    <skip />
-    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
-    <skip />
-    <!-- no translation found for button_settings (6909066985958159920) -->
-    <skip />
-    <!-- no translation found for empty_list (1306390399412856676) -->
-    <skip />
-    <!-- no translation found for empty_list_starred (7185947321271594216) -->
-    <skip />
-    <!-- no translation found for button_more_info (574247138099633767) -->
-    <skip />
-    <!-- no translation found for vcard_title (7122634780732426007) -->
-    <skip />
-    <!-- no translation found for next (8672447228208567606) -->
-    <skip />
-    <!-- no translation found for back (7389918385345281227) -->
-    <skip />
-    <!-- no translation found for close (5521003720382005075) -->
-    <skip />
-    <!-- no translation found for intro_title (2798106838231744219) -->
-    <skip />
+    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"Importer ^1"</string>
+    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"Données relatives aux tags de communication NFC"</string>
+    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Communication NFC désactivée"</string>
+    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Vous devez activer la fonctionnalité NFC pour scanner des tags."</string>
+    <!-- outdated translation 952868820745656494 -->     <string name="button_settings" msgid="6909066985958159920">"Paramètres"</string>
+    <!-- outdated translation 7797866401978902332 -->     <string name="empty_list" msgid="1306390399412856676">"Vous n\'avez scanné aucun tag."</string>
+    <!-- outdated translation 7842589445254113433 -->     <string name="empty_list_starred" msgid="7185947321271594216">"Vous n\'avez ajouté aucun tag dans vos favoris."</string>
+    <!-- outdated translation 8191822912351891937 -->     <string name="button_more_info" msgid="574247138099633767">"Plus d\'informations"</string>
+    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"Coordonnées de ^1"</string>
+    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"Suivant"</string>
+    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"Retour"</string>
+    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"Fermer"</string>
+    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"À propos des tags"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"Tags vous permet d\'organiser et de partager des tags de communication NFC (communication en champ proche)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Pour scanner un tag, il suffit d\'allumer votre téléphone et de le rapprocher du tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"Pour scanner ou partager des tags, vous devez activer la fonctionnalité NFC (Sans fil et réseaux &gt; Paramètres)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n\'importe quelle page de l\'application Tags."</string>
-    <!-- no translation found for tag_deleted (5411251725532471624) -->
-    <skip />
+    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"Tag supprimé"</string>
     <string name="add_tag" msgid="703494598879855113">"Ajouter un tag"</string>
     <string name="choose_my_tag" msgid="4208730132705026130">"Sélectionner un tag à partager"</string>
     <string name="active_tag" msgid="7417732109196094058">"Tag actif"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Gérer mes tags"</string>
+    <!-- no translation found for menu_delete (8834253717174232653) -->
+    <skip />
+    <!-- no translation found for menu_edit (2163829689000692138) -->
+    <skip />
+    <!-- no translation found for menu_set_as_active (6637492981297642733) -->
+    <skip />
+    <!-- no translation found for no_tag_selected (127078607162539962) -->
+    <skip />
+    <!-- no translation found for no_tags_created (5963013948308289234) -->
+    <skip />
 </resources>

@@ -32,6 +32,8 @@
     <string name="action_text" msgid="577417996159152923">"Envia un missatge de text a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Truca a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Comparteix la meva etiqueta"</string>
+    <!-- no translation found for edit_tag (3708659122033447892) -->
+    <skip />
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Permet que els altres llegeixin la meva etiqueta"</string>
     <string name="add_content" msgid="6592975981339055673">"Més…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Títol"</string>
@@ -70,4 +72,11 @@
     <string name="choose_my_tag" msgid="4208730132705026130">"Tria una etiqueta per compartir"</string>
     <string name="active_tag" msgid="7417732109196094058">"Etiqueta activa"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Gestiona les meves etiquetes"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"Suprimeix l\'etiqueta"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"Edita l\'etiqueta"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"Defineix com a etiqueta activa"</string>
+    <!-- no translation found for no_tag_selected (127078607162539962) -->
+    <skip />
+    <!-- no translation found for no_tags_created (5963013948308289234) -->
+    <skip />
 </resources>

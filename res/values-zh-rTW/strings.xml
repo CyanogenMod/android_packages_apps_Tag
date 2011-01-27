@@ -16,101 +16,69 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_name (5128188288358721369) -->
-    <skip />
-    <!-- no translation found for title_scanned_tag (4347835407095551450) -->
-    <skip />
-    <!-- no translation found for title_existing_tag (5656560272594190244) -->
-    <skip />
-    <!-- no translation found for tab_tags (3254131516215269385) -->
-    <skip />
-    <!-- no translation found for tab_starred (3892615665321783044) -->
-    <skip />
-    <!-- no translation found for tab_my_tag (4194581094362833242) -->
-    <skip />
-    <!-- no translation found for tag_unknown (2897956823877728783) -->
-    <skip />
-    <!-- no translation found for tag_empty (3726529819932095782) -->
-    <skip />
-    <!-- no translation found for button_delete (8636971153075546776) -->
-    <skip />
-    <!-- no translation found for button_done (7048822758098308158) -->
-    <skip />
-    <!-- no translation found for button_save (1396693475082322626) -->
-    <skip />
-    <!-- no translation found for button_cancel (8094182910311905776) -->
-    <skip />
-    <!-- no translation found for cancel_help_text (2582335582642459522) -->
-    <skip />
+    <!-- outdated translation 5304933463526075749 -->     <string name="app_name" msgid="5128188288358721369">"標籤"</string>
+    <!-- outdated translation 7384975095174110118 -->     <string name="title_scanned_tag" msgid="4347835407095551450">"已收集新標記"</string>
+    <!-- outdated translation 2662331589219371469 -->     <string name="title_existing_tag" msgid="5656560272594190244">"標記"</string>
+    <!-- outdated translation 1996850878390617058 -->     <string name="tab_tags" msgid="3254131516215269385">"標籤"</string>
+    <!-- outdated translation 574623989611443923 -->     <string name="tab_starred" msgid="3892615665321783044">"已加星號"</string>
+    <!-- outdated translation 3834389511172779926 -->     <string name="tab_my_tag" msgid="4194581094362833242">"我的標記"</string>
+    <!-- outdated translation 7186030022136125928 -->     <string name="tag_unknown" msgid="2897956823877728783">"不明的標記格式"</string>
+    <!-- outdated translation 4628010924830367949 -->     <string name="tag_empty" msgid="3726529819932095782">"空標記"</string>
+    <!-- outdated translation 3844107775573652591 -->     <string name="button_delete" msgid="8636971153075546776">"刪除"</string>
+    <!-- outdated translation 3630962338388532665 -->     <string name="button_done" msgid="7048822758098308158">"完成"</string>
+    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"儲存"</string>
+    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"取消"</string>
+    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"輕觸 [完成] 即不需將這個標記加入您的收藏。"</string>
     <!-- no translation found for action_text (577417996159152923) -->
     <skip />
     <!-- no translation found for action_call (6226253647953184035) -->
     <skip />
-    <!-- no translation found for turn_on_my_tag (6584695906051991524) -->
+    <!-- outdated translation 8038177284374892711 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"分享我的標記"</string>
+    <!-- no translation found for edit_tag (3708659122033447892) -->
     <skip />
-    <!-- no translation found for turn_on_my_tag_subtitle (4174686056239752759) -->
-    <skip />
-    <!-- no translation found for add_content (6592975981339055673) -->
-    <skip />
-    <!-- no translation found for tag_title (4734199420853998617) -->
-    <skip />
-    <!-- no translation found for tag_text (522896767632155048) -->
-    <skip />
-    <!-- no translation found for select_type (1845302736320827995) -->
-    <skip />
-    <!-- no translation found for photo (986413518082114481) -->
-    <skip />
-    <!-- no translation found for bad_photo (1601260684495341633) -->
-    <skip />
+    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"允許其他人讀取我的標記"</string>
+    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"更多..."</string>
+    <!-- outdated translation 346978808158631341 -->     <string name="tag_title" msgid="4734199420853998617">"頭銜"</string>
+    <!-- outdated translation 4427517319085885869 -->     <string name="tag_text" msgid="522896767632155048">"傳送簡訊"</string>
+    <!-- outdated translation 4296500130950220194 -->     <string name="select_type" msgid="1845302736320827995">"選取要新增的類型"</string>
+    <!-- outdated translation 7237702272759463537 -->     <string name="photo" msgid="986413518082114481">"相片"</string>
+    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"無法開啟圖片。"</string>
     <string name="url" msgid="5939765162489949437">"網址"</string>
-    <!-- no translation found for contact (8810195884019228695) -->
-    <skip />
-    <!-- no translation found for location (2476366526591580807) -->
-    <skip />
-    <!-- no translation found for empty_tag_prompt (4206394383309956030) -->
-    <skip />
-    <!-- no translation found for empty_tag_instructions (9156733538909958916) -->
-    <skip />
-    <!-- no translation found for write (4957259770248890625) -->
-    <skip />
-    <!-- no translation found for cancel (2168193471147260328) -->
-    <skip />
-    <!-- no translation found for menu_help (2340550693525288105) -->
-    <skip />
-    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"匯入 vCard"</string>
-    <!-- no translation found for mime_display_name (5926357152623764485) -->
-    <skip />
-    <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
-    <skip />
-    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
-    <skip />
-    <!-- no translation found for button_settings (6909066985958159920) -->
-    <skip />
-    <!-- no translation found for empty_list (1306390399412856676) -->
-    <skip />
-    <!-- no translation found for empty_list_starred (7185947321271594216) -->
-    <skip />
-    <!-- no translation found for button_more_info (574247138099633767) -->
-    <skip />
-    <!-- no translation found for vcard_title (7122634780732426007) -->
-    <skip />
-    <!-- no translation found for next (8672447228208567606) -->
-    <skip />
-    <!-- no translation found for back (7389918385345281227) -->
-    <skip />
-    <!-- no translation found for close (5521003720382005075) -->
-    <skip />
-    <!-- no translation found for intro_title (2798106838231744219) -->
-    <skip />
+    <!-- outdated translation 4027528512535816533 -->     <string name="contact" msgid="8810195884019228695">"聯絡人"</string>
+    <!-- outdated translation 9041329136600077731 -->     <string name="location" msgid="2476366526591580807">"地點"</string>
+    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"這是標記是空的。"</string>
+    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"輕觸 [寫入標記] 即可新增內容。"<b></b></string>
+    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"寫入標記"</string>
+    <!-- outdated translation 43782095633865571 -->     <string name="cancel" msgid="2168193471147260328">"取消"</string>
+    <!-- outdated translation 8136565546077127193 -->     <string name="menu_help" msgid="2340550693525288105">"說明"</string>
+    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"匯入^1"</string>
+    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"NFC 標記的資料"</string>
+    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC 已關閉"</string>
+    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"您必須開啟 NFC 才能掃描標記。"</string>
+    <!-- outdated translation 952868820745656494 -->     <string name="button_settings" msgid="6909066985958159920">"設定"</string>
+    <!-- outdated translation 7797866401978902332 -->     <string name="empty_list" msgid="1306390399412856676">"您尚未掃描任標記"</string>
+    <!-- outdated translation 7842589445254113433 -->     <string name="empty_list_starred" msgid="7185947321271594216">"沒有已加星號的標記。"</string>
+    <!-- outdated translation 8191822912351891937 -->     <string name="button_more_info" msgid="574247138099633767">"更多資訊"</string>
+    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"聯絡人 ^1 的資訊"</string>
+    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"下一頁"</string>
+    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"返回"</string>
+    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"關閉"</string>
+    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"關於標記"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"「標記」可用來組織和分享近距離無線通訊 (NFC) 標記。"</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"您可以開啟手機，並放置在某個標記旁，即可掃描該標記。"</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC 標籤可包含文字、網址、圖片，以及其他各種資訊。"</string>
     <string name="intro_text_more" msgid="4127006088499721149">"如要掃描或分享標籤，您必須開啟 NFC (在 [設定] 中的 [無線與網路] 之下)。"</string>
     <string name="intro_text_more2" msgid="28835616891750572">"如要進一步瞭解，請按選單鍵，然後在任何「標記」螢幕上輕觸 [說明]。"</string>
-    <!-- no translation found for tag_deleted (5411251725532471624) -->
-    <skip />
+    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"標記已刪除"</string>
     <string name="add_tag" msgid="703494598879855113">"新增標記"</string>
     <string name="choose_my_tag" msgid="4208730132705026130">"選擇要分享的標記"</string>
     <string name="active_tag" msgid="7417732109196094058">"主動標記"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"管理我的標記"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"刪除標記"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"編輯標記"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"設為可用標記"</string>
+    <!-- no translation found for no_tag_selected (127078607162539962) -->
+    <skip />
+    <!-- no translation found for no_tags_created (5963013948308289234) -->
+    <skip />
 </resources>
