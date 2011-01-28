@@ -304,9 +304,8 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
         if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // If opening directly from a different application via ACTION_SEND, save the tag and
             // open the MyTagList so they can enable it.
-            TagService.saveMyMessages(this, new NdefMessage[] { msg });
-
             Intent openMyTags = new Intent(this, MyTagList.class);
+            openMyTags.putExtra(EXTRA_RESULT_MSG, msg);
             startActivity(openMyTags);
             finish();
 
