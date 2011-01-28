@@ -16,9 +16,9 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.TagContentSelector.SelectContentCallbacks;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.RecordEditInfo;
+import com.android.apps.tag.record.TextRecord;
 import com.android.apps.tag.record.UriRecord;
 import com.android.apps.tag.record.VCardRecord;
 import com.google.common.base.Preconditions;
@@ -74,7 +74,8 @@ import java.util.Set;
 public class MyTagList
         extends Activity
         implements OnItemClickListener, View.OnClickListener,
-                   SelectContentCallbacks, TagService.SaveCallbacks {
+                   TagService.SaveCallbacks,
+                   DialogInterface.OnClickListener {
 
     static final String TAG = "TagList";
 
@@ -86,6 +87,11 @@ public class MyTagList
     private static final String PREF_KEY_ACTIVE_TAG = "active-my-tag";
     static final String PREF_KEY_TAG_TO_WRITE = "tag-to-write";
 
+    static final String[] SUPPORTED_TYPES = new String[] {
+            VCardRecord.RECORD_TYPE,
+            UriRecord.RECORD_TYPE,
+            TextRecord.RECORD_TYPE,
+    };
 
     private View mSelectActiveTagAnchor;
     private View mActiveTagDetails;
@@ -362,21 +368,6 @@ public class MyTagList
     }
 
     @Override
-    public Set<String> getSupportedTypes() {
-        return ImmutableSet.of(
-                VCardRecord.RECORD_TYPE,
-                UriRecord.RECORD_TYPE
-        );
-    }
-
-    @Override
-    public void onSelectContent(RecordEditInfo info) {
-        Intent intent = new Intent(this, EditTagActivity.class);
-        intent.putExtra(EditTagActivity.EXTRA_NEW_RECORD_INFO, info);
-        startActivityForResult(intent, REQUEST_EDIT);
-    }
-
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo info) {
         Cursor cursor = mAdapter.getCursor();
         if (cursor == null
@@ -472,17 +463,40 @@ public class MyTagList
 
     @Override
     protected Dialog onCreateDialog(int id, Bundle args) {
+        Context lightTheme = new ContextThemeWrapper(this, android.R.style.Theme_Light);
         if (id == DIALOG_ID_SELECT_ACTIVE_TAG) {
-            Context lightTheme = new ContextThemeWrapper(this, android.R.style.Theme_Light);
             SelectActiveTagDialog dialog = new SelectActiveTagDialog(lightTheme,
                     mAdapter.getCursor());
             dialog.setInverseBackgroundForced(true);
             mSelectActiveTagDialog = new WeakReference<SelectActiveTagDialog>(dialog);
             return dialog;
         } else if (id == DIALOG_ID_ADD_NEW_TAG) {
-            return new TagContentSelector(this, this);
+            ContentSelectorAdapter adapter = new ContentSelectorAdapter(lightTheme,
+                    SUPPORTED_TYPES);
+            AlertDialog dialog = new AlertDialog.Builder(lightTheme)
+                    .setTitle(R.string.select_type)
+                    .setIcon(0)
+                    .setNegativeButton(android.R.string.cancel, this)
+                    .setAdapter(adapter, this)
+                    .create();
+            adapter.setListView(dialog.getListView());
+            dialog.setInverseBackgroundForced(true);
+            return dialog;
         }
         return super.onCreateDialog(id, args);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_NEGATIVE) {
+            dialog.cancel();
+        } else {
+            RecordEditInfo info = (RecordEditInfo) ((AlertDialog) dialog).getListView()
+                    .getAdapter().getItem(which);
+            Intent intent = new Intent(this, EditTagActivity.class);
+            intent.putExtra(EditTagActivity.EXTRA_NEW_RECORD_INFO, info);
+            startActivityForResult(intent, REQUEST_EDIT);
+        }
     }
 
     /**

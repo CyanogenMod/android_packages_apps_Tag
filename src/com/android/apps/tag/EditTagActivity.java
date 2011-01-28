@@ -19,11 +19,13 @@ package com.android.apps.tag;
 import com.android.apps.tag.message.NdefMessageParser;
 import com.android.apps.tag.message.ParsedNdefMessage;
 import com.android.apps.tag.provider.TagContract.NdefMessages;
-import com.android.apps.tag.record.ImageRecord;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
+import com.android.apps.tag.record.TextRecord;
+import com.android.apps.tag.record.TextRecord.TextRecordEditInfo;
 import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.UriRecord.UriRecordEditInfo;
 import com.android.apps.tag.record.VCardRecord;
 import com.google.common.collect.ImmutableSet;
 
@@ -66,7 +68,8 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
     protected static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
         VCardRecord.RECORD_TYPE,
-        UriRecord.RECORD_TYPE
+        UriRecord.RECORD_TYPE,
+        TextRecord.RECORD_TYPE
     );
 
     /**
@@ -134,7 +137,6 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
         root.addView(editView);
     }
 
-
     @Override
     public void startPickForRecord(RecordEditInfo editInfo, Intent intent) {
         startActivityForResult(intent, 0);
@@ -147,6 +149,8 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((resultCode != RESULT_OK) || (data == null)) {
+            // No valid data, close the editor.
+            finish();
             return;
         }
 
@@ -154,9 +158,15 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
         try {
             mRecord.handlePickResult(this, data);
         } catch (IllegalArgumentException ex) {
-            // TODO: handle.
+            // No valid data, close the editor.
+            finish();
             return;
         }
+
+        // Update the title to indicate that we're adding a tag instead of editing.
+        setTitle(R.string.add_tag);
+
+        // Setup the tag views
         refresh();
     }
 
@@ -196,12 +206,7 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     msg = new NdefMessage(cursor.getBlob(GetTagQuery.COLUMN_BYTES));
-                    if (msg != null) {
-                        populateFromMessage(msg);
-                    } else {
-                        // TODO: do something more graceful.
-                        finish();
-                    }
+                    populateFromMessage(msg);
                 }
             } catch (FormatException e) {
                 Log.e(LOG_TAG, "Unable to parse tag for editing.", e);
@@ -248,7 +253,7 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
         }
     }
 
-    private void populateFromMessage(NdefMessage refMessage) {
+    void populateFromMessage(NdefMessage refMessage) {
         // Locally stored message.
         ParsedNdefMessage parsed = NdefMessageParser.parse(refMessage);
         List<ParsedNdefRecord> records = parsed.getRecords();
@@ -277,12 +282,15 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
                 URL parsed = new URL(text);
 
                 // Valid URL.
-                mRecord = new UriRecord.UriRecordEditInfo(text);
+                mRecord = new UriRecordEditInfo(text);
                 refresh();
                 return true;
 
             } catch (MalformedURLException ex) {
-                // TODO: handle.
+                // Random text
+                mRecord = new TextRecordEditInfo(text);
+                refresh();
+                return true;
             }
 
         } else if ("text/x-vcard".equals(type)) {
@@ -304,6 +312,12 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
      * Saves the content of the tag.
      */
     private void saveAndFinish() {
+        if (mRecord == null) {
+            setResult(RESULT_CANCELED);
+            finish();
+            return;
+        }
+
         NdefMessage msg = new NdefMessage(new NdefRecord[] { mRecord.getValue() });
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
