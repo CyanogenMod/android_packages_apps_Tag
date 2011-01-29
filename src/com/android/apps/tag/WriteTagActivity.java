@@ -113,7 +113,7 @@ public class WriteTagActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.enableForegroundDispatch(this, mPendingIntent, (IntentFilter[]) null);
+        mAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
     }
 
     @Override
