@@ -16,93 +16,60 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_name (5128188288358721369) -->
-    <skip />
-    <!-- no translation found for title_scanned_tag (4347835407095551450) -->
-    <skip />
-    <!-- no translation found for title_existing_tag (5656560272594190244) -->
-    <skip />
-    <!-- no translation found for tab_tags (3254131516215269385) -->
-    <skip />
-    <!-- no translation found for tab_starred (3892615665321783044) -->
-    <skip />
-    <!-- no translation found for tab_my_tag (4194581094362833242) -->
-    <skip />
-    <!-- no translation found for tag_unknown (2897956823877728783) -->
-    <skip />
-    <!-- no translation found for tag_empty (3726529819932095782) -->
-    <skip />
-    <!-- no translation found for button_delete (8636971153075546776) -->
-    <skip />
-    <!-- no translation found for button_done (7048822758098308158) -->
-    <skip />
-    <!-- no translation found for cancel_help_text (2582335582642459522) -->
-    <skip />
+    <!-- outdated translation 5304933463526075749 -->     <string name="app_name" msgid="5128188288358721369">"태그"</string>
+    <!-- outdated translation 7384975095174110118 -->     <string name="title_scanned_tag" msgid="4347835407095551450">"새 태그가 수집됨"</string>
+    <!-- outdated translation 2662331589219371469 -->     <string name="title_existing_tag" msgid="5656560272594190244">"태그"</string>
+    <!-- outdated translation 1996850878390617058 -->     <string name="tab_tags" msgid="3254131516215269385">"태그"</string>
+    <!-- outdated translation 574623989611443923 -->     <string name="tab_starred" msgid="3892615665321783044">"별표"</string>
+    <!-- outdated translation 3834389511172779926 -->     <string name="tab_my_tag" msgid="4194581094362833242">"내 태그"</string>
+    <!-- outdated translation 7186030022136125928 -->     <string name="tag_unknown" msgid="2897956823877728783">"알 수 없는 태그 유형"</string>
+    <!-- outdated translation 4628010924830367949 -->     <string name="tag_empty" msgid="3726529819932095782">"빈 태그"</string>
+    <!-- outdated translation 3844107775573652591 -->     <string name="button_delete" msgid="8636971153075546776">"삭제"</string>
+    <!-- outdated translation 3630962338388532665 -->     <string name="button_done" msgid="7048822758098308158">"완료"</string>
+    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"저장"</string>
+    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"취소"</string>
+    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"컬렉션에 이 태그 추가를 건너뛰려면 \'완료\'를 터치하세요."</string>
     <!-- no translation found for action_text (577417996159152923) -->
     <skip />
     <!-- no translation found for action_call (6226253647953184035) -->
     <skip />
-    <!-- no translation found for turn_on_my_tag (6584695906051991524) -->
-    <skip />
-    <!-- no translation found for turn_on_my_tag_subtitle (4174686056239752759) -->
-    <skip />
-    <!-- no translation found for add_content (6592975981339055673) -->
-    <skip />
-    <!-- no translation found for tag_title (4734199420853998617) -->
-    <skip />
-    <!-- no translation found for tag_text (522896767632155048) -->
-    <skip />
-    <!-- no translation found for select_type (1845302736320827995) -->
-    <skip />
-    <!-- no translation found for photo (986413518082114481) -->
-    <skip />
-    <!-- no translation found for bad_photo (1601260684495341633) -->
-    <skip />
+    <!-- outdated translation 8038177284374892711 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"내 태그 공유"</string>
+    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"다른 사용자가 내 태그를 읽도록 허용"</string>
+    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"더보기..."</string>
+    <!-- outdated translation 346978808158631341 -->     <string name="tag_title" msgid="4734199420853998617">"제목"</string>
+    <!-- outdated translation 4427517319085885869 -->     <string name="tag_text" msgid="522896767632155048">"텍스트"</string>
+    <!-- outdated translation 4296500130950220194 -->     <string name="select_type" msgid="1845302736320827995">"추가할 유형 선택"</string>
+    <!-- outdated translation 7237702272759463537 -->     <string name="photo" msgid="986413518082114481">"사진"</string>
+    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"이미지를 열지 못했습니다."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
-    <!-- no translation found for contact (8810195884019228695) -->
-    <skip />
-    <!-- no translation found for location (2476366526591580807) -->
-    <skip />
-    <!-- no translation found for empty_tag_prompt (4206394383309956030) -->
-    <skip />
-    <!-- no translation found for empty_tag_instructions (9156733538909958916) -->
-    <skip />
-    <!-- no translation found for write (4957259770248890625) -->
-    <skip />
-    <!-- no translation found for cancel (2168193471147260328) -->
-    <skip />
-    <!-- no translation found for menu_help (2340550693525288105) -->
-    <skip />
-    <!-- outdated translation 4645060265415019350 -->     <string name="import_vcard" msgid="5104299047930666528">"vCard 가져오기"</string>
-    <!-- no translation found for mime_display_name (5926357152623764485) -->
-    <skip />
-    <!-- no translation found for dialog_title_nfc_off (6945643404976801203) -->
-    <skip />
-    <!-- no translation found for dialog_text_nfc_off (6323019332983777990) -->
-    <skip />
-    <!-- no translation found for button_settings (6909066985958159920) -->
-    <skip />
-    <!-- no translation found for empty_list (1306390399412856676) -->
-    <skip />
-    <!-- no translation found for empty_list_starred (7185947321271594216) -->
-    <skip />
-    <!-- no translation found for button_more_info (574247138099633767) -->
-    <skip />
-    <!-- no translation found for vcard_title (7122634780732426007) -->
-    <skip />
-    <!-- no translation found for next (8672447228208567606) -->
-    <skip />
-    <!-- no translation found for back (7389918385345281227) -->
-    <skip />
-    <!-- no translation found for close (5521003720382005075) -->
-    <skip />
-    <!-- no translation found for intro_title (2798106838231744219) -->
-    <skip />
+    <!-- outdated translation 4027528512535816533 -->     <string name="contact" msgid="8810195884019228695">"연락처"</string>
+    <!-- outdated translation 9041329136600077731 -->     <string name="location" msgid="2476366526591580807">"위치"</string>
+    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"태그가 비어 있습니다."</string>
+    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"내용을 추가하려면 "<b>"태그 작성"</b>"을 터치하세요."</string>
+    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"태그 작성"</string>
+    <!-- outdated translation 43782095633865571 -->     <string name="cancel" msgid="2168193471147260328">"취소"</string>
+    <!-- outdated translation 8136565546077127193 -->     <string name="menu_help" msgid="2340550693525288105">"도움말"</string>
+    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"^1 가져오기"</string>
+    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"NFC 태그의 데이터"</string>
+    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC 사용중지"</string>
+    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"태그를 검색하려면 NFC를 사용하도록 설정해야 합니다."</string>
+    <!-- outdated translation 952868820745656494 -->     <string name="button_settings" msgid="6909066985958159920">"설정"</string>
+    <!-- outdated translation 7797866401978902332 -->     <string name="empty_list" msgid="1306390399412856676">"태그를 검색하지 않았습니다."</string>
+    <!-- outdated translation 7842589445254113433 -->     <string name="empty_list_starred" msgid="7185947321271594216">"별표 표시된 태그가 없습니다."</string>
+    <!-- outdated translation 8191822912351891937 -->     <string name="button_more_info" msgid="574247138099633767">"추가 정보"</string>
+    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"^1의 연락처 정보"</string>
+    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"다음"</string>
+    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"뒤로"</string>
+    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"닫기"</string>
+    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"태그 정보"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"NFC(Near Field Communication) 태그 구성 및 공유를 위한 태그입니다."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"전화를 켜서 태그 바로 옆에 놓아 태그를 스캔할 수 있습니다."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC 태그는 텍스트와 URL, 사진, 기타 정보를 포함할 수 있습니다."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"태그를 스캔하거나 공유하려면 \'설정\'의 \'무선 및 네트워크\'에서 NFC를 사용하도록 설정해야 합니다."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"자세한 내용을 보려면 \'메뉴\'를 누르고 태그 화면에서 \'도움말\'을 터치하세요."</string>
-    <!-- no translation found for tag_deleted (5411251725532471624) -->
-    <skip />
+    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"태그가 삭제됨"</string>
+    <string name="add_tag" msgid="703494598879855113">"새 태그 추가"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"공유할 태그 선택"</string>
+    <string name="active_tag" msgid="7417732109196094058">"활성 태그"</string>
+    <string name="manage_my_tags" msgid="3616349610711109286">"내 태그 관리"</string>
 </resources>
