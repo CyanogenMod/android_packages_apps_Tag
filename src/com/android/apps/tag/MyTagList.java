@@ -33,7 +33,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.net.Uri;
@@ -46,6 +45,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -385,6 +385,7 @@ public class MyTagList
             return;
         }
 
+        menu.setHeaderTitle(cursor.getString(TagQuery.COLUMN_TITLE));
         long id = cursor.getLong(TagQuery.COLUMN_ID);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_tag_list_context_menu, menu);
@@ -472,9 +473,12 @@ public class MyTagList
     @Override
     protected Dialog onCreateDialog(int id, Bundle args) {
         if (id == DIALOG_ID_SELECT_ACTIVE_TAG) {
-            mSelectActiveTagDialog = new WeakReference<SelectActiveTagDialog>(
-                    new SelectActiveTagDialog(this, mAdapter.getCursor()));
-            return mSelectActiveTagDialog.get();
+            Context lightTheme = new ContextThemeWrapper(this, android.R.style.Theme_Light);
+            SelectActiveTagDialog dialog = new SelectActiveTagDialog(lightTheme,
+                    mAdapter.getCursor());
+            dialog.setInverseBackgroundForced(true);
+            mSelectActiveTagDialog = new WeakReference<SelectActiveTagDialog>(dialog);
+            return dialog;
         } else if (id == DIALOG_ID_ADD_NEW_TAG) {
             return new TagContentSelector(this, this);
         }
@@ -589,7 +593,7 @@ public class MyTagList
             super(context);
 
             setTitle(context.getResources().getString(R.string.choose_my_tag));
-            ListView list = new ListView(MyTagList.this);
+            ListView list = new ListView(context);
 
             mData = Lists.newArrayList();
             mSelectAdapter = new SimpleAdapter(
