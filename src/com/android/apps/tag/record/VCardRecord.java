@@ -144,8 +144,8 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
     }
 
     private static Intent getPickContactIntent() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
         return intent;
     }
 
