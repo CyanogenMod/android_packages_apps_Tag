@@ -16,51 +16,66 @@
 
 package com.android.apps.tag;
 
-import com.android.apps.tag.record.ImageRecord;
+import com.android.apps.tag.message.NdefMessageParser;
+import com.android.apps.tag.message.ParsedNdefMessage;
+import com.android.apps.tag.provider.TagContract.NdefMessages;
 import com.android.apps.tag.record.ParsedNdefRecord;
 import com.android.apps.tag.record.RecordEditInfo;
 import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
+import com.android.apps.tag.record.TextRecord;
+import com.android.apps.tag.record.TextRecord.TextRecordEditInfo;
 import com.android.apps.tag.record.UriRecord;
+import com.android.apps.tag.record.UriRecord.UriRecordEditInfo;
 import com.android.apps.tag.record.VCardRecord;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import java.util.ArrayList;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 import java.util.Set;
 
 /**
  * A base {@link Activity} class for an editor of an {@link NdefMessage} tag.
  *
- * The core of the editing is done by various child {@link View}s that differ based on
- * {@link ParsedNdefRecord} types. Each type of {@link ParsedNdefRecord} can build views to
+ * The core of the editing is done by various a {@link View}s that differs based on
+ * {@link ParsedNdefRecord} types. Each type of {@link ParsedNdefRecord} can build a to
  * pick/select a new piece of content, or edit an existing content for the {@link NdefMessage}.
  */
-public abstract class EditTagActivity extends Activity implements OnClickListener, EditCallbacks {
+public class EditTagActivity extends Activity implements OnClickListener, EditCallbacks {
 
-    private static final String BUNDLE_KEY_OUTSTANDING_PICK = "outstanding-pick";
-    protected static final int DIALOG_ID_ADD_CONTENT = 0;
+    private static final String LOG_TAG = "Tags";
 
-    private static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
-        ImageRecord.RECORD_TYPE,
+    protected static final String BUNDLE_KEY_RECORD = "outstanding-pick";
+    public static final String EXTRA_RESULT_MSG = "com.android.apps.tag.msg";
+    public static final String EXTRA_NEW_RECORD_INFO = "com.android.apps.tag.new_record";
+
+    protected static final Set<String> SUPPORTED_RECORD_TYPES = ImmutableSet.of(
+        VCardRecord.RECORD_TYPE,
         UriRecord.RECORD_TYPE,
-        VCardRecord.RECORD_TYPE
+        TextRecord.RECORD_TYPE
     );
 
     /**
-     * Records contained in the current message being edited.
+     * The underlying record in the tag being edited.
      */
-    protected final ArrayList<RecordEditInfo> mRecords = Lists.newArrayList();
+    private RecordEditInfo mRecord;
 
     /**
      * The container where the subviews for each record are housed.
@@ -68,9 +83,10 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     private ViewGroup mContentRoot;
 
     /**
-     * Info about an outstanding picking activity to add a new record.
+     * Whether or not data was already parsed from an {@link Intent}. This happens when the user
+     * shares data via the My tag feature.
      */
-    private RecordEditInfo mRecordWithOutstandingPick;
+    private boolean mParsedIntent = false;
 
     private LayoutInflater mInflater;
 
@@ -78,17 +94,21 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        if (savedState != null) {
-            mRecordWithOutstandingPick = savedState.getParcelable(BUNDLE_KEY_OUTSTANDING_PICK);
-        }
-        mInflater = LayoutInflater.from(this);
-    }
+        setContentView(R.layout.edit_tag_activity);
+        setTitle(getResources().getString(R.string.edit_tag));
 
-    protected ViewGroup getContentRoot() {
-        if (mContentRoot == null) {
-            mContentRoot = (ViewGroup) findViewById(R.id.content_parent);
+        mInflater = LayoutInflater.from(this);
+        findViewById(R.id.save).setOnClickListener(this);
+        findViewById(R.id.cancel).setOnClickListener(this);
+
+        mContentRoot = (ViewGroup) findViewById(R.id.content_parent);
+
+        if (savedState != null) {
+            mRecord = savedState.getParcelable(BUNDLE_KEY_RECORD);
+            refresh();
+        } else {
+            resolveIntent();
         }
-        return mContentRoot;
     }
 
     /**
@@ -100,151 +120,249 @@ public abstract class EditTagActivity extends Activity implements OnClickListene
     }
 
     /**
-     * Builds a {@link View} used as an item in a list when picking a new piece of content to add
-     * to the tag.
+     * Builds a snapshot of current value as held in the internal state of this editor.
      */
-    public View getAddView(ViewGroup parent, String type) {
-        if (ImageRecord.RECORD_TYPE.equals(type)) {
-            return ImageRecord.getAddView(this, mInflater, parent);
-        } else if (UriRecord.RECORD_TYPE.equals(type)) {
-            return UriRecord.getAddView(this, mInflater, parent);
-        } else if (VCardRecord.RECORD_TYPE.equals(type)) {
-            return VCardRecord.getAddView(this, mInflater, parent);
-        }
-        throw new IllegalArgumentException("Not a supported view type");
+    public NdefRecord getValue() {
+        return mRecord.getValue();
     }
 
     /**
-     * Builds a snapshot of current values as held in the internal state of this editor.
+     * Refreshes the UI with updated content from the record.
+     * Typically used when the records require an external {@link Activity} to edit.
      */
-    public ArrayList<NdefRecord> getValues() {
-        ArrayList<NdefRecord> result = new ArrayList<NdefRecord>(mRecords.size());
-        for (RecordEditInfo editInfo : mRecords) {
-            result.add(editInfo.getValue());
-        }
-        return result;
-    }
-
-    /**
-     * Builds a {@link View} used as an item in a list when editing content for a tag.
-     */
-    public void addRecord(RecordEditInfo editInfo) {
-        mRecords.add(Preconditions.checkNotNull(editInfo));
-        addViewForRecord(editInfo);
-    }
-
-    /**
-     * Adds a child editor view for a record.
-     */
-    public void addViewForRecord(RecordEditInfo editInfo) {
-        ViewGroup root = getContentRoot();
-        View editView = editInfo.getEditView(this, mInflater, root, this);
-        root.addView(mInflater.inflate(R.layout.tag_divider, root, false));
-        root.addView(editView);
-    }
-
-    protected void rebuildChildViews() {
-        ViewGroup root = getContentRoot();
+    public void refresh() {
+        ViewGroup root = mContentRoot;
+        View editView = mRecord.getEditView(this, mInflater, root, this);
         root.removeAllViews();
-        for (RecordEditInfo editInfo : mRecords) {
-            addViewForRecord(editInfo);
-        }
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {
-        if (id == DIALOG_ID_ADD_CONTENT) {
-            return new TagContentSelector(this);
-        }
-        return super.onCreateDialog(id, args);
-    }
-
-    @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
-        super.onPrepareDialog(id, dialog, args);
-        if (dialog instanceof TagContentSelector) {
-            ((TagContentSelector) dialog).rebuildViews();
-        }
-    }
-
-    /**
-     * Displays a {@link Dialog} to select a new content type to add to the Tag.
-     */
-    protected void showAddContentDialog() {
-        showDialog(DIALOG_ID_ADD_CONTENT);
+        root.addView(editView);
     }
 
     @Override
     public void startPickForRecord(RecordEditInfo editInfo, Intent intent) {
-        mRecordWithOutstandingPick = editInfo;
         startActivityForResult(intent, 0);
-    }
-
-    /**
-     * Handles a click to select and add a new content type.
-     */
-    public void onAddContentClick(View target) {
-        Object tag = target.getTag();
-        if ((tag == null) || !(tag instanceof RecordEditInfo)) {
-            return;
-        }
-
-        RecordEditInfo info = (RecordEditInfo) tag;
-        Intent pickIntent = info.getPickIntent();
-        if (pickIntent != null) {
-            startPickForRecord(info, pickIntent);
-        } else {
-            // Does not require an external Activity. Add the edit view directly.
-            addRecord(info);
-        }
     }
 
     @Override
     public void deleteRecord(RecordEditInfo editInfo) {
-        mRecords.remove(editInfo);
-        rebuildChildViews();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((resultCode != RESULT_OK) || (data == null)) {
-            mRecordWithOutstandingPick = null;
-            return;
-        }
-        if (mRecordWithOutstandingPick == null) {
+            // No valid data, close the editor.
+            finish();
             return;
         }
 
         // Handles results from another Activity that picked content to write to a tag.
-        RecordEditInfo recordInfo = mRecordWithOutstandingPick;
         try {
-            recordInfo.handlePickResult(this, data);
+            mRecord.handlePickResult(this, data);
         } catch (IllegalArgumentException ex) {
-            if (mRecords.contains(recordInfo)) {
-                deleteRecord(recordInfo);
-            }
+            // No valid data, close the editor.
+            finish();
             return;
         }
 
-        if (mRecords.contains(recordInfo)) {
-            // Editing an existing record. Just rebuild everything.
-            rebuildChildViews();
+        // Update the title to indicate that we're adding a tag instead of editing.
+        setTitle(R.string.add_tag);
 
-        } else {
-            // Adding a new record.
-            addRecord(recordInfo);
-        }
-        // TODO: handle errors in picking (e.g. the image is too big, etc).
-
-        mRecordWithOutstandingPick = null;
+        // Setup the tag views
+        refresh();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_KEY_RECORD, mRecord);
+    }
 
-        if (mRecordWithOutstandingPick != null) {
-            outState.putParcelable(BUNDLE_KEY_OUTSTANDING_PICK, mRecordWithOutstandingPick);
+    interface GetTagQuery {
+        final static String[] PROJECTION = new String[] {
+                NdefMessages.BYTES
+        };
+
+        static final int COLUMN_BYTES = 0;
+    }
+
+    /**
+     * Loads a tag from the database, parses it, and builds the views.
+     */
+    final class LoadTagTask extends AsyncTask<Uri, Void, Cursor> {
+        @Override
+        public Cursor doInBackground(Uri... args) {
+            Cursor cursor = getContentResolver().query(args[0], GetTagQuery.PROJECTION,
+                    null, null, null);
+
+            // Ensure the cursor loads its window.
+            if (cursor != null) {
+                cursor.getCount();
+            }
+            return cursor;
+        }
+
+        @Override
+        public void onPostExecute(Cursor cursor) {
+            NdefMessage msg = null;
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    msg = new NdefMessage(cursor.getBlob(GetTagQuery.COLUMN_BYTES));
+                    populateFromMessage(msg);
+                }
+            } catch (FormatException e) {
+                Log.e(LOG_TAG, "Unable to parse tag for editing.", e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+    }
+
+    protected void resolveIntent() {
+        Intent intent = getIntent();
+
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && !mParsedIntent) {
+            if (buildFromSendIntent(intent)) {
+                return;
+            }
+
+            mParsedIntent = true;
+            return;
+        }
+
+        Uri uri = intent.getData();
+        if (uri != null) {
+            // Edit existing tag.
+            new LoadTagTask().execute(uri);
+        } else {
+            RecordEditInfo newRecord = intent.getParcelableExtra(EXTRA_NEW_RECORD_INFO);
+            if (newRecord != null) {
+                initializeForNewTag(newRecord);
+            }
+        }
+    }
+
+    private void initializeForNewTag(RecordEditInfo editInfo) {
+        mRecord = editInfo;
+
+        Intent pickIntent = editInfo.getPickIntent();
+        if (pickIntent != null) {
+            startPickForRecord(editInfo, pickIntent);
+        } else {
+            refresh();
+        }
+    }
+
+    void populateFromMessage(NdefMessage refMessage) {
+        // Locally stored message.
+        ParsedNdefMessage parsed = NdefMessageParser.parse(refMessage);
+        List<ParsedNdefRecord> records = parsed.getRecords();
+
+        // TODO: loosen this restriction.
+        // There is always a "Text" record for a My Tag.
+        if (records.size() != 1) {
+            Log.w(LOG_TAG, "Message not in expected format");
+            return;
+        }
+        mRecord = records.get(0).getEditInfo(this);
+        refresh();
+    }
+
+    /**
+     * Populates the editor from extras in a given {@link Intent}
+     * @param intent the {@link Intent} to parse.
+     * @return whether or not the {@link Intent} could be handled.
+     */
+    private boolean buildFromSendIntent(final Intent intent) {
+        String type = intent.getType();
+
+        if ("text/plain".equals(type)) {
+            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+            try {
+                URL parsed = new URL(text);
+
+                // Valid URL.
+                mRecord = new UriRecordEditInfo(text);
+                refresh();
+                return true;
+
+            } catch (MalformedURLException ex) {
+                // Random text
+                mRecord = new TextRecordEditInfo(text);
+                refresh();
+                return true;
+            }
+
+        } else if ("text/x-vcard".equals(type)) {
+            Uri stream = (Uri) getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
+            if (stream != null) {
+                RecordEditInfo editInfo = VCardRecord.editInfoForUri(stream);
+                if (editInfo != null) {
+                    mRecord = editInfo;
+                    refresh();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Saves the content of the tag.
+     */
+    private void saveAndFinish() {
+        if (mRecord == null) {
+            setResult(RESULT_CANCELED);
+            finish();
+            return;
+        }
+
+        NdefMessage msg = new NdefMessage(new NdefRecord[] { mRecord.getValue() });
+
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            // If opening directly from a different application via ACTION_SEND, save the tag and
+            // open the MyTagList so they can enable it.
+            Intent openMyTags = new Intent(this, MyTagList.class);
+            openMyTags.putExtra(EXTRA_RESULT_MSG, msg);
+            startActivity(openMyTags);
+            finish();
+
+        } else {
+            Intent result = new Intent();
+            result.putExtra(EXTRA_RESULT_MSG, msg);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+    }
+
+    @Override
+    public void onClick(View target) {
+        switch (target.getId()) {
+            case R.id.save:
+                saveAndFinish();
+                break;
+            case R.id.cancel:
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help:
+                HelpUtils.openHelp(this);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

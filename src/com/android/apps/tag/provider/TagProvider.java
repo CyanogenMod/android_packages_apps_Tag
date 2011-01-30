@@ -76,7 +76,6 @@ public class TagProvider extends SQLiteContentProvider implements TagProviderPip
         MATCHER.addURI(auth, "ndef_msgs", NDEF_MESSAGES);
         MATCHER.addURI(auth, "ndef_msgs/#", NDEF_MESSAGES_ID);
         MATCHER.addURI(auth, "ndef_msgs/#/#/mime", NDEF_MESSAGES_ID_MIME);
-
     }
 
     @Override

@@ -64,6 +64,9 @@
     <!-- Label for control which enables/disables the "my tag" feature. -->
     <string name="turn_on_my_tag">Share my tag</string>
 
+    <!-- Label for activity which edits a tag to share/write [CHAR LIMIT=60] -->
+    <string name="edit_tag">Edit tag</string>
+
     <!-- Description for the control which enables/disables the "my tag" feature. -->
     <string name="turn_on_my_tag_subtitle">Allow others to read my tag </string>
 
@@ -181,5 +184,23 @@ Networks).</string>
 
     <!-- Header for list of tags that can be set as My tag. [CHAR LIMIT=50] -->
     <string name="manage_my_tags">Manage my tags</string>
+
+    <!-- Menu item indicating that the user wants to delete a tag. [CHAR LIMIT=50] -->
+    <string name="menu_delete">Delete tag</string>
+
+    <!-- Menu item indicating that the user wants to edit a tag. [CHAR LIMIT=50] -->
+    <string name="menu_edit">Edit tag</string>
+
+    <!-- Menu item indicating that the user wants to set a tag
+         as the active tag to share as the device's tag. [CHAR LIMIT=50] -->
+    <string name="menu_set_as_active">Set as active tag</string>
+
+    <!-- Error message displayed when attempting to enable sharing of a "My tag"
+         with no tag selected. [CHAR LIMIT=80] -->
+    <string name="no_tag_selected">You do not have a tag selected to share.</string>
+
+    <!-- Error message displayed when attempting to select an active tag when
+         none have been created. [CHAR LIMIT=80] -->
+    <string name="no_tags_created">You have no tags created.</string>
 
 </resources>

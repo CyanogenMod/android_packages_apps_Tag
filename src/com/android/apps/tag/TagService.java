@@ -21,11 +21,15 @@ import com.android.apps.tag.provider.TagContract.NdefMessages;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NdefMessage;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.IBinder;
 import android.os.Parcelable;
 import android.util.Log;
 
@@ -46,6 +50,18 @@ public class TagService extends IntentService {
     public TagService() {
         super("SaveTagService");
     }
+
+    public interface SaveCallbacks {
+        void onSaveComplete(Uri uri);
+    }
+
+    private static final class EmptyService extends Service {
+        @Override
+        public IBinder onBind(Intent intent) {
+            return null;
+        }
+    }
+
 
     @Override
     public void onHandleIntent(Intent intent) {
@@ -115,12 +131,52 @@ public class TagService extends IntentService {
         context.startService(intent);
     }
 
-    public static void saveMyMessages(Context context, NdefMessage[] msgs) {
+    public static void saveMyMessages(Context context, NdefMessage[] msgs, PendingIntent pending) {
         Intent intent = new Intent(context, TagService.class);
         intent.putExtra(TagService.EXTRA_SAVE_MSGS, msgs);
         intent.putExtra(TagService.EXTRA_SAVE_IN_MY_TAGS, true);
+        if (pending != null) {
+            intent.putExtra(TagService.EXTRA_PENDING_INTENT, pending);
+        }
         context.startService(intent);
     }
+
+    public static void saveMyMessage(
+            final Context context, final NdefMessage msg, final SaveCallbacks callbacks) {
+        final Handler handler = new Handler();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                // Start service to ensure the save completes in case this app gets thrown into the
+                // background.
+                context.startService(new Intent(context, EmptyService.class));
+
+
+                ContentValues values = NdefMessages.toValues(
+                        context, msg,
+                        false /* starred */, true /* is one of "my tags" */,
+                        System.currentTimeMillis());
+
+                // Start dummy service to ensure the save completes.
+                context.startService(new Intent(context, EmptyService.class));
+
+                final Uri result =
+                        context.getContentResolver().insert(NdefMessages.CONTENT_URI, values);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callbacks.onSaveComplete(result);
+                    }
+                });
+
+                // Stop service so we can be killed.
+                context.stopService(new Intent(context, EmptyService.class));
+            }
+        };
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
+    }
+
 
     public static void updateMyMessage(Context context, long id, NdefMessage msg) {
         Intent intent = new Intent(context, TagService.class);

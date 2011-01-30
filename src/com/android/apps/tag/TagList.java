@@ -61,7 +61,6 @@ public class TagList extends ListActivity implements OnClickListener {
         new TagLoaderTask().execute((Void[]) null);
         mAdapter = new TagAdapter(this);
         setListAdapter(mAdapter);
-        registerForContextMenu(getListView());
     }
 
     @Override

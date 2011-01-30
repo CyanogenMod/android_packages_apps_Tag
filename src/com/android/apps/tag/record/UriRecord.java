@@ -17,8 +17,6 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
-import com.android.apps.tag.record.RecordEditInfo.EditCallbacks;
-import com.android.apps.tag.record.UriRecord.UriRecordEditInfo;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -36,14 +34,12 @@ import android.nfc.NdefRecord;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.telephony.PhoneNumberUtils;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -189,7 +185,7 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
         ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
         ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.url));
 
-        root.setTag(new UriRecordEditInfo());
+        root.setTag(new UriRecordEditInfo(""));
         return root;
     }
 
@@ -278,82 +274,39 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
                 NdefRecord.RTD_URI, EMPTY, payload);
     }
 
-    public static class UriRecordEditInfo extends RecordEditInfo implements TextWatcher {
-        private String mCurrentValue;
-        private EditText mEditText;
-
-        public UriRecordEditInfo(String initialValue) {
-            super(RECORD_TYPE);
-            mCurrentValue = Preconditions.checkNotNull(initialValue);
+    public static class UriRecordEditInfo extends AbstractTextRecordEditInfo {
+        public UriRecordEditInfo(String uri) {
+            super(uri);
         }
 
-        public UriRecordEditInfo() {
-            this("");
-        }
-
-        protected UriRecordEditInfo(Parcel parcel) {
-            this(parcel.readString());
+        public UriRecordEditInfo(Parcel in) {
+            super(in);
         }
 
         @Override
-        public Intent getPickIntent() {
-            return null;
-        }
-
-        @Override
-        public void handlePickResult(Context context, Intent data) {
-        }
-
-        @Override
-        public View getEditView(
-                Activity activity, LayoutInflater inflater,
-                ViewGroup parent, EditCallbacks callbacks) {
-            View view = buildEditView(activity, inflater, R.layout.tag_edit_url, parent, callbacks);
-            mEditText = (EditText) view.findViewById(R.id.value);
-            mEditText.setText(mCurrentValue);
-            mEditText.addTextChangedListener(this);
-            return view;
+        public int getLayoutId() {
+            return R.layout.tag_edit_url;
         }
 
         @Override
         public NdefRecord getValue() {
-            return UriRecord.newUriRecord(Uri.parse(mCurrentValue));
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeString(mCurrentValue);
+            String text = getCurrentText();
+            if (TextUtils.isEmpty(text)) text = "";
+            return UriRecord.newUriRecord(Uri.parse(text));
         }
 
         @SuppressWarnings("unused")
         public static final Parcelable.Creator<UriRecordEditInfo> CREATOR =
                 new Parcelable.Creator<UriRecordEditInfo>() {
+            @Override
             public UriRecordEditInfo createFromParcel(Parcel in) {
                 return new UriRecordEditInfo(in);
             }
 
+            @Override
             public UriRecordEditInfo[] newArray(int size) {
                 return new UriRecordEditInfo[size];
             }
         };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            mCurrentValue = s.toString();
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
     }
 }

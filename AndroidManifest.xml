@@ -16,8 +16,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.apps.tag"
-    android:versionCode="100"
-    android:versionName="1.0"
+    android:versionCode="101"
+    android:versionName="1.1"
 >
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -34,6 +34,7 @@
     >
         <activity android:name="TagBrowserActivity"
             android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -43,7 +44,10 @@
 
         <activity android:name="TagList" />
 
-        <activity android:name="MyTagList" />
+        <!-- TODO: lift the portrait restriction by re-working the list in the
+             layout. -->
+        <activity android:name="MyTagList"
+            android:screenOrientation="portrait" />
 
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"
@@ -58,9 +62,11 @@
             <!-- Offer to display anything with NDEF data -->
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
-                <data android:scheme="vnd.android.nfc" android:host="tag" android:pathPattern=".*\/6\/.*" />
-                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
+            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/filter_nfc"
+            />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -69,7 +75,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="MyTagActivity" android:label="@string/tab_my_tag">
+        <!-- Make the activity show up as "My tag" when resolving intent -->
+        <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -81,6 +88,11 @@
         <activity android:name="AboutActivity"
             android:label=""
             android:theme="@style/AboutTheme"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+        />
+
+        <activity android:name="WriteTagActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
         />
