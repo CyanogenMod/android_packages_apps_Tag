@@ -32,8 +32,7 @@
     <string name="action_text" msgid="577417996159152923">"ส่งข้อความถึง <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"โทร <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"แบ่งปันแท็กของฉัน"</string>
-    <!-- no translation found for edit_tag (3708659122033447892) -->
-    <skip />
+    <string name="edit_tag" msgid="3708659122033447892">"แก้ไขแท็ก"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"อนุญาตให้ผู้อื่นอ่านแท็กของฉัน"</string>
     <string name="add_content" msgid="6592975981339055673">"เพิ่มเติม…"</string>
     <string name="tag_title" msgid="4734199420853998617">"ชื่อ"</string>
@@ -75,8 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"ลบแท็ก"</string>
     <string name="menu_edit" msgid="2163829689000692138">"แก้ไขแท็ก"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"ตั้งเป็นแท็กที่ใช้งานอยู่"</string>
-    <!-- no translation found for no_tag_selected (127078607162539962) -->
-    <skip />
-    <!-- no translation found for no_tags_created (5963013948308289234) -->
-    <skip />
+    <string name="no_tag_selected" msgid="127078607162539962">"คุณไม่ได้เลือกแท็กที่จะแบ่งปัน"</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"คุณไม่ได้สร้างแท็กใดๆ ไว้"</string>
 </resources>

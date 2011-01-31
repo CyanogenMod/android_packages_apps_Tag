@@ -16,60 +16,57 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- outdated translation 5304933463526075749 -->     <string name="app_name" msgid="5128188288358721369">"Etiketter"</string>
-    <!-- outdated translation 7384975095174110118 -->     <string name="title_scanned_tag" msgid="4347835407095551450">"Ny etikett insamlad"</string>
-    <!-- outdated translation 2662331589219371469 -->     <string name="title_existing_tag" msgid="5656560272594190244">"Etikett"</string>
-    <!-- outdated translation 1996850878390617058 -->     <string name="tab_tags" msgid="3254131516215269385">"Etiketter"</string>
-    <!-- outdated translation 574623989611443923 -->     <string name="tab_starred" msgid="3892615665321783044">"Stjärnmärkt"</string>
-    <!-- outdated translation 3834389511172779926 -->     <string name="tab_my_tag" msgid="4194581094362833242">"Min etikett"</string>
-    <!-- outdated translation 7186030022136125928 -->     <string name="tag_unknown" msgid="2897956823877728783">"Okänd etikettyp"</string>
-    <!-- outdated translation 4628010924830367949 -->     <string name="tag_empty" msgid="3726529819932095782">"Tom etikett"</string>
-    <!-- outdated translation 3844107775573652591 -->     <string name="button_delete" msgid="8636971153075546776">"Ta bort"</string>
-    <!-- outdated translation 3630962338388532665 -->     <string name="button_done" msgid="7048822758098308158">"Klar"</string>
-    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"Spara"</string>
-    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"Avbryt"</string>
-    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Tryck på Klar om du inte vill lägga till etiketten i din samling."</string>
-    <!-- no translation found for action_text (577417996159152923) -->
-    <skip />
-    <!-- no translation found for action_call (6226253647953184035) -->
-    <skip />
-    <!-- outdated translation 8038177284374892711 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Dela min etikett"</string>
-    <!-- no translation found for edit_tag (3708659122033447892) -->
-    <skip />
-    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Tillåt andra att läsa min etikett"</string>
-    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"Mer…"</string>
-    <!-- outdated translation 346978808158631341 -->     <string name="tag_title" msgid="4734199420853998617">"Titel"</string>
-    <!-- outdated translation 4427517319085885869 -->     <string name="tag_text" msgid="522896767632155048">"Text"</string>
-    <!-- outdated translation 4296500130950220194 -->     <string name="select_type" msgid="1845302736320827995">"Välj typ att lägga till"</string>
-    <!-- outdated translation 7237702272759463537 -->     <string name="photo" msgid="986413518082114481">"Foto"</string>
-    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"Det gick inte att öppna bilden."</string>
+    <string name="app_name" msgid="5128188288358721369">"Etiketter"</string>
+    <string name="title_scanned_tag" msgid="4347835407095551450">"Ny etikett insamlad"</string>
+    <string name="title_existing_tag" msgid="5656560272594190244">"Etikett"</string>
+    <string name="tab_tags" msgid="3254131516215269385">"Etiketter"</string>
+    <string name="tab_starred" msgid="3892615665321783044">"Stjärnmärkta"</string>
+    <string name="tab_my_tag" msgid="4194581094362833242">"Min etikett"</string>
+    <string name="tag_unknown" msgid="2897956823877728783">"Okänd etikettyp"</string>
+    <string name="tag_empty" msgid="3726529819932095782">"Tom etikett"</string>
+    <string name="button_delete" msgid="8636971153075546776">"Ta bort"</string>
+    <string name="button_done" msgid="7048822758098308158">"Klar"</string>
+    <string name="button_save" msgid="1396693475082322626">"Spara"</string>
+    <string name="button_cancel" msgid="8094182910311905776">"Avbryt"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Tryck på Klar om du inte vill lägga till etiketten i din samling"</string>
+    <string name="action_text" msgid="577417996159152923">"Skicka SMS till <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_call" msgid="6226253647953184035">"Ring <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="turn_on_my_tag" msgid="6584695906051991524">"Dela min etikett"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"Redigera etikett"</string>
+    <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Tillåt andra att läsa min etikett"</string>
+    <string name="add_content" msgid="6592975981339055673">"Mer…"</string>
+    <string name="tag_title" msgid="4734199420853998617">"Titel"</string>
+    <string name="tag_text" msgid="522896767632155048">"Text"</string>
+    <string name="select_type" msgid="1845302736320827995">"Välj typ att lägga till"</string>
+    <string name="photo" msgid="986413518082114481">"Foto"</string>
+    <string name="bad_photo" msgid="1601260684495341633">"Det gick inte att öppna bilden."</string>
     <string name="url" msgid="5939765162489949437">"Webbadress"</string>
-    <!-- outdated translation 4027528512535816533 -->     <string name="contact" msgid="8810195884019228695">"Kontakt"</string>
-    <!-- outdated translation 9041329136600077731 -->     <string name="location" msgid="2476366526591580807">"Plats"</string>
-    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Etiketten är tom."</string>
-    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Tryck på "<b>"Skriv etikett"</b>" om du vill lägga till innehåll."</string>
-    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"Skriv etikett"</string>
-    <!-- outdated translation 43782095633865571 -->     <string name="cancel" msgid="2168193471147260328">"Avbryt"</string>
-    <!-- outdated translation 8136565546077127193 -->     <string name="menu_help" msgid="2340550693525288105">"Hjälp"</string>
-    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"Importera ^1"</string>
-    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"Data från NFC-etikett"</string>
-    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC inaktiverat"</string>
-    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Du måste aktivera NFC om du vill skanna etiketter."</string>
-    <!-- outdated translation 952868820745656494 -->     <string name="button_settings" msgid="6909066985958159920">"Inställningar"</string>
-    <!-- outdated translation 7797866401978902332 -->     <string name="empty_list" msgid="1306390399412856676">"Du har inte skannat några etiketter."</string>
-    <!-- outdated translation 7842589445254113433 -->     <string name="empty_list_starred" msgid="7185947321271594216">"Du har inga stjärnmärkta etiketter"</string>
-    <!-- outdated translation 8191822912351891937 -->     <string name="button_more_info" msgid="574247138099633767">"Mer info"</string>
-    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"Kontaktinformation för ^1"</string>
-    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"Nästa"</string>
-    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"Tillbaka"</string>
-    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"Stäng"</string>
-    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"Om etiketter"</string>
+    <string name="contact" msgid="8810195884019228695">"Kontakt"</string>
+    <string name="location" msgid="2476366526591580807">"Plats"</string>
+    <string name="empty_tag_prompt" msgid="4206394383309956030">"Etiketten är tom."</string>
+    <string name="empty_tag_instructions" msgid="9156733538909958916">"Tryck på "<b>"Skriv etikett"</b>" om du vill lägga till innehåll."</string>
+    <string name="write" msgid="4957259770248890625">"Skriv etikett"</string>
+    <string name="cancel" msgid="2168193471147260328">"Avbryt"</string>
+    <string name="menu_help" msgid="2340550693525288105">"Hjälp"</string>
+    <string name="import_vcard" msgid="5104299047930666528">"Importera ^1"</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Data från NFC-etikett"</string>
+    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC inaktiverat"</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Du måste aktivera NFC om du vill skanna etiketter."</string>
+    <string name="button_settings" msgid="6909066985958159920">"Inställningar"</string>
+    <string name="empty_list" msgid="1306390399412856676">"Du har inte skannat några etiketter."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"Du har inga stjärnmärkta etiketter."</string>
+    <string name="button_more_info" msgid="574247138099633767">"Mer info"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Kontaktinformation för ^1"</string>
+    <string name="next" msgid="8672447228208567606">"Nästa"</string>
+    <string name="back" msgid="7389918385345281227">"Tillbaka"</string>
+    <string name="close" msgid="5521003720382005075">"Stäng"</string>
+    <string name="intro_title" msgid="2798106838231744219">"Om Etiketter"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"Etiketter används för att organisera och dela NFC-etiketter (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Du kan skanna en etikett genom att starta telefonen och placera den bredvid etiketten."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-etiketter kan innehålla text, webbadresser, bilder och annan information."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"För att kunna skanna och dela etiketter måste du ha NFC aktiverat (i Inställningar under Trådlöst och Nätverk)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Tryck på Meny och peka på Hjälp på någon etikettskärm om du vill ha mer informationen."</string>
-    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"Etiketten togs bort"</string>
+    <string name="tag_deleted" msgid="5411251725532471624">"Etiketten togs bort"</string>
     <string name="add_tag" msgid="703494598879855113">"Lägg till ny tagg"</string>
     <string name="choose_my_tag" msgid="4208730132705026130">"Välj en tagg som du vill dela"</string>
     <string name="active_tag" msgid="7417732109196094058">"Aktiv tagg"</string>

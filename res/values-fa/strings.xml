@@ -32,8 +32,7 @@
     <string name="action_text" msgid="577417996159152923">"ارسال متن به <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"تماس با <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"اشتراک گذاری برچسب من"</string>
-    <!-- no translation found for edit_tag (3708659122033447892) -->
-    <skip />
+    <string name="edit_tag" msgid="3708659122033447892">"ویرایش برچسب"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"اجازه به سایرین برای خواندن برچسب من"</string>
     <string name="add_content" msgid="6592975981339055673">"بیشتر…"</string>
     <string name="tag_title" msgid="4734199420853998617">"عنوان"</string>
