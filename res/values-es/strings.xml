@@ -26,48 +26,54 @@
     <string name="tag_empty" msgid="3726529819932095782">"Etiqueta vacía"</string>
     <string name="button_delete" msgid="8636971153075546776">"Eliminar"</string>
     <string name="button_done" msgid="7048822758098308158">"Listo"</string>
-    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"Guardar"</string>
-    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"Cancelar"</string>
-    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Para no añadir esta etiqueta a tu colección, toca \"Listo\"."</string>
+    <string name="button_save" msgid="1396693475082322626">"Guardar"</string>
+    <string name="button_cancel" msgid="8094182910311905776">"Cancelar"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Para no añadir esta etiqueta a tu colección, toca Listo."</string>
     <string name="action_text" msgid="577417996159152923">"Enviar SMS al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Llamar al <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Compartir mi etiqueta"</string>
-    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Permitir a otros leer mi etiqueta"</string>
-    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"Más…"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"Editar etiqueta"</string>
+    <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Permitir que otros usuarios lean mi etiqueta"</string>
+    <string name="add_content" msgid="6592975981339055673">"Más…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Título"</string>
     <string name="tag_text" msgid="522896767632155048">"Texto"</string>
     <string name="select_type" msgid="1845302736320827995">"Selección de tipo de contenido para añadir"</string>
     <string name="photo" msgid="986413518082114481">"Foto"</string>
-    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"No se ha podido abrir la imagen."</string>
+    <string name="bad_photo" msgid="1601260684495341633">"No se ha podido abrir la imagen."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Contacto"</string>
     <string name="location" msgid="2476366526591580807">"Ubicación"</string>
-    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Esta etiqueta está vacía."</string>
-    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Toca "<b>"Escribir etiqueta"</b>" para añadir contenido."</string>
-    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"Escribir etiqueta"</string>
+    <string name="empty_tag_prompt" msgid="4206394383309956030">"Esta etiqueta está vacía."</string>
+    <string name="empty_tag_instructions" msgid="9156733538909958916">"Toca "<b>"Escribir etiqueta"</b>" para añadir contenido."</string>
+    <string name="write" msgid="4957259770248890625">"Escribir etiqueta"</string>
     <string name="cancel" msgid="2168193471147260328">"Cancelar"</string>
     <string name="menu_help" msgid="2340550693525288105">"Ayuda"</string>
-    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"Importar ^1"</string>
-    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"Datos de etiqueta NFC"</string>
-    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC desactivada"</string>
-    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Para escanear etiquetas, debes activar la opción NFC."</string>
+    <string name="import_vcard" msgid="5104299047930666528">"Importar ^1"</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Datos de etiqueta NFC"</string>
+    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC desactivada"</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Para escanear etiquetas, debes activar la opción NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Ajustes"</string>
     <string name="empty_list" msgid="1306390399412856676">"No has escaneado ninguna etiqueta."</string>
-    <string name="empty_list_starred" msgid="7185947321271594216">"No has destacado ninguna etiqueta."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"No tienes etiquetas destacadas."</string>
     <string name="button_more_info" msgid="574247138099633767">"Más información"</string>
-    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"Información de contacto de ^1"</string>
-    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"Siguiente"</string>
-    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"Volver"</string>
-    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"Cerrar"</string>
-    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"Acerca de Etiquetas"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Información de contacto de ^1"</string>
+    <string name="next" msgid="8672447228208567606">"Siguiente"</string>
+    <string name="back" msgid="7389918385345281227">"Atrás"</string>
+    <string name="close" msgid="5521003720382005075">"Cerrar"</string>
+    <string name="intro_title" msgid="2798106838231744219">"Acerca de Etiquetas"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"Tags se utiliza para organizar y compartir etiquetas de Comunicación de campo cercano (NFC)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Para escanear una etiqueta, activa el teléfono y sitúalo junto a la etiqueta."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Las etiquetas NFC pueden contener texto, direcciones URL, imágenes y otros tipos de información."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"Para escanear etiquetas o compartirlas, debes tener activada la opción NFC (en Ajustes, dentro de Conexiones inalámbricas y redes)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Para obtener más información, pulsa la tecla de menú y toca Ayuda en cualquier pantalla de la aplicación Tags."</string>
-    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"Etiqueta eliminada"</string>
+    <string name="tag_deleted" msgid="5411251725532471624">"Etiqueta eliminada"</string>
     <string name="add_tag" msgid="703494598879855113">"Añadir nueva etiqueta"</string>
     <string name="choose_my_tag" msgid="4208730132705026130">"Elegir una etiqueta para compartir"</string>
     <string name="active_tag" msgid="7417732109196094058">"Etiqueta activa"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Administrar mis etiquetas"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"Eliminar etiqueta"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"Editar etiqueta"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"Establecer como etiqueta activa"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"No has seleccionado ninguna etiqueta para compartir."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"No has creado ninguna etiqueta."</string>
 </resources>

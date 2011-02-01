@@ -32,6 +32,7 @@
     <string name="action_text" msgid="577417996159152923">"ارسال متن به <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"تماس با <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"اشتراک گذاری برچسب من"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"ویرایش برچسب"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"اجازه به سایرین برای خواندن برچسب من"</string>
     <string name="add_content" msgid="6592975981339055673">"بیشتر…"</string>
     <string name="tag_title" msgid="4734199420853998617">"عنوان"</string>
@@ -70,4 +71,11 @@
     <string name="choose_my_tag" msgid="4208730132705026130">"یک برچسب را برای اشتراک گذاری انتخاب کنید"</string>
     <string name="active_tag" msgid="7417732109196094058">"برچسب فعال"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"مدیریت برچسب های من"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"حذف برچسب"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"ویرایش برچسب"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"تنظیم به عنوان برچسب فعال"</string>
+    <!-- no translation found for no_tag_selected (127078607162539962) -->
+    <skip />
+    <!-- no translation found for no_tags_created (5963013948308289234) -->
+    <skip />
 </resources>

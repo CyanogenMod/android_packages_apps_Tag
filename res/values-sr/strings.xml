@@ -25,20 +25,21 @@
     <string name="tag_unknown" msgid="2897956823877728783">"Непознат тип ознаке"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Празна ознака"</string>
     <string name="button_delete" msgid="8636971153075546776">"Избриши"</string>
-    <string name="button_done" msgid="7048822758098308158">"Done"</string>
+    <string name="button_done" msgid="7048822758098308158">"Готово"</string>
     <string name="button_save" msgid="1396693475082322626">"Сачувај"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Откажи"</string>
     <string name="cancel_help_text" msgid="2582335582642459522">"Да бисте прескочили додавање ознаке у колекцију, додирните дугме Завршено"</string>
     <string name="action_text" msgid="577417996159152923">"Teкст <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Позови <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Дели моју ознаку"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"Измени ознаку"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Дозволи другима да прочитају моју ознаку"</string>
     <string name="add_content" msgid="6592975981339055673">"Још…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Наслов"</string>
     <string name="tag_text" msgid="522896767632155048">"Teкст"</string>
     <string name="select_type" msgid="1845302736320827995">"Избор типа за додавање"</string>
     <string name="photo" msgid="986413518082114481">"Фотографија"</string>
-    <string name="bad_photo" msgid="1601260684495341633">"Слика није отворена."</string>
+    <string name="bad_photo" msgid="1601260684495341633">"Није могуће отворити слику."</string>
     <string name="url" msgid="5939765162489949437">"URL адреса"</string>
     <string name="contact" msgid="8810195884019228695">"Контакт"</string>
     <string name="location" msgid="2476366526591580807">"Локација"</string>
@@ -56,10 +57,10 @@
     <string name="empty_list_starred" msgid="7185947321271594216">"Немате ознаке са звездицом."</string>
     <string name="button_more_info" msgid="574247138099633767">"Више информација"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Информације о контакту за ^1"</string>
-    <string name="next" msgid="8672447228208567606">"Next"</string>
+    <string name="next" msgid="8672447228208567606">"Следеће"</string>
     <string name="back" msgid="7389918385345281227">"Назад"</string>
     <string name="close" msgid="5521003720382005075">"Затвори"</string>
-    <string name="intro_title" msgid="2798106838231744219">"О Ознакама"</string>
+    <string name="intro_title" msgid="2798106838231744219">"О ознакама"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"Ознаке за организовање и дељење Near Field Communication (NFC) ознака."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Можете да скенирате ознаку тако што ћете окренути телефон и поставити га поред ознаке."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC ознаке могу да садрже текст, URL адресе, слике и другу врсту информација."</string>
@@ -70,4 +71,9 @@
     <string name="choose_my_tag" msgid="4208730132705026130">"Одаберите ознаку за дељење"</string>
     <string name="active_tag" msgid="7417732109196094058">"Активна ознака"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Управљање ознакама"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"Избриши ознаку"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"Измени ознаку"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"Постави као активну ознаку"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Нисте изабрали ниједну ознаку за дељење."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Нисте направили ниједну ознаку."</string>
 </resources>
