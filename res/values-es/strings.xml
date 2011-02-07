@@ -54,7 +54,7 @@
     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Para escanear etiquetas, debes activar la opción NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Ajustes"</string>
     <string name="empty_list" msgid="1306390399412856676">"No has escaneado ninguna etiqueta."</string>
-    <string name="empty_list_starred" msgid="7185947321271594216">"No tienes etiquetas destacadas."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"No has destacado ninguna etiqueta."</string>
     <string name="button_more_info" msgid="574247138099633767">"Más información"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Información de contacto de ^1"</string>
     <string name="next" msgid="8672447228208567606">"Siguiente"</string>

@@ -54,21 +54,21 @@
     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Sie müssen NFC aktivieren, um Tags zu scannen."</string>
     <string name="button_settings" msgid="6909066985958159920">"Einstellungen"</string>
     <string name="empty_list" msgid="1306390399412856676">"Sie haben keine Tags gescannt."</string>
-    <string name="empty_list_starred" msgid="7185947321271594216">"Sie haben keine markierten Tags."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"Sie haben keine Tags markiert."</string>
     <string name="button_more_info" msgid="574247138099633767">"Weitere Informationen"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Kontaktinfo für ^1"</string>
     <string name="next" msgid="8672447228208567606">"Weiter"</string>
     <string name="back" msgid="7389918385345281227">"Zurück"</string>
     <string name="close" msgid="5521003720382005075">"Schließen"</string>
     <string name="intro_title" msgid="2798106838231744219">"Über Tags"</string>
-    <string name="intro_text_about" msgid="1366913102380816468">"Tags dient zur Organisation und Freigabe von Nahfeldkommunikation-Tags (NFC)."</string>
-    <string name="intro_text_usage" msgid="2343260114638598627">"Schalten Sie zum Scannen eines Tags Ihr Telefon ein und legen Sie es direkt neben ein Tag."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags dient zur Organisation und Freigabe von Tags für Nahfeldkommunikation (NFC)."</string>
+    <string name="intro_text_usage" msgid="2343260114638598627">"Zum Scannen eines Tags Telefon einschalten und direkt an das Tag halten."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-Tags können Text, URLs, Bilder und andere Informationen enthalten."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"Zum Scannen und Freigeben von Tags müssen Sie NFC (über \"Einstellungen\" > \"Drahtlos &amp; Netzwerke\") aktivieren."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Über \"Menü\" &gt; \"Hilfe\" erhalten Sie auf allen Tags-Bildschirmen weitere Informationen."</string>
     <string name="tag_deleted" msgid="5411251725532471624">"Tag gelöscht"</string>
     <string name="add_tag" msgid="703494598879855113">"Neues Tag hinzufügen"</string>
-    <string name="choose_my_tag" msgid="4208730132705026130">"Tag zum Weiterleiten auswählen"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"Tag zum Weitergeben auswählen"</string>
     <string name="active_tag" msgid="7417732109196094058">"Aktives Tag"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Meine Tags verwalten"</string>
     <string name="menu_delete" msgid="8834253717174232653">"Tag löschen"</string>

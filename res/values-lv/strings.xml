@@ -74,8 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Dzēst atzīmi"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Rediģēt atzīmi"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Iestatīt kā aktīvu atzīmi"</string>
-    <!-- no translation found for no_tag_selected (127078607162539962) -->
-    <skip />
-    <!-- no translation found for no_tags_created (5963013948308289234) -->
-    <skip />
+    <string name="no_tag_selected" msgid="127078607162539962">"Jums nav koplietošanai atlasītas atzīmes."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Jums nav izveidotu atzīmju."</string>
 </resources>

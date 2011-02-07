@@ -28,7 +28,7 @@
     <string name="button_done" msgid="7048822758098308158">"Hotovo"</string>
     <string name="button_save" msgid="1396693475082322626">"Uložiť"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Zrušiť"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"Ak chcete preskočiť pridanie tejto značky do svojej zbierky, dotknite sa tlačidla Hotovo."</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Ak chcete preskočiť pridanie tejto značky do svojej zbierky, dotknite sa tlačidla Hotovo"</string>
     <string name="action_text" msgid="577417996159152923">"Poslať správu kontaktu <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Volať kontakt <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Zdieľať značku"</string>
