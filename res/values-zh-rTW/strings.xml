@@ -28,7 +28,7 @@
     <string name="button_done" msgid="7048822758098308158">"完成"</string>
     <string name="button_save" msgid="1396693475082322626">"儲存"</string>
     <string name="button_cancel" msgid="8094182910311905776">"取消"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"輕觸 [完成] 即可略過這個標記，不加入收藏。"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"輕觸 [完成] 即會略過這個標記，不加入收藏。"</string>
     <string name="action_text" msgid="577417996159152923">"傳送簡訊至 <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"撥打 <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"分享我的標記"</string>

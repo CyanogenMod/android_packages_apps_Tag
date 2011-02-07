@@ -29,7 +29,7 @@
     <string name="button_save" msgid="1396693475082322626">"Salvaţi"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Anulaţi"</string>
     <string name="cancel_help_text" msgid="2582335582642459522">"Pentru a omite adăugarea acestei etichete în colecţia dvs., atingeţi butonul Terminat"</string>
-    <string name="action_text" msgid="577417996159152923">"Text <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_text" msgid="577417996159152923">"Trimiteţi mesaj la <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Apelaţi <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Distribuiţi eticheta"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Editaţi eticheta"</string>

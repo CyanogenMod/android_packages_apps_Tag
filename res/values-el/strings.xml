@@ -49,9 +49,9 @@
     <string name="cancel" msgid="2168193471147260328">"Ακύρωση"</string>
     <string name="menu_help" msgid="2340550693525288105">"Βοήθεια"</string>
     <string name="import_vcard" msgid="5104299047930666528">"Εισαγωγή ^1"</string>
-    <string name="mime_display_name" msgid="5926357152623764485">"Δεδομένα από ετικέτα NFC"</string>
-    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Απενεργοποιήθηκε το NFC"</string>
-    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Πρέπει να ενεργοποιήσετε το NFC για τη σάρωση ετικετών."</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Δεδομένα από ετικέτα ΕΚΠ"</string>
+    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Απενεργοποιήθηκε το ΕΚΠ"</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Πρέπει να ενεργοποιήσετε το ΕΚΠ για τη σάρωση ετικετών."</string>
     <string name="button_settings" msgid="6909066985958159920">"Ρυθμίσεις"</string>
     <string name="empty_list" msgid="1306390399412856676">"Δεν έχετε πραγματοποιήσει σάρωση ετικετών."</string>
     <string name="empty_list_starred" msgid="7185947321271594216">"Δεν έχετε ετικέτες με αστέρι."</string>

@@ -28,7 +28,7 @@
     <string name="button_done" msgid="7048822758098308158">"انجام شد"</string>
     <string name="button_save" msgid="1396693475082322626">"ذخیره"</string>
     <string name="button_cancel" msgid="8094182910311905776">"لغو"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"برای رد شدن از افزودن این برچسب به مجموعه خود، \"انجام شد\" را لمس کنید"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"برای صرفنظر از افزودن این برچسب به مجموعه خود، \"انجام شد\" را لمس کنید"</string>
     <string name="action_text" msgid="577417996159152923">"ارسال متن به <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"تماس با <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"اشتراک گذاری برچسب من"</string>
@@ -74,8 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"حذف برچسب"</string>
     <string name="menu_edit" msgid="2163829689000692138">"ویرایش برچسب"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"تنظیم به عنوان برچسب فعال"</string>
-    <!-- no translation found for no_tag_selected (127078607162539962) -->
-    <skip />
-    <!-- no translation found for no_tags_created (5963013948308289234) -->
-    <skip />
+    <string name="no_tag_selected" msgid="127078607162539962">"شما هیچ برچسبی برای اشتراک گذاری انتخاب نکردید."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"شما هیچ برچسبی ایجاد نکردید."</string>
 </resources>

@@ -39,7 +39,7 @@
     <string name="tag_text" msgid="522896767632155048">"Text"</string>
     <string name="select_type" msgid="1845302736320827995">"Vybrat typ pro přidání"</string>
     <string name="photo" msgid="986413518082114481">"Fotografie"</string>
-    <string name="bad_photo" msgid="1601260684495341633">"Obrázek nelze otevřít:"</string>
+    <string name="bad_photo" msgid="1601260684495341633">"Obrázek nelze otevřít."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Kontakt"</string>
     <string name="location" msgid="2476366526591580807">"Místo"</string>
