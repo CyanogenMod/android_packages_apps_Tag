@@ -56,7 +56,7 @@
     <string name="empty_list" msgid="1306390399412856676">"Нисте скенирали ниједну ознаку."</string>
     <string name="empty_list_starred" msgid="7185947321271594216">"Немате ознаке са звездицом."</string>
     <string name="button_more_info" msgid="574247138099633767">"Више информација"</string>
-    <string name="vcard_title" msgid="7122634780732426007">"Информације о контакту за ^1"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Контакт информације за ^1"</string>
     <string name="next" msgid="8672447228208567606">"Следеће"</string>
     <string name="back" msgid="7389918385345281227">"Назад"</string>
     <string name="close" msgid="5521003720382005075">"Затвори"</string>

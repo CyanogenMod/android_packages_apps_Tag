@@ -22,14 +22,14 @@
     <string name="tab_tags" msgid="3254131516215269385">"Tag"</string>
     <string name="tab_starred" msgid="3892615665321783044">"Speciali"</string>
     <string name="tab_my_tag" msgid="4194581094362833242">"Il mio tag"</string>
-    <string name="tag_unknown" msgid="2897956823877728783">"Tipo tag sconosciuto"</string>
+    <string name="tag_unknown" msgid="2897956823877728783">"Tipo di tag sconosciuto"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Tag vuoto"</string>
     <string name="button_delete" msgid="8636971153075546776">"Elimina"</string>
     <string name="button_done" msgid="7048822758098308158">"Fine"</string>
     <string name="button_save" msgid="1396693475082322626">"Salva"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Annulla"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"Per ignorare l\'aggiunta di questo tag alla raccolta, tocca Fine"</string>
-    <string name="action_text" msgid="577417996159152923">"Invia testo a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Per non aggiungere questo tag alla raccolta, tocca Fine"</string>
+    <string name="action_text" msgid="577417996159152923">"Invia SMS a <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Chiama <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Condividi il mio tag"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Modifica tag"</string>
@@ -42,7 +42,7 @@
     <string name="bad_photo" msgid="1601260684495341633">"Impossibile aprire l\'immagine."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Contatto"</string>
-    <string name="location" msgid="2476366526591580807">"Posizione"</string>
+    <string name="location" msgid="2476366526591580807">"Località"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"Questo tag è vuoto."</string>
     <string name="empty_tag_instructions" msgid="9156733538909958916">"Tocca "<b>"Scrivi tag"</b>" per aggiungere contenuti."</string>
     <string name="write" msgid="4957259770248890625">"Scrivi tag"</string>
@@ -53,10 +53,10 @@
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC disattivato"</string>
     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Per eseguire la scansione dei tag devi attivare NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Impostazioni"</string>
-    <string name="empty_list" msgid="1306390399412856676">"Non hai eseguito la scansione di nessun tag."</string>
+    <string name="empty_list" msgid="1306390399412856676">"Non hai letto alcun tag."</string>
     <string name="empty_list_starred" msgid="7185947321271594216">"Non hai tag speciali."</string>
-    <string name="button_more_info" msgid="574247138099633767">"Altre info"</string>
-    <string name="vcard_title" msgid="7122634780732426007">"Info contatto per ^1"</string>
+    <string name="button_more_info" msgid="574247138099633767">"Altre informazioni"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Informazioni contatto per ^1"</string>
     <string name="next" msgid="8672447228208567606">"Avanti"</string>
     <string name="back" msgid="7389918385345281227">"Indietro"</string>
     <string name="close" msgid="5521003720382005075">"Chiudi"</string>
@@ -74,8 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Elimina tag"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Modifica tag"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Imposta come tag attivo"</string>
-    <!-- no translation found for no_tag_selected (127078607162539962) -->
-    <skip />
-    <!-- no translation found for no_tags_created (5963013948308289234) -->
-    <skip />
+    <string name="no_tag_selected" msgid="127078607162539962">"Non hai selezionato un tag da condividere."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Non hai creato tag."</string>
 </resources>

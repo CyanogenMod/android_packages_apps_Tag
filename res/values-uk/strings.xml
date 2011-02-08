@@ -20,43 +20,43 @@
     <string name="title_scanned_tag" msgid="4347835407095551450">"Новий тег отримано"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"Тег"</string>
     <string name="tab_tags" msgid="3254131516215269385">"Теги"</string>
-    <string name="tab_starred" msgid="3892615665321783044">"Із зіроч."</string>
+    <string name="tab_starred" msgid="3892615665321783044">"Із зірочками"</string>
     <string name="tab_my_tag" msgid="4194581094362833242">"Мій тег"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"Невідомий тип тегу"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Порожній тег"</string>
     <string name="button_delete" msgid="8636971153075546776">"Видалити"</string>
     <string name="button_done" msgid="7048822758098308158">"Готово"</string>
-    <string name="button_save" msgid="1396693475082322626">"Зберег."</string>
+    <string name="button_save" msgid="1396693475082322626">"Зберегти"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Скасувати"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"Щоб не додавати цей тег до вашої колекції, натисн. Готово"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Щоб не додавати цей тег до вашої колекції, натисніть Готово"</string>
     <string name="action_text" msgid="577417996159152923">"SMS <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="action_call" msgid="6226253647953184035">"Дзвон. <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="turn_on_my_tag" msgid="6584695906051991524">"Надісл. мій тег"</string>
+    <string name="action_call" msgid="6226253647953184035">"Дзвонити <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="turn_on_my_tag" msgid="6584695906051991524">"Надісати мій тег"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Редагувати тег"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Дозволити іншим читати мій тег"</string>
     <string name="add_content" msgid="6592975981339055673">"Більше…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Назва"</string>
     <string name="tag_text" msgid="522896767632155048">"Текст"</string>
-    <string name="select_type" msgid="1845302736320827995">"Вибрати тип для дод."</string>
+    <string name="select_type" msgid="1845302736320827995">"Вибрати тип для додавання"</string>
     <string name="photo" msgid="986413518082114481">"Фото"</string>
-    <string name="bad_photo" msgid="1601260684495341633">"Неможл. відкрити зображ."</string>
+    <string name="bad_photo" msgid="1601260684495341633">"Неможливо відкрити зображення"</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
     <string name="contact" msgid="8810195884019228695">"Контакт"</string>
-    <string name="location" msgid="2476366526591580807">"Місцезнах."</string>
+    <string name="location" msgid="2476366526591580807">"Місцезнаходження"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"Цей тег порожній."</string>
-    <string name="empty_tag_instructions" msgid="9156733538909958916">"Щоб дод. вміст, торкн. "<b>"Напис. тег"</b>"."</string>
-    <string name="write" msgid="4957259770248890625">"Напис. тег"</string>
+    <string name="empty_tag_instructions" msgid="9156733538909958916">"Щоб додати вміст, натисніть "<b>"Написати тег"</b>"."</string>
+    <string name="write" msgid="4957259770248890625">"Написати тег"</string>
     <string name="cancel" msgid="2168193471147260328">"Скасувати"</string>
     <string name="menu_help" msgid="2340550693525288105">"Довідка"</string>
     <string name="import_vcard" msgid="5104299047930666528">"Імпорт ^1"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"Дані з тегу NFC"</string>
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC вимкнено"</string>
-    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Щоб сканувати теги, треба ввімк. NFC."</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Щоб сканувати теги, треба ввімкнути NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Налаштув-ня"</string>
     <string name="empty_list" msgid="1306390399412856676">"Ви не просканували жодних тегів."</string>
-    <string name="empty_list_starred" msgid="7185947321271594216">"У вас немає тегів із зіроч."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"У вас немає тегів, позначених зірочками."</string>
     <string name="button_more_info" msgid="574247138099633767">"Докладніше"</string>
-    <string name="vcard_title" msgid="7122634780732426007">"Контакт. інф-я для ^1"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Контактна інформація для ^1"</string>
     <string name="next" msgid="8672447228208567606">"Далі"</string>
     <string name="back" msgid="7389918385345281227">"Назад"</string>
     <string name="close" msgid="5521003720382005075">"Закрити"</string>
