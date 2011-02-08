@@ -51,9 +51,9 @@
     <string name="import_vcard" msgid="5104299047930666528">"İçe aktar: ^1"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"NFC etiketinden gelen bilgi"</string>
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC kapalı"</string>
-    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Etiketleri taramak için NFC özelliğini açmanız gerekir"</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Etiketleri taramak için NFC özelliğini açmanız gerekir."</string>
     <string name="button_settings" msgid="6909066985958159920">"Ayarlar"</string>
-    <string name="empty_list" msgid="1306390399412856676">"Hiç bir etiket taramadınız."</string>
+    <string name="empty_list" msgid="1306390399412856676">"Hiçbir etiket taramadınız."</string>
     <string name="empty_list_starred" msgid="7185947321271594216">"Yıldız işaretli etiketiniz yok."</string>
     <string name="button_more_info" msgid="574247138099633767">"Daha fazla bilgi"</string>
     <string name="vcard_title" msgid="7122634780732426007">"^1 kişi bilgisi"</string>
