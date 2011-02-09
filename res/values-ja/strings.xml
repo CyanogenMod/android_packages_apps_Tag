@@ -68,7 +68,7 @@
     <string name="intro_text_more2" msgid="28835616891750572">"詳しくは、いずれかのタグ画面でMENUを押して[ヘルプ]をタップしてください。"</string>
     <string name="tag_deleted" msgid="5411251725532471624">"タグを削除しました"</string>
     <string name="add_tag" msgid="703494598879855113">"新しいタグを追加"</string>
-    <string name="choose_my_tag" msgid="4208730132705026130">"共有するタグを選択"</string>
+    <string name="choose_my_tag" msgid="4208730132705026130">"共有するタグを選択する"</string>
     <string name="active_tag" msgid="7417732109196094058">"アクティブタグ"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"マイタグの管理"</string>
     <string name="menu_delete" msgid="8834253717174232653">"タグを削除"</string>
