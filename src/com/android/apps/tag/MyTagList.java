@@ -151,8 +151,8 @@ public class MyTagList
         // The UX is horrible so we don't want to ship it but need it for testing.
         if (!Build.TYPE.equalsIgnoreCase("user")) {
             mWriteSupport = true;
-            registerForContextMenu(mList);
         }
+        registerForContextMenu(mList);
 
         if (getIntent().hasExtra(EditTagActivity.EXTRA_RESULT_MSG)) {
             NdefMessage msg = (NdefMessage) Preconditions.checkNotNull(
