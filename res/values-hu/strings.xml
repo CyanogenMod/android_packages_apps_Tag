@@ -75,5 +75,5 @@
     <string name="menu_edit" msgid="2163829689000692138">"Címke szerkesztése"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Beállítás aktív címkeként"</string>
     <string name="no_tag_selected" msgid="127078607162539962">"Nincs megosztásra kiválasztott címke."</string>
-    <string name="no_tags_created" msgid="5963013948308289234">"Nincs létrehozva címke."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Még nem hozott létre egyetlen címkét sem."</string>
 </resources>

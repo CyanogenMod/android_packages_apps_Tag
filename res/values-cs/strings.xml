@@ -49,7 +49,7 @@
     <string name="cancel" msgid="2168193471147260328">"Zrušit"</string>
     <string name="menu_help" msgid="2340550693525288105">"Nápověda"</string>
     <string name="import_vcard" msgid="5104299047930666528">"Importovat ^1"</string>
-    <string name="mime_display_name" msgid="5926357152623764485">"Data ze štítku NFC"</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Data z tagu NFC"</string>
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Funkce NFC je vypnutá"</string>
     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Chcete-li skenovat štítky, musíte mít zapnutou funkci NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Nastavení"</string>
@@ -74,6 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Smazat tag"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Upravit tag"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Nastavit jako aktivní tag"</string>
-    <string name="no_tag_selected" msgid="127078607162539962">"Nevybrali jste žádný štítek ke sdílení."</string>
-    <string name="no_tags_created" msgid="5963013948308289234">"Nevytvořili jste žádné štítky."</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Nevybrali jste žádný tag ke sdílení."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Nevytvořili jste žádné tagy."</string>
 </resources>
