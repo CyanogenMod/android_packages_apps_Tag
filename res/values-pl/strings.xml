@@ -16,60 +16,64 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- outdated translation 5304933463526075749 -->     <string name="app_name" msgid="5128188288358721369">"Tagi"</string>
-    <!-- outdated translation 7384975095174110118 -->     <string name="title_scanned_tag" msgid="4347835407095551450">"Zebrano nowy tag"</string>
-    <!-- outdated translation 2662331589219371469 -->     <string name="title_existing_tag" msgid="5656560272594190244">"Tag"</string>
-    <!-- outdated translation 1996850878390617058 -->     <string name="tab_tags" msgid="3254131516215269385">"Tagi"</string>
-    <!-- outdated translation 574623989611443923 -->     <string name="tab_starred" msgid="3892615665321783044">"Oznaczone gwiazdką"</string>
-    <!-- outdated translation 3834389511172779926 -->     <string name="tab_my_tag" msgid="4194581094362833242">"Mój tag"</string>
-    <!-- outdated translation 7186030022136125928 -->     <string name="tag_unknown" msgid="2897956823877728783">"Nieznany typ tagu"</string>
-    <!-- outdated translation 4628010924830367949 -->     <string name="tag_empty" msgid="3726529819932095782">"Pusty tag"</string>
-    <!-- outdated translation 3844107775573652591 -->     <string name="button_delete" msgid="8636971153075546776">"Usuń"</string>
-    <!-- outdated translation 3630962338388532665 -->     <string name="button_done" msgid="7048822758098308158">"Gotowe"</string>
-    <!-- outdated translation 6475134560271872416 -->     <string name="button_save" msgid="1396693475082322626">"Zapisz"</string>
-    <!-- outdated translation 7447000441214139164 -->     <string name="button_cancel" msgid="8094182910311905776">"Anuluj"</string>
-    <!-- outdated translation 69414339248814239 -->     <string name="cancel_help_text" msgid="2582335582642459522">"Aby pominąć dodanie tego tagu do swojej kolekcji, dotknij przycisk Gotowe"</string>
-    <!-- no translation found for action_text (577417996159152923) -->
-    <skip />
-    <!-- no translation found for action_call (6226253647953184035) -->
-    <skip />
-    <!-- outdated translation 8038177284374892711 -->     <string name="turn_on_my_tag" msgid="6584695906051991524">"Udostępnij mój tag"</string>
-    <!-- outdated translation 4439308770668005190 -->     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Pozwól innym czytać mój tag"</string>
-    <!-- outdated translation 8768530122070209220 -->     <string name="add_content" msgid="6592975981339055673">"Więcej…"</string>
-    <!-- outdated translation 346978808158631341 -->     <string name="tag_title" msgid="4734199420853998617">"Tytuł"</string>
-    <!-- outdated translation 4427517319085885869 -->     <string name="tag_text" msgid="522896767632155048">"Tekst"</string>
-    <!-- outdated translation 4296500130950220194 -->     <string name="select_type" msgid="1845302736320827995">"Wybierz typ do dodania"</string>
-    <!-- outdated translation 7237702272759463537 -->     <string name="photo" msgid="986413518082114481">"Zdjęcie"</string>
-    <!-- outdated translation 6827404887724973673 -->     <string name="bad_photo" msgid="1601260684495341633">"Nie można otworzyć zdjęcia."</string>
+    <string name="app_name" msgid="5128188288358721369">"Tagi"</string>
+    <string name="title_scanned_tag" msgid="4347835407095551450">"Zebrano nowy tag"</string>
+    <string name="title_existing_tag" msgid="5656560272594190244">"Tag"</string>
+    <string name="tab_tags" msgid="3254131516215269385">"Tagi"</string>
+    <string name="tab_starred" msgid="3892615665321783044">"Oznaczone gwiazdką"</string>
+    <string name="tab_my_tag" msgid="4194581094362833242">"Mój tag"</string>
+    <string name="tag_unknown" msgid="2897956823877728783">"Nieznany typ tagu"</string>
+    <string name="tag_empty" msgid="3726529819932095782">"Pusty tag"</string>
+    <string name="button_delete" msgid="8636971153075546776">"Usuń"</string>
+    <string name="button_done" msgid="7048822758098308158">"Gotowe"</string>
+    <string name="button_save" msgid="1396693475082322626">"Zapisz"</string>
+    <string name="button_cancel" msgid="8094182910311905776">"Anuluj"</string>
+    <string name="cancel_help_text" msgid="2582335582642459522">"Aby pominąć dodawanie tego tagu do swojej kolekcji, dotknij przycisku Gotowe."</string>
+    <string name="action_text" msgid="577417996159152923">"SMS – <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_call" msgid="6226253647953184035">"Połącz: <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="turn_on_my_tag" msgid="6584695906051991524">"Udostępnij mój tag"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"Edytuj tag"</string>
+    <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Pozwól innym użytkownikom odczytywać mój tag"</string>
+    <string name="add_content" msgid="6592975981339055673">"Więcej…"</string>
+    <string name="tag_title" msgid="4734199420853998617">"Tytuł"</string>
+    <string name="tag_text" msgid="522896767632155048">"Tekst"</string>
+    <string name="select_type" msgid="1845302736320827995">"Wybierz typ do dodania"</string>
+    <string name="photo" msgid="986413518082114481">"Zdjęcie"</string>
+    <string name="bad_photo" msgid="1601260684495341633">"Nie można otworzyć zdjęcia"</string>
     <string name="url" msgid="5939765162489949437">"Adres URL"</string>
-    <!-- outdated translation 4027528512535816533 -->     <string name="contact" msgid="8810195884019228695">"Kontakt"</string>
-    <!-- outdated translation 9041329136600077731 -->     <string name="location" msgid="2476366526591580807">"Lokalizacja"</string>
-    <!-- outdated translation 5196475932495793798 -->     <string name="empty_tag_prompt" msgid="4206394383309956030">"Ten tag jest pusty."</string>
-    <!-- outdated translation 6555918912573512342 -->     <string name="empty_tag_instructions" msgid="9156733538909958916">"Dotknij "<b>"tagu pisania"</b>", aby dodać treść."</string>
-    <!-- outdated translation 8263242607342901078 -->     <string name="write" msgid="4957259770248890625">"Zapisz tag"</string>
-    <!-- outdated translation 43782095633865571 -->     <string name="cancel" msgid="2168193471147260328">"Anuluj"</string>
-    <!-- outdated translation 8136565546077127193 -->     <string name="menu_help" msgid="2340550693525288105">"Pomoc"</string>
-    <!-- outdated translation 5420768007316943306 -->     <string name="import_vcard" msgid="5104299047930666528">"Importuj ^1"</string>
-    <!-- outdated translation 4854603960206659747 -->     <string name="mime_display_name" msgid="5926357152623764485">"Dane z tagu NFC"</string>
-    <!-- outdated translation 1823512823699246050 -->     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Wyłączono komunikację NFC"</string>
-    <!-- outdated translation 9147293315146023584 -->     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Aby skanować tagi, należy włączyć NFC."</string>
-    <!-- outdated translation 952868820745656494 -->     <string name="button_settings" msgid="6909066985958159920">"Ustawienia"</string>
-    <!-- outdated translation 7797866401978902332 -->     <string name="empty_list" msgid="1306390399412856676">"Nie zeskanowano żadnych tagów."</string>
-    <!-- outdated translation 7842589445254113433 -->     <string name="empty_list_starred" msgid="7185947321271594216">"Nie masz tagów oznaczonych gwiazdką."</string>
-    <!-- outdated translation 8191822912351891937 -->     <string name="button_more_info" msgid="574247138099633767">"Więcej informacji"</string>
-    <!-- outdated translation 2220946548176589401 -->     <string name="vcard_title" msgid="7122634780732426007">"Informacje kontaktowe o ^1"</string>
-    <!-- outdated translation 5598877860750758635 -->     <string name="next" msgid="8672447228208567606">"Dalej"</string>
-    <!-- outdated translation 9123296281657229150 -->     <string name="back" msgid="7389918385345281227">"Wróć"</string>
-    <!-- outdated translation 135289616487351355 -->     <string name="close" msgid="5521003720382005075">"Zamknij"</string>
-    <!-- outdated translation 5453497014150198002 -->     <string name="intro_title" msgid="2798106838231744219">"Tagi – informacje"</string>
+    <string name="contact" msgid="8810195884019228695">"Kontakt"</string>
+    <string name="location" msgid="2476366526591580807">"Lokalizacja"</string>
+    <string name="empty_tag_prompt" msgid="4206394383309956030">"Ten tag jest pusty."</string>
+    <string name="empty_tag_instructions" msgid="9156733538909958916">"Dotknij opcji "<b>"Zapisz tag"</b>", aby dodać zawartość."</string>
+    <string name="write" msgid="4957259770248890625">"Zapisz tag"</string>
+    <string name="cancel" msgid="2168193471147260328">"Anuluj"</string>
+    <string name="menu_help" msgid="2340550693525288105">"Pomoc"</string>
+    <string name="import_vcard" msgid="5104299047930666528">"Importuj ^1"</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Dane z tagu NFC"</string>
+    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Komunikacja NFC jest wyłączona"</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Skanowanie tagów wymaga włączenia komunikacji NFC."</string>
+    <string name="button_settings" msgid="6909066985958159920">"Ustawienia"</string>
+    <string name="empty_list" msgid="1306390399412856676">"Nie masz zeskanowanych tagów."</string>
+    <string name="empty_list_starred" msgid="7185947321271594216">"Nie masz tagów oznaczonych gwiazdką."</string>
+    <string name="button_more_info" msgid="574247138099633767">"Więcej informacji"</string>
+    <string name="vcard_title" msgid="7122634780732426007">"Informacje kontaktowe o: ^1"</string>
+    <string name="next" msgid="8672447228208567606">"Dalej"</string>
+    <string name="back" msgid="7389918385345281227">"Wróć"</string>
+    <string name="close" msgid="5521003720382005075">"Zamknij"</string>
+    <string name="intro_title" msgid="2798106838231744219">"Tagi – informacje"</string>
     <string name="intro_text_about" msgid="1366913102380816468">"Aplikacja Tagi służy do porządkowania i udostępniania tagów komunikacji NFC (Near Field Communication)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Aby zeskanować tag, włącz telefon i umieść go bezpośrednio obok tagu."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Tagi komunikacji NFC mogą zawierać tekst, adresy URL, zdjęcia i inne rodzaje informacji."</string>
     <string name="intro_text_more" msgid="4127006088499721149">"Aby skanować i udostępniać tagi, należy włączyć komunikację NFC (sekcja Sieci zwykłe i bezprzewodowe w Ustawieniach)."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Aby uzyskać więcej informacji, wybierz kolejno opcje Menu i Pomoc na dowolnym ekranie aplikacji Tagi."</string>
-    <!-- outdated translation 7101932240859345016 -->     <string name="tag_deleted" msgid="5411251725532471624">"Usunięto tag"</string>
+    <string name="tag_deleted" msgid="5411251725532471624">"Usunięto tag"</string>
     <string name="add_tag" msgid="703494598879855113">"Dodaj nowy tag"</string>
     <string name="choose_my_tag" msgid="4208730132705026130">"Wybierz tag do udostępnienia"</string>
     <string name="active_tag" msgid="7417732109196094058">"Aktywny tag"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Zarządzaj moimi tagami"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"Usuń tag"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"Edytuj tag"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"Ustaw jako aktywny tag"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Nie wybrano tagu do udostępnienia."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Nie masz żadnych utworzonych tagów."</string>
 </resources>

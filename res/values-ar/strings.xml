@@ -32,6 +32,7 @@
     <string name="action_text" msgid="577417996159152923">"النص <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"اتصال <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"مشاركة علامتي"</string>
+    <string name="edit_tag" msgid="3708659122033447892">"تعديل العلامة"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"السماح للآخرين بقراءة علامتي"</string>
     <string name="add_content" msgid="6592975981339055673">"المزيد…"</string>
     <string name="tag_title" msgid="4734199420853998617">"العنوان"</string>
@@ -70,4 +71,9 @@
     <string name="choose_my_tag" msgid="4208730132705026130">"اختيار علامة لمشاركتها"</string>
     <string name="active_tag" msgid="7417732109196094058">"علامة نشطة"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"إدارة علاماتي"</string>
+    <string name="menu_delete" msgid="8834253717174232653">"حذف العلامة"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"تعديل علامة"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"تعيين كعلامة نشطة"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"ليس لديك علامة محددة لمشاركتها."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"ليس لديك علامات تم إنشاؤها."</string>
 </resources>
