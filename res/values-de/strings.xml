@@ -74,6 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Tag löschen"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Tag bearbeiten"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Als aktives Tag festlegen"</string>
-    <string name="no_tag_selected" msgid="127078607162539962">"Sie haben kein Tag für die Freigabe ausgewählt."</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Sie haben kein Tag zum Weitergeben ausgewählt."</string>
     <string name="no_tags_created" msgid="5963013948308289234">"Sie haben keine Tags erstellt."</string>
 </resources>
