@@ -61,10 +61,10 @@
     <string name="back" msgid="7389918385345281227">"Zurück"</string>
     <string name="close" msgid="5521003720382005075">"Schließen"</string>
     <string name="intro_title" msgid="2798106838231744219">"Über Tags"</string>
-    <string name="intro_text_about" msgid="1366913102380816468">"Tags dient zur Organisation und Freigabe von Tags für Nahfeldkommunikation (NFC)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags dient zur Organisation und Weitergabe von Tags für Nahfeldkommunikation (NFC)."</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Zum Scannen eines Tags Telefon einschalten und direkt an das Tag halten."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"NFC-Tags können Text, URLs, Bilder und andere Informationen enthalten."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Zum Scannen und Freigeben von Tags müssen Sie NFC (über \"Einstellungen\" > \"Drahtlos &amp; Netzwerke\") aktivieren."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Zum Scannen und Weitergeben von Tags müssen Sie NFC (über \"Einstellungen\" > \"Drahtlos &amp; Netzwerke\") aktivieren."</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Über \"Menü\" &gt; \"Hilfe\" erhalten Sie auf allen Tags-Bildschirmen weitere Informationen."</string>
     <string name="tag_deleted" msgid="5411251725532471624">"Tag gelöscht"</string>
     <string name="add_tag" msgid="703494598879855113">"Neues Tag hinzufügen"</string>
@@ -74,6 +74,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Tag löschen"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Tag bearbeiten"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Als aktives Tag festlegen"</string>
-    <string name="no_tag_selected" msgid="127078607162539962">"Sie haben kein Tag für die Freigabe ausgewählt."</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Sie haben kein Tag zum Weitergeben ausgewählt."</string>
     <string name="no_tags_created" msgid="5963013948308289234">"Sie haben keine Tags erstellt."</string>
 </resources>
