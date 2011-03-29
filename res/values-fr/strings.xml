@@ -37,7 +37,7 @@
     <string name="add_content" msgid="6592975981339055673">"Plus…"</string>
     <string name="tag_title" msgid="4734199420853998617">"Titre"</string>
     <string name="tag_text" msgid="522896767632155048">"Texte"</string>
-    <string name="select_type" msgid="1845302736320827995">"Sélection d\'un type à ajouter"</string>
+    <string name="select_type" msgid="1845302736320827995">"Sélectionner le type à ajouter"</string>
     <string name="photo" msgid="986413518082114481">"Photo"</string>
     <string name="bad_photo" msgid="1601260684495341633">"Impossible d\'ouvrir l\'image."</string>
     <string name="url" msgid="5939765162489949437">"URL"</string>
@@ -51,9 +51,9 @@
     <string name="import_vcard" msgid="5104299047930666528">"Importer ^1"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"Données du tag NFC"</string>
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Communication NFC désactivée"</string>
-    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Vous devez activer la communication NFC pour analyser les tags."</string>
+    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Vous devez activer la communication NFC pour scanner des tags."</string>
     <string name="button_settings" msgid="6909066985958159920">"Paramètres"</string>
-    <string name="empty_list" msgid="1306390399412856676">"Vous n\'avez lu aucun tag."</string>
+    <string name="empty_list" msgid="1306390399412856676">"Vous n\'avez scanné aucun tag."</string>
     <string name="empty_list_starred" msgid="7185947321271594216">"Vous n\'avez ajouté aucun tag à vos favoris."</string>
     <string name="button_more_info" msgid="574247138099633767">"Plus d\'infos"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Coordonnées de ^1"</string>
