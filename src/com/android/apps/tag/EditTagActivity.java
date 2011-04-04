@@ -105,7 +105,12 @@ public class EditTagActivity extends Activity implements OnClickListener, EditCa
 
         if (savedState != null) {
             mRecord = savedState.getParcelable(BUNDLE_KEY_RECORD);
-            refresh();
+            if (mRecord != null) {
+                refresh();
+            } else {
+                Log.w(LOG_TAG, "invalid instance state, loading from intent");
+                resolveIntent();
+            }
         } else {
             resolveIntent();
         }
