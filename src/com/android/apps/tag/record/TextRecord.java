@@ -128,6 +128,7 @@ public class TextRecord extends ParsedNdefRecord {
 
             String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
             int languageCodeLength = payload[0] & 0077;
+            Preconditions.checkArgument(payload.length - languageCodeLength - 1 >= 0);
 
             String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
             String text = new String(payload,
