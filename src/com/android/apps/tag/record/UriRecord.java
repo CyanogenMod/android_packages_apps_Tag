@@ -223,6 +223,7 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
         Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_URI));
 
         byte[] payload = record.getPayload();
+        Preconditions.checkArgument(payload.length > 0);
 
         /*
          * payload[0] contains the URI Identifier Code, per the
@@ -233,6 +234,8 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
          */
 
         String prefix = URI_PREFIX_MAP.get(payload[0]);
+        Preconditions.checkArgument(prefix != null);
+
         byte[] fullUri = Bytes.concat(
                 prefix.getBytes(Charset.forName("UTF-8")),
                 Arrays.copyOfRange(payload, 1, payload.length));

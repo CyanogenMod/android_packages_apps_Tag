@@ -111,6 +111,7 @@ public class TextRecord extends ParsedNdefRecord {
         try {
 
             byte[] payload = record.getPayload();
+            Preconditions.checkArgument(payload.length > 0);
 
             /*
              * payload[0] contains the "Status Byte Encodings" field, per
