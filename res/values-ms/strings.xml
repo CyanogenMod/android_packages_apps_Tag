@@ -20,7 +20,7 @@
     <string name="title_scanned_tag" msgid="4347835407095551450">"Teg baru dikumpulkan"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"Teg"</string>
     <string name="tab_tags" msgid="3254131516215269385">"Teg"</string>
-    <string name="tab_starred" msgid="3892615665321783044">"Dibintangi"</string>
+    <string name="tab_starred" msgid="3892615665321783044">"Dibintangkan"</string>
     <string name="tab_my_tag" msgid="4194581094362833242">"Teg saya"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"Jenis teg tidak diketahui"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Teg kosong"</string>
@@ -34,7 +34,7 @@
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Kongsi teg saya"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Edit teg"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Membenarkan orang lain membaca teg saya"</string>
-    <string name="add_content" msgid="6592975981339055673">"Lagi…"</string>
+    <string name="add_content" msgid="6592975981339055673">"Lagi..."</string>
     <string name="tag_title" msgid="4734199420853998617">"Tajuk"</string>
     <string name="tag_text" msgid="522896767632155048">"Teks"</string>
     <string name="select_type" msgid="1845302736320827995">"Pilih jenis untuk ditambah"</string>

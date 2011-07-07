@@ -29,7 +29,7 @@
     <string name="button_save" msgid="1396693475082322626">"Speichern"</string>
     <string name="button_cancel" msgid="8094182910311905776">"Abbrechen"</string>
     <string name="cancel_help_text" msgid="2582335582642459522">"Tippen Sie auf \"Fertig\", um das Hinzufügen des Tags zu Ihrer Sammlung zu überspringen."</string>
-    <string name="action_text" msgid="577417996159152923">"Textnachricht an <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_text" msgid="577417996159152923">"SMS an <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"<xliff:g id="PHONE_NUMBER">%s</xliff:g> anrufen"</string>
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Mein Tag weitergeben"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Tag bearbeiten"</string>
