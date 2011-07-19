@@ -32,6 +32,7 @@
         android:icon="@drawable/ic_launcher_nfc"
         android:label="@string/app_name"
     >
+<!--
         <activity android:name="TagBrowserActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait"
@@ -39,11 +40,9 @@
 
         <activity android:name="TagList" />
 
-        <!-- TODO: lift the portrait restriction by re-working the list in the
-             layout. -->
         <activity android:name="MyTagList"
             android:screenOrientation="portrait" />
-
+-->
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTop"
@@ -65,7 +64,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Make the activity show up as "My tag" when resolving intent -->
+<!--
         <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
@@ -86,6 +85,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
         />
+-->
 
         <service android:name="TagService" />
 
