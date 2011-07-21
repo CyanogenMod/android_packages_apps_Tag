@@ -17,7 +17,6 @@
 package com.android.apps.tag.record;
 
 import com.android.apps.tag.R;
-import com.android.apps.tag.record.UriRecord.UriRecordEditInfo;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Bytes;
@@ -84,24 +83,6 @@ public class TextRecord extends ParsedNdefRecord {
     @VisibleForTesting
     public String getLanguageCode() {
         return mLanguageCode;
-    }
-
-    @Override
-    public RecordEditInfo getEditInfo(Activity host) {
-        return new TextRecordEditInfo(mText);
-    }
-
-    /**
-     * Returns a view in a list of record types for adding new records to a message.
-     */
-    public static View getAddView(Context context, LayoutInflater inflater, ViewGroup parent) {
-        ViewGroup root = (ViewGroup) inflater.inflate(
-                R.layout.tag_add_record_list_item, parent, false);
-        ((ImageView) root.findViewById(R.id.image)).setImageResource(R.drawable.ic_launcher_nfc);
-        ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.tag_text));
-
-        root.setTag(new TextRecordEditInfo(""));
-        return root;
     }
 
     // TODO: deal with text fields which span multiple NdefRecords
@@ -177,40 +158,5 @@ public class TextRecord extends ParsedNdefRecord {
         );
 
         return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], data);
-    }
-
-    public static class TextRecordEditInfo extends AbstractTextRecordEditInfo {
-        public TextRecordEditInfo(String text) {
-            super(text);
-        }
-
-        public TextRecordEditInfo(Parcel in) {
-            super(in);
-        }
-
-        @Override
-        public int getLayoutId() {
-            return R.layout.tag_edit_text;
-        }
-
-        @Override
-        public NdefRecord getValue() {
-            String text = getCurrentText();
-            if (TextUtils.isEmpty(text)) text = "";
-            return TextRecord.newTextRecord(text, Locale.getDefault(), true);
-        }
-
-        public static final Parcelable.Creator<TextRecordEditInfo> CREATOR =
-                new Parcelable.Creator<TextRecordEditInfo>() {
-            @Override
-            public TextRecordEditInfo createFromParcel(Parcel in) {
-                return new TextRecordEditInfo(in);
-            }
-
-            @Override
-            public TextRecordEditInfo[] newArray(int size) {
-                return new TextRecordEditInfo[size];
-            }
-        };
     }
 }

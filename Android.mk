@@ -13,6 +13,3 @@ LOCAL_PACKAGE_NAME := Tag
 #LOCAL_SDK_VERSION := current
 
 include $(BUILD_PACKAGE)
-
-# Use the following include to make our test apk.
-include $(call all-makefiles-under,$(LOCAL_PATH))

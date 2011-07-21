@@ -145,11 +145,6 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
     }
 
     @Override
-    public RecordEditInfo getEditInfo(Activity host) {
-        return new UriRecordEditInfo(mUri.toString());
-    }
-
-    @Override
     public String getSnippet(Context context, Locale locale) {
         return getPrettyUriString(context);
     }
@@ -164,29 +159,6 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
             // The activity wansn't found for some reason. Don't crash, but don't do anything.
             Log.e(TAG, "Failed to launch activity for intent " + info.intent, e);
         }
-    }
-
-    /**
-     * Returns a view in a list of record types for adding new records to a message.
-     */
-    public static View getAddView(Context context, LayoutInflater inflater, ViewGroup parent) {
-        ViewGroup root = (ViewGroup) inflater.inflate(
-                R.layout.tag_add_record_list_item, parent, false);
-
-        // Determine which Activity can open up normal URL's.
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-        PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-        if (activities.isEmpty()) {
-            return null;
-        }
-
-        ResolveInfo info = activities.get(0);
-        ((ImageView) root.findViewById(R.id.image)).setImageDrawable(info.loadIcon(pm));
-        ((TextView) root.findViewById(R.id.text)).setText(context.getString(R.string.url));
-
-        root.setTag(new UriRecordEditInfo(""));
-        return root;
     }
 
     @VisibleForTesting
@@ -275,41 +247,5 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
 
         return new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
                 NdefRecord.RTD_URI, EMPTY, payload);
-    }
-
-    public static class UriRecordEditInfo extends AbstractTextRecordEditInfo {
-        public UriRecordEditInfo(String uri) {
-            super(uri);
-        }
-
-        public UriRecordEditInfo(Parcel in) {
-            super(in);
-        }
-
-        @Override
-        public int getLayoutId() {
-            return R.layout.tag_edit_url;
-        }
-
-        @Override
-        public NdefRecord getValue() {
-            String text = getCurrentText();
-            if (TextUtils.isEmpty(text)) text = "";
-            return UriRecord.newUriRecord(Uri.parse(text));
-        }
-
-        @SuppressWarnings("unused")
-        public static final Parcelable.Creator<UriRecordEditInfo> CREATOR =
-                new Parcelable.Creator<UriRecordEditInfo>() {
-            @Override
-            public UriRecordEditInfo createFromParcel(Parcel in) {
-                return new UriRecordEditInfo(in);
-            }
-
-            @Override
-            public UriRecordEditInfo[] newArray(int size) {
-                return new UriRecordEditInfo[size];
-            }
-        };
     }
 }
