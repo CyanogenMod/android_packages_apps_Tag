@@ -32,17 +32,6 @@
         android:icon="@drawable/ic_launcher_nfc"
         android:label="@string/app_name"
     >
-<!--
-        <activity android:name="TagBrowserActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:screenOrientation="portrait"
-        />
-
-        <activity android:name="TagList" />
-
-        <activity android:name="MyTagList"
-            android:screenOrientation="portrait" />
--->
         <activity android:name="TagViewer"
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTop"
@@ -63,37 +52,5 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
-<!--
-        <activity android:name="EditTagActivity" android:label="@string/tab_my_tag">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain" />
-                <data android:mimeType="text/x-vcard" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="AboutActivity"
-            android:label=""
-            android:theme="@style/AboutTheme"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-        />
-
-        <activity android:name="WriteTagActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-        />
--->
-
-        <service android:name="TagService" />
-
-        <provider android:name=".provider.TagProvider"
-            android:authorities="com.android.apps.tag"
-            android:syncable="false"
-            android:multiprocess="false"
-        />
-
     </application>
 </manifest>
