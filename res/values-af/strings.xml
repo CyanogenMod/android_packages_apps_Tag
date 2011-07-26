@@ -19,64 +19,13 @@
     <string name="app_name" msgid="5128188288358721369">"Merkers"</string>
     <string name="title_scanned_tag" msgid="4347835407095551450">"Nuwe merker versamel"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"Merker"</string>
-    <string name="tab_tags" msgid="3254131516215269385">"Merkers"</string>
-    <string name="tab_starred" msgid="3892615665321783044">"Gester"</string>
-    <string name="tab_my_tag" msgid="4194581094362833242">"My merker"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"Onbekende merkertipe"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Leë merker"</string>
-    <string name="button_delete" msgid="8636971153075546776">"Vee uit"</string>
     <string name="button_done" msgid="7048822758098308158">"Klaar"</string>
-    <string name="button_save" msgid="1396693475082322626">"Stoor"</string>
-    <string name="button_cancel" msgid="8094182910311905776">"Kanselleer"</string>
-    <string name="cancel_help_text" msgid="2582335582642459522">"Om nie hierdie merker tot jou versameling te voeg nie, raak Klaar"</string>
     <string name="action_text" msgid="577417996159152923">"Teks <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Bel <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="turn_on_my_tag" msgid="6584695906051991524">"Deel my merker"</string>
-    <!-- no translation found for edit_tag (3708659122033447892) -->
-    <skip />
-    <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Laat ander toe om my merker te lees"</string>
-    <string name="add_content" msgid="6592975981339055673">"Meer…"</string>
-    <string name="tag_title" msgid="4734199420853998617">"Titel"</string>
-    <string name="tag_text" msgid="522896767632155048">"Teks"</string>
-    <string name="select_type" msgid="1845302736320827995">"Kies tipe om by te voeg"</string>
-    <string name="photo" msgid="986413518082114481">"Foto"</string>
-    <string name="bad_photo" msgid="1601260684495341633">"Kon nie prent open nie."</string>
-    <string name="url" msgid="5939765162489949437">"URL"</string>
-    <string name="contact" msgid="8810195884019228695">"Kontak"</string>
-    <string name="location" msgid="2476366526591580807">"Ligging"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"Hierdie merker is leeg."</string>
-    <string name="empty_tag_instructions" msgid="9156733538909958916">"Raak "<b>"Skryf merker"</b>" om inhoud by te voeg."</string>
-    <string name="write" msgid="4957259770248890625">"Skryf merker"</string>
-    <string name="cancel" msgid="2168193471147260328">"Kanselleer"</string>
-    <string name="menu_help" msgid="2340550693525288105">"Hulp"</string>
     <string name="import_vcard" msgid="5104299047930666528">"Voer ^1 in"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"Data van NFC-merker"</string>
-    <string name="dialog_title_nfc_off" msgid="6945643404976801203">"NFC afgeskakel"</string>
-    <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Jy moet NFC aanskakel om merkers te skandeer."</string>
-    <string name="button_settings" msgid="6909066985958159920">"Instellings"</string>
-    <string name="empty_list" msgid="1306390399412856676">"Jy het geen merkers geskandeer nie"</string>
-    <string name="empty_list_starred" msgid="7185947321271594216">"Jy het geen gesterde merkers nie."</string>
-    <string name="button_more_info" msgid="574247138099633767">"Meer inligting"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Kontakinligting vir ^1"</string>
-    <string name="next" msgid="8672447228208567606">"Volgende"</string>
-    <string name="back" msgid="7389918385345281227">"Terug"</string>
-    <string name="close" msgid="5521003720382005075">"Maak toe"</string>
-    <string name="intro_title" msgid="2798106838231744219">"Meer oor merkers"</string>
-    <string name="intro_text_about" msgid="1366913102380816468">"Merkers is om kortveldkommunikasie- (NFC) merkers te organiseer en te deel."</string>
-    <string name="intro_text_usage" msgid="2343260114638598627">"Jy skandeer \'n merker deur jou foon aan te skakel en dit reg langs \'n merker te plaas."</string>
-    <string name="intro_text_contents" msgid="1973327615218723220">"NFC-merkers kan teks, URL\'e, prente en ander tipes inligting bevat."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Om merkers te skandeer of te deel, moet jy NFC aangeskakel hê (in Instellings, onder \"Draadloos en netwerke\")."</string>
-    <string name="intro_text_more2" msgid="28835616891750572">"Vir meer inligting, druk Kieslys en raak Hulp op enige merkerskerm."</string>
-    <string name="tag_deleted" msgid="5411251725532471624">"Merker uitgevee"</string>
-    <string name="add_tag" msgid="703494598879855113">"Voeg nuwe merker by"</string>
-    <string name="choose_my_tag" msgid="4208730132705026130">"Kies \'n merker om te deel"</string>
-    <string name="active_tag" msgid="7417732109196094058">"Aktiewe merker"</string>
-    <string name="manage_my_tags" msgid="3616349610711109286">"Bestuur my merkers"</string>
-    <string name="menu_delete" msgid="8834253717174232653">"Vee merker uit"</string>
-    <string name="menu_edit" msgid="2163829689000692138">"Redigeer merker"</string>
-    <string name="menu_set_as_active" msgid="6637492981297642733">"Stel as aktiewe merker"</string>
-    <!-- no translation found for no_tag_selected (127078607162539962) -->
-    <skip />
-    <!-- no translation found for no_tags_created (5963013948308289234) -->
-    <skip />
 </resources>
