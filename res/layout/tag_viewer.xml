@@ -20,41 +20,6 @@
 
     android:orientation="vertical"
 >
-    <!-- Title -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dip"
-
-        android:orientation="horizontal"
-        android:background="@drawable/title_bar_medium"
-    >
-
-        <ImageView android:id="@+id/icon"
-            android:layout_width="32dip"
-            android:layout_height="32dip"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="4dip"
-
-            android:src="@drawable/ic_launcher_nfc"
-        />
-
-        <TextView android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dip"
-
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
-            android:shadowColor="#BB000000"
-            android:shadowRadius="2.75"
-            
-            android:text="@string/title_scanned_tag"
-        />
-    </LinearLayout>
-
     <!-- Content -->
 
     <ScrollView
@@ -73,7 +38,7 @@
     </ScrollView>
 
     <!-- Bottom button area -->
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,5 +56,5 @@
         />
 
     </LinearLayout>
-
+-->
 </LinearLayout>
