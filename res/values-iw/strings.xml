@@ -21,9 +21,9 @@
     <string name="title_existing_tag" msgid="5656560272594190244">"תג"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"סוג תג לא ידוע"</string>
     <string name="tag_empty" msgid="3726529819932095782">"תג ריק"</string>
-    <string name="button_done" msgid="7048822758098308158">"בוצע"</string>
-    <string name="action_text" msgid="577417996159152923">"שלח בהודעת טקסט את <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
-    <string name="action_call" msgid="6226253647953184035">"שיחה <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="button_done" msgid="7048822758098308158">"סיום"</string>
+    <string name="action_text" msgid="577417996159152923">"שלח הודעת טקסט אל <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="action_call" msgid="6226253647953184035">"התקשר אל <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"תג זה ריק."</string>
     <string name="import_vcard" msgid="5104299047930666528">"ייבא ^1"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"נתונים מתג NFC"</string>
