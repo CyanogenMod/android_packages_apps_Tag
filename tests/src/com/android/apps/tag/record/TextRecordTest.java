@@ -29,7 +29,6 @@ import java.util.Locale;
  */
 public class TextRecordTest extends AndroidTestCase {
 
-    // Îñţérñåţîöñåļîžåţîờñ
     private static final String I18N = "\\u00ce\\u00f1\\u0163\\u00e9r\\u00f1\\u00e5"
             + "\\u0163\\u00ee\\u00f6\\u00f1\\u00e5\\u013c\\u00ee\\u017e\\u00e5"
             + "\\u0163\\u00ee\\u1edd\\u00f1";
