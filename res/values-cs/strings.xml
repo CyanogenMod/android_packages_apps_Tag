@@ -14,8 +14,7 @@
      limitations under the License.
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5128188288358721369">"Štítky"</string>
     <string name="title_scanned_tag" msgid="4347835407095551450">"Byl naskenován nový štítek"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"Štítek"</string>
@@ -34,7 +33,7 @@
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Sdílet štítek"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Upravit štítek"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Povolit ostatním číst můj štítek"</string>
-    <string name="add_content" msgid="6592975981339055673">"Další…"</string>
+    <string name="add_content" msgid="6592975981339055673">"Více\u2026"</string>
     <string name="tag_title" msgid="4734199420853998617">"Název"</string>
     <string name="tag_text" msgid="522896767632155048">"Text"</string>
     <string name="select_type" msgid="1845302736320827995">"Vybrat typ pro přidání"</string>
@@ -49,7 +48,7 @@
     <string name="cancel" msgid="2168193471147260328">"Zrušit"</string>
     <string name="menu_help" msgid="2340550693525288105">"Nápověda"</string>
     <string name="import_vcard" msgid="5104299047930666528">"Importovat ^1"</string>
-    <string name="mime_display_name" msgid="5926357152623764485">"Data z tagu NFC"</string>
+    <string name="mime_display_name" msgid="5926357152623764485">"Data ze štítku NFC"</string>
     <string name="dialog_title_nfc_off" msgid="6945643404976801203">"Funkce NFC je vypnutá"</string>
     <string name="dialog_text_nfc_off" msgid="6323019332983777990">"Chcete-li skenovat štítky, musíte mít zapnutou funkci NFC."</string>
     <string name="button_settings" msgid="6909066985958159920">"Nastavení"</string>
@@ -71,9 +70,9 @@
     <string name="choose_my_tag" msgid="4208730132705026130">"Vyberte štítek ke sdílení"</string>
     <string name="active_tag" msgid="7417732109196094058">"Aktivní štítek"</string>
     <string name="manage_my_tags" msgid="3616349610711109286">"Správa štítků"</string>
-    <string name="menu_delete" msgid="8834253717174232653">"Smazat tag"</string>
-    <string name="menu_edit" msgid="2163829689000692138">"Upravit tag"</string>
-    <string name="menu_set_as_active" msgid="6637492981297642733">"Nastavit jako aktivní tag"</string>
-    <string name="no_tag_selected" msgid="127078607162539962">"Nevybrali jste žádný tag ke sdílení."</string>
-    <string name="no_tags_created" msgid="5963013948308289234">"Nevytvořili jste žádné tagy."</string>
+    <string name="menu_delete" msgid="8834253717174232653">"Smazat štítek"</string>
+    <string name="menu_edit" msgid="2163829689000692138">"Upravit štítek"</string>
+    <string name="menu_set_as_active" msgid="6637492981297642733">"Nastavit štítek jako aktivní"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Nevybrali jste žádný štítek ke sdílení."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Nevytvořili jste žádné štítky."</string>
 </resources>
