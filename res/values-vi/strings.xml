@@ -25,7 +25,7 @@
     <string name="action_text" msgid="577417996159152923">"Văn bản <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Gọi <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"Thẻ này trống."</string>
-    <string name="import_vcard" msgid="5104299047930666528">"Nhập ^1"</string>
+    <string name="import_vcard" msgid="5104299047930666528">"Nhập ^1"</string>
     <string name="mime_display_name" msgid="5926357152623764485">"Dữ liệu từ thẻ NFC"</string>
     <string name="vcard_title" msgid="7122634780732426007">"Thông tin liên hệ cho ^1"</string>
 </resources>
