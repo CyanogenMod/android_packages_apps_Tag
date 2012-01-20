@@ -51,11 +51,11 @@ public class ImageRecord extends ParsedNdefRecord {
     }
 
     public static ImageRecord parse(NdefRecord record) {
-        MimeRecord underlyingRecord = MimeRecord.parse(record);
-        Preconditions.checkArgument(underlyingRecord.getMimeType().startsWith("image/"));
+        String mimeType = record.toMimeType();
+        Preconditions.checkArgument(mimeType.startsWith("image/"));
 
         // Try to ensure it's a legal, valid image
-        byte[] content = underlyingRecord.getContent();
+        byte[] content = record.getPayload();
         Bitmap bitmap = BitmapFactory.decodeByteArray(content, 0, content.length);
         if (bitmap == null) {
             throw new IllegalArgumentException("not a valid image file");
@@ -76,6 +76,6 @@ public class ImageRecord extends ParsedNdefRecord {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
         byte[] content = out.toByteArray();
-        return MimeRecord.newMimeRecord("image/jpeg", content);
+        return NdefRecord.createMime("image/jpeg", content);
     }
 }

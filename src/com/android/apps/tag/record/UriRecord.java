@@ -56,51 +56,6 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
 
     public static final String RECORD_TYPE = "UriRecord";
 
-    /**
-     * NFC Forum "URI Record Type Definition"
-     *
-     * This is a mapping of "URI Identifier Codes" to URI string prefixes,
-     * per section 3.2.2 of the NFC Forum URI Record Type Definition document.
-     */
-    private static final BiMap<Byte, String> URI_PREFIX_MAP = ImmutableBiMap.<Byte, String>builder()
-            .put((byte) 0x00, "")
-            .put((byte) 0x01, "http://www.")
-            .put((byte) 0x02, "https://www.")
-            .put((byte) 0x03, "http://")
-            .put((byte) 0x04, "https://")
-            .put((byte) 0x05, "tel:")
-            .put((byte) 0x06, "mailto:")
-            .put((byte) 0x07, "ftp://anonymous:anonymous@")
-            .put((byte) 0x08, "ftp://ftp.")
-            .put((byte) 0x09, "ftps://")
-            .put((byte) 0x0A, "sftp://")
-            .put((byte) 0x0B, "smb://")
-            .put((byte) 0x0C, "nfs://")
-            .put((byte) 0x0D, "ftp://")
-            .put((byte) 0x0E, "dav://")
-            .put((byte) 0x0F, "news:")
-            .put((byte) 0x10, "telnet://")
-            .put((byte) 0x11, "imap:")
-            .put((byte) 0x12, "rtsp://")
-            .put((byte) 0x13, "urn:")
-            .put((byte) 0x14, "pop:")
-            .put((byte) 0x15, "sip:")
-            .put((byte) 0x16, "sips:")
-            .put((byte) 0x17, "tftp:")
-            .put((byte) 0x18, "btspp://")
-            .put((byte) 0x19, "btl2cap://")
-            .put((byte) 0x1A, "btgoep://")
-            .put((byte) 0x1B, "tcpobex://")
-            .put((byte) 0x1C, "irdaobex://")
-            .put((byte) 0x1D, "file://")
-            .put((byte) 0x1E, "urn:epc:id:")
-            .put((byte) 0x1F, "urn:epc:tag:")
-            .put((byte) 0x20, "urn:epc:pat:")
-            .put((byte) 0x21, "urn:epc:raw:")
-            .put((byte) 0x22, "urn:epc:")
-            .put((byte) 0x23, "urn:nfc:")
-            .build();
-
     private final Uri mUri;
 
     private UriRecord(Uri uri) {
@@ -174,78 +129,19 @@ public class UriRecord extends ParsedNdefRecord implements OnClickListener {
      *     record containing a URI.
      */
     public static UriRecord parse(NdefRecord record) {
-        short tnf = record.getTnf();
-        if (tnf == NdefRecord.TNF_WELL_KNOWN) {
-            return parseWellKnown(record);
-        } else if (tnf == NdefRecord.TNF_ABSOLUTE_URI) {
-            return parseAbsolute(record);
-        }
-        throw new IllegalArgumentException("Unknown TNF " + tnf);
-    }
-
-    /** Parse and absolute URI record */
-    private static UriRecord parseAbsolute(NdefRecord record) {
-        byte[] payload = record.getPayload();
-        Uri uri = Uri.parse(new String(payload, Charset.forName("UTF-8")));
-        return new UriRecord(uri);
-    }
-
-    /** Parse an well known URI record */
-    private static UriRecord parseWellKnown(NdefRecord record) {
-        Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_URI));
-
-        byte[] payload = record.getPayload();
-        Preconditions.checkArgument(payload.length > 0);
-
-        /*
-         * payload[0] contains the URI Identifier Code, per the
-         * NFC Forum "URI Record Type Definition" section 3.2.2.
-         *
-         * payload[1]...payload[payload.length - 1] contains the rest of
-         * the URI.
-         */
-
-        String prefix = URI_PREFIX_MAP.get(payload[0]);
-        Preconditions.checkArgument(prefix != null);
-
-        byte[] fullUri = Bytes.concat(
-                prefix.getBytes(Charset.forName("UTF-8")),
-                Arrays.copyOfRange(payload, 1, payload.length));
-
-        Uri uri = Uri.parse(new String(fullUri, Charset.forName("UTF-8")));
+        Uri uri = record.toUri();
+        if (uri == null) throw new IllegalArgumentException("not a uri");
         return new UriRecord(uri);
     }
 
     public static boolean isUri(NdefRecord record) {
-        try {
-            parse(record);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
+        return record.toUri() != null;
     }
-
-    private static final byte[] EMPTY = new byte[0];
 
     /**
      * Convert a {@link Uri} to an {@link NdefRecord}
      */
     public static NdefRecord newUriRecord(Uri uri) {
-        byte[] uriBytes = uri.toString().getBytes(Charset.forName("UTF-8"));
-
-        /*
-         * We prepend 0x00 to the bytes of the URI to indicate that this
-         * is the entire URI, and we are not taking advantage of the
-         * URI shortening rules in the NFC Forum URI spec section 3.2.2.
-         * This produces a NdefRecord which is slightly larger than
-         * necessary.
-         *
-         * In the future, we should use the URI shortening rules in 3.2.2
-         * to create a smaller NdefRecord.
-         */
-        byte[] payload = Bytes.concat(new byte[] { 0x00 }, uriBytes);
-
-        return new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                NdefRecord.RTD_URI, EMPTY, payload);
+        return NdefRecord.createUri(uri);
     }
 }

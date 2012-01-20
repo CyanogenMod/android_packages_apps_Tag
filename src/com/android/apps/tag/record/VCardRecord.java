@@ -153,12 +153,12 @@ public class VCardRecord extends ParsedNdefRecord implements OnClickListener {
         MimeRecord underlyingRecord = MimeRecord.parse(record);
 
         // TODO: Add support for other vcard mime types.
-        Preconditions.checkArgument("text/x-vCard".equals(underlyingRecord.getMimeType()));
+        Preconditions.checkArgument("text/x-vcard".equals(underlyingRecord.getMimeType()));
         return new VCardRecord(underlyingRecord.getContent());
     }
 
     public static NdefRecord newVCardRecord(byte[] data) {
-        return MimeRecord.newMimeRecord("text/x-vCard", data);
+        return MimeRecord.newMimeRecord("text/x-vcard", data);
     }
 
     @Override

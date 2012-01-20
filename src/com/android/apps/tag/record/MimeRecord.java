@@ -68,27 +68,15 @@ public class MimeRecord extends ParsedNdefRecord {
     }
 
     public static MimeRecord parse(NdefRecord record) {
-        Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_MIME_MEDIA);
-        String type = new String(record.getType(), Charset.forName("US-ASCII"));
-        byte[] payload = record.getPayload();
-        return new MimeRecord(type, payload);
+        Preconditions.checkArgument(record.toMimeType() != null);
+        return new MimeRecord(record.toMimeType(), record.getPayload());
     }
 
     public static boolean isMime(NdefRecord record) {
-        try {
-            parse(record);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
+        return record.toMimeType() != null;
     }
 
     public static NdefRecord newMimeRecord(String type, byte[] data) {
-        Preconditions.checkNotNull(type);
-        Preconditions.checkNotNull(data);
-
-        byte[] typeBytes = type.getBytes(Charset.forName("US-ASCII"));
-
-        return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, typeBytes, new byte[0], data);
+        return NdefRecord.createMime(type,  data);
     }
 }
