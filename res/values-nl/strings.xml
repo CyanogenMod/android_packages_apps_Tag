@@ -34,7 +34,7 @@
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Mijn tag delen"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Tag bewerken"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Anderen toestaan mijn tag te lezen"</string>
-    <string name="add_content" msgid="6592975981339055673">"Meer…"</string>
+    <string name="add_content" msgid="6592975981339055673">"Meer\u2026"</string>
     <string name="tag_title" msgid="4734199420853998617">"Titel"</string>
     <string name="tag_text" msgid="522896767632155048">"Tekst"</string>
     <string name="select_type" msgid="1845302736320827995">"Type selecteren om toe te voegen"</string>
