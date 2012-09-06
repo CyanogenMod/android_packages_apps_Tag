@@ -52,6 +52,9 @@ public class ImageRecord extends ParsedNdefRecord {
 
     public static ImageRecord parse(NdefRecord record) {
         String mimeType = record.toMimeType();
+        if (mimeType == null) {
+            throw new IllegalArgumentException("not a valid image file");
+        }
         Preconditions.checkArgument(mimeType.startsWith("image/"));
 
         // Try to ensure it's a legal, valid image
