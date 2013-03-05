@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  Copyright (C) 2010 The Android Open Source Project
+<!-- Copyright (C) 2010 The Android Open Source Project
+     Copyright (C) 2013 The CyanogenMod Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +13,7 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
- -->
+-->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
@@ -34,7 +35,7 @@
     <string name="turn_on_my_tag" msgid="6584695906051991524">"Partager mon tag"</string>
     <string name="edit_tag" msgid="3708659122033447892">"Modifier le tag"</string>
     <string name="turn_on_my_tag_subtitle" msgid="4174686056239752759">"Autoriser les autres à lire mon tag"</string>
-    <string name="add_content" msgid="6592975981339055673">"Plus…"</string>
+    <string name="add_content" msgid="6592975981339055673">"Plus\u2026"</string>
     <string name="tag_title" msgid="4734199420853998617">"Titre"</string>
     <string name="tag_text" msgid="522896767632155048">"Texte"</string>
     <string name="select_type" msgid="1845302736320827995">"Sélectionner le type à ajouter"</string>
@@ -61,10 +62,10 @@
     <string name="back" msgid="7389918385345281227">"Retour"</string>
     <string name="close" msgid="5521003720382005075">"Fermer"</string>
     <string name="intro_title" msgid="2798106838231744219">"À propos des tags"</string>
-    <string name="intro_text_about" msgid="1366913102380816468">"Tags vous permet d\'organiser et de partager des tags de communication NFC (communication en champ proche)."</string>
+    <string name="intro_text_about" msgid="1366913102380816468">"Tags vous permet d\'organiser et de partager des tags de communication NFC. (communication en champ proche)"</string>
     <string name="intro_text_usage" msgid="2343260114638598627">"Pour scanner un tag, il suffit d\'allumer votre téléphone et de le rapprocher du tag."</string>
     <string name="intro_text_contents" msgid="1973327615218723220">"Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore."</string>
-    <string name="intro_text_more" msgid="4127006088499721149">"Pour scanner ou partager des tags, vous devez activer la fonctionnalité NFC (Sans fil et réseaux &gt; Paramètres)."</string>
+    <string name="intro_text_more" msgid="4127006088499721149">"Pour scanner ou partager des tags, vous devez activer la fonctionnalité NFC. (Sans fil et réseaux &gt; Paramètres)"</string>
     <string name="intro_text_more2" msgid="28835616891750572">"Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n\'importe quelle page de l\'application Tags."</string>
     <string name="tag_deleted" msgid="5411251725532471624">"Tag supprimé"</string>
     <string name="add_tag" msgid="703494598879855113">"Ajouter un tag"</string>
@@ -74,6 +75,6 @@
     <string name="menu_delete" msgid="8834253717174232653">"Supprimer le tag"</string>
     <string name="menu_edit" msgid="2163829689000692138">"Modifier le tag"</string>
     <string name="menu_set_as_active" msgid="6637492981297642733">"Définir en tant que tag actif"</string>
-    <string name="no_tag_selected" msgid="127078607162539962">"Aucun tag sélectionné à partager"</string>
-    <string name="no_tags_created" msgid="5963013948308289234">"Aucun tag créé"</string>
+    <string name="no_tag_selected" msgid="127078607162539962">"Aucun tag sélectionné à partager."</string>
+    <string name="no_tags_created" msgid="5963013948308289234">"Aucun tag créé."</string>
 </resources>
