@@ -9,6 +9,7 @@ LOCAL_STATIC_JAVA_LIBRARIES := guava com.android.vcard
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
 LOCAL_PACKAGE_NAME := Tag
+LOCAL_PRIVILEGED_MODULE := true
 
 #LOCAL_SDK_VERSION := current
 
