@@ -37,7 +37,7 @@ import android.widget.ListView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.Charsets;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
@@ -53,9 +53,9 @@ public class TagCanon extends ListActivity {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(locale);
 
-        byte[] langBytes = locale.getLanguage().getBytes(Charsets.US_ASCII);
+        byte[] langBytes = locale.getLanguage().getBytes(StandardCharsets.US_ASCII);
 
-        Charset utfEncoding = encodeInUtf8 ? Charsets.UTF_8 : Charset.forName("UTF-16");
+        Charset utfEncoding = encodeInUtf8 ? StandardCharsets.UTF_8 : StandardCharsets.UTF_16;
         byte[] textBytes = text.getBytes(utfEncoding);
 
         int utfBit = encodeInUtf8 ? 0 : (1 << 7);
@@ -74,7 +74,7 @@ public class TagCanon extends ListActivity {
         Preconditions.checkNotNull(type);
         Preconditions.checkNotNull(data);
 
-        byte[] typeBytes = type.getBytes(Charsets.US_ASCII);
+        byte[] typeBytes = type.getBytes(StandardCharsets.US_ASCII);
 
         return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, typeBytes, new byte[0], data);
     }
