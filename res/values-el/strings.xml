@@ -21,7 +21,7 @@
     <string name="title_existing_tag" msgid="5656560272594190244">"Ετικέτα"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"Άγνωστος τύπος ετικέτας"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Κενή ετικέτα"</string>
-    <string name="button_done" msgid="7048822758098308158">"Ολοκληρώθηκε"</string>
+    <string name="button_done" msgid="7048822758098308158">"Τέλος"</string>
     <string name="action_text" msgid="577417996159152923">"Αποστολή μηνύματος στον αριθμό <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="action_call" msgid="6226253647953184035">"Κλήση <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="empty_tag_prompt" msgid="4206394383309956030">"Η ετικέτα είναι κενή."</string>
