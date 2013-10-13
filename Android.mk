@@ -12,4 +12,8 @@ LOCAL_PACKAGE_NAME := Tag
 
 #LOCAL_SDK_VERSION := current
 
+LOCAL_RESOURCE_DIR := $(addprefix $(LOCAL_PATH)/, res res-override)
+
+LOCAL_AAPT_FLAGS := --auto-add-overlay
+
 include $(BUILD_PACKAGE)
