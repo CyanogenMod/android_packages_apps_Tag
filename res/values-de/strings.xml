@@ -19,7 +19,7 @@
     <string name="app_name" msgid="5128188288358721369">"Tags"</string>
     <string name="title_scanned_tag" msgid="4347835407095551450">"Neues Tag erfasst"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"Tag"</string>
-    <string name="tag_unknown" msgid="2897956823877728783">"Unbekannter Tagtyp"</string>
+    <string name="tag_unknown" msgid="2897956823877728783">"Unbekannter Tag-Typ"</string>
     <string name="tag_empty" msgid="3726529819932095782">"Leeres Tag"</string>
     <string name="button_done" msgid="7048822758098308158">"Fertig"</string>
     <string name="action_text" msgid="577417996159152923">"SMS an <xliff:g id="PHONE_NUMBER">%s</xliff:g>"</string>
