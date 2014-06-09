@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5128188288358721369">"ស្លាក"</string>
-    <string name="title_scanned_tag" msgid="4347835407095551450">"ស្លាក​ថ្មី​ដែល​​បាន​ប្រមូល"</string>
+    <string name="title_scanned_tag" msgid="4347835407095551450">"ស្លាក​ថ្មី​ដែល​​បាន​ប្រមូល​"</string>
     <string name="title_existing_tag" msgid="5656560272594190244">"ស្លាក"</string>
     <string name="tag_unknown" msgid="2897956823877728783">"មិន​ស្គាល់​ប្រភេទ​ស្លាក"</string>
     <string name="tag_empty" msgid="3726529819932095782">"សម្អាត​ស្លាក"</string>
