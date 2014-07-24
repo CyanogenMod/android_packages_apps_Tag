@@ -16,5 +16,15 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="app_name">تاگەکان</string>
+  <string name="title_scanned_tag">تاگێکی نوێ کۆکرایەوە</string>
+  <string name="title_existing_tag">تاگ</string>
+  <string name="tag_unknown">جۆری تاگی نەزانراو</string>
+  <string name="tag_empty">تاگی بەتاڵ</string>
   <string name="button_done">ئه‌نجامدرا</string>
+  <string name="action_text">دەق<xliff:g id="phone_number">%s</xliff:g></string>
+  <string name="action_call">تەلەفۆن<xliff:g id="phone_number">%s</xliff:g></string>
+  <string name="empty_tag_prompt">ئەم تاگە بەتاڵە.</string>
+  <string name="import_vcard">هاورده‌کردن^1</string>
+  <string name="mime_display_name">داتا لە NFC تاگ</string>
+  <string name="vcard_title">زانیاری پەیوەندی بۆ ^1</string>
 </resources>
